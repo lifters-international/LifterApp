@@ -44,7 +44,7 @@ export default function TaskBar({ state, descriptors, navigation } : BottomTabBa
                         height: 0
                     }
 
-                    let logo: string;
+                    let logo: any;
 
                     switch (label) {
                         case "Home":
@@ -52,7 +52,16 @@ export default function TaskBar({ state, descriptors, navigation } : BottomTabBa
                             dimensions.height = 35;
                             dimensions.width = 30;
                             break;
-
+                        case "Profile":
+                            logo = require("../assets/LiftersLogo.png");
+                            dimensions.height = 30;
+                            dimensions.width = 30;
+                            break;
+                        case "Message":
+                            logo = require("../assets/LiftersLogo.png");
+                            dimensions.height = 30;
+                            dimensions.width = 30;
+                            break;
                         default: 
                             logo = "";
                             return <></>
@@ -65,12 +74,8 @@ export default function TaskBar({ state, descriptors, navigation } : BottomTabBa
                             style={{ marginTop: 15 }}
                             onPress={onPress}
                         >
-                            <LottieView 
-                                source={logo}
-                                autoPlay
-                                loop
-                                style={{ ...dimensions }}
-                            />
+                            <Image source={logo}/>
+                            
                         </TouchableOpacity>
                     )
                 })

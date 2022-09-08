@@ -5,7 +5,7 @@ const Home : React.FC = ( ) => {
     return (
         <View>
             <SafeAreaView>
-                <Text>Home</Text>
+                <Text>Homes</Text>
             </SafeAreaView>
         </View>
     )

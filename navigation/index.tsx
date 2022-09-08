@@ -6,9 +6,11 @@ import {
 } from "@react-navigation/native";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { ColorSchemeName, Pressable } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createMaterialBottomTabNavigator } from
+    "react-navigation-material-bottom-tabs";
+
 import TaskBar from "./TaskBar";
 import { useDispatch } from "react-redux";
 
@@ -20,37 +22,37 @@ type AuthNavigatorList = {
     Register: null;
 }
 
-type TaskBarNavigatorList = {
-    Profile: null;
-    Message: null;
-    Home: null;
+type TabInfor = {
+    focused: boolean;
+    horizontal: boolean;
+    tintColor: string;
 }
 
-const Stack = createNativeStackNavigator<AuthNavigatorList>();
-const Tab = createBottomTabNavigator<TaskBarNavigatorList>();
+const Stack = createNativeStackNavigator();
+const Tab = createMaterialBottomTabNavigator({
+    Home: {
+        screen: Home,
+        navigationOptions: {
+            tabBarLabel: "Home",
+            tabBarIcon: (tabInfo : TabInfor) => {
+                <Ionicons 
+                    name="md-home"
+                    size={tabInfo.focused ? 26 : 20}
+                />
+            }
+        }
+    }
+});
 
 function TaskBarNavigation() {
     return (
         <Tab.Navigator
-            screenOptions={{
-                headerShown: false,
-                tabBarShowLabel: false,
-                tabBarStyle: {
-                    position: "absolute",
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    elevation: 0,
-                    backgroundColor: "#ffffff",
-                    borderRadius: 15,
-                    height: 90
-                }
-            }}
+            screenOptions={{headerShown: false}}
             tabBar={ props => <TaskBar {...props} /> }
         >
-            <Tab.Screen name="Profile" component={Profile} />
-            <Tab.Screen name="Message" component={Messages} />
-            <Tab.Screen name="Home" component={Home} />
+            <Tab.Screen name="Home" component={Home} key="Home"/>
+            <Tab.Screen name="Message" component={Messages} key="Message"/>
+            <Tab.Screen name="Profile" component={Profile} key="Profile"/>
         </Tab.Navigator>
     )
 }
