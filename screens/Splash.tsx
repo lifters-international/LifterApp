@@ -1,5 +1,5 @@
 import { NavigationProp } from "@react-navigation/native";
-import React, { useEffect } from "react";
+import React from "react";
 import { View, StyleSheet, SafeAreaView, Text, Image, TouchableOpacity } from "react-native";
 import LottieView from 'lottie-react-native';
 
@@ -9,7 +9,7 @@ interface Props {
 
 const Splash: React.FC<Props> = ({ navigation }) => {
     const nextPage = () => {
-        navigation.navigate("Login");
+        navigation.navigate("SignUp");
     }
 
     return (
@@ -26,7 +26,10 @@ const Splash: React.FC<Props> = ({ navigation }) => {
                     </View>
                     <View style={styles.footer}>
                         <View>
-                            <Text style={styles.header}>All Services, One Platform</Text>
+                            <Text style={styles.header}>Find your next</Text>
+                        </View>
+                        <View>
+                            <Text style={styles.header}>Gym / Life Partner</Text>
                         </View>
                         <View
                             style={{
@@ -36,8 +39,8 @@ const Splash: React.FC<Props> = ({ navigation }) => {
                                 marginTop: 50,
                             }}
                         >
-                            <TouchableOpacity onPress={nextPage}>
-                                <Text >Get Started</Text>
+                            <TouchableOpacity onPress={nextPage} style={styles.button}>
+                                <Text style={{color: "white"}}>Get Started</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -48,6 +51,13 @@ const Splash: React.FC<Props> = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
+    button: {
+        padding: 10,
+        borderColor: "black",
+        borderWidth: 1,
+        borderRadius: 10,
+        backgroundColor: "red"
+    },
     container: {
         backgroundColor: "white",
         flex: 1,
@@ -62,13 +72,9 @@ const styles = StyleSheet.create({
         display: "flex",
         alignItems: "center",
     },
-    image: {
-        width: "80%",
-        height: "80%",
-    },
     header: {
-        fontFamily: "Raleway_500Medium_Italic",
-        fontSize: 20,
+        
+        fontSize: 17.8,
     },
 
     footer: {
