@@ -33,3 +33,11 @@ export const formatAMPM = (date: Date) => {
 export const capitalizeFirstLetter = (sent: string) => {
     return sent.charAt(0).toUpperCase() + sent.slice(1);
 }
+
+export const returnImageSource = ( source : string, soureOp?: { [key : string] : string | number } ) => {
+    if (source === '/defaultPicture.png') {
+        return require('../assets/defaultPicture.png');
+    } else {
+        return { uri: source, ...soureOp };
+    }
+} 

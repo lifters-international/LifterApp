@@ -1,11 +1,15 @@
 import React, { useRef, useEffect } from "react";
 import Lottie from 'lottie-react-native';
 
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, StyleProp } from "react-native";
 
-const Loading: React.FC = () => {
-    const animation = useRef<Lottie>(null);
+export type LoadingProps = {
     
+}
+
+const Logo: React.FC<LoadingProps> = ( {  }) => {
+    const animation = useRef<Lottie>(null);
+
     useEffect(() => {
         animation.current?.play();
     }, []);
@@ -13,14 +17,12 @@ const Loading: React.FC = () => {
     return (
         <View style={styles.container}>
             <Lottie
-                source={require("../assets/loading.json")}
+                source={require("../assets/LifterNavBar.json")}
                 loop
-                autoPlay
-                speed={1}
                 ref={animation}
-                style={{
-                    position: "absolute"
-                }}
+                autoPlay
+                speed={0.2}
+                style={styles.lottie}
             />
         </View>
     );
@@ -28,11 +30,19 @@ const Loading: React.FC = () => {
 
 const styles = StyleSheet.create({
     container: {
+        height: "20%",
         alignContent: "center",
         display: "flex",
         alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "flex-start"
+    },
+
+    lottie: {
+        width: "30%",
         height: "100%",
     }
+
 });
 
-export default Loading;
+export default Logo;
