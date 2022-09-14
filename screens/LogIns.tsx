@@ -1,21 +1,21 @@
 import { NavigationProp } from "@react-navigation/native";
 import React, { useState } from "react";
-import { View, StyleSheet, SafeAreaView, Text, TouchableOpacity, TextInput, Alert } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, TextInput, Alert } from "react-native";
 import LottieView from 'lottie-react-native';
-import { Loading } from "../components";
+import { Loading, AppLayout } from "../components";
 import { useAppDispatch } from "../redux";
-import { logIn, LoginAsyncThunkResult, setAuthState } from "../redux/features/auth"; 
+import { logIn, LoginAsyncThunkResult, setAuthState } from "../redux/features/auth";
 import { saveToStore } from "../utils";
 
 interface Props {
     navigation: NavigationProp<any>;
 }
 
-const LogIn : React.FC<Props> = ( { navigation }) => {
+const LogIn: React.FC<Props> = ({ navigation }) => {
     const dispatch = useAppDispatch();
-    const [ userState, setUserState ] = useState<string>("");
-    const [ passwordState, setPasswordState ] = useState<string>("");
-    const [ loadingState, setLoadingState ] = useState<boolean>(false);
+    const [userState, setUserState] = useState<string>("");
+    const [passwordState, setPasswordState] = useState<string>("");
+    const [loadingState, setLoadingState] = useState<boolean>(false);
 
     const handleLogIn = async () => {
         if (userState.length < 1 || passwordState.length < 1) {
@@ -26,19 +26,19 @@ const LogIn : React.FC<Props> = ( { navigation }) => {
         setLoadingState(true);
         const resultAction = await dispatch(logIn({ username: userState, password: passwordState }));
 
-        if (( resultAction.payload as LoginAsyncThunkResult).successfull) {
-            const token = ( resultAction.payload as LoginAsyncThunkResult).data;
+        if ((resultAction.payload as LoginAsyncThunkResult).successfull) {
+            const token = (resultAction.payload as LoginAsyncThunkResult).data;
             setLoadingState(false);
-            await saveToStore("token",  token as string);
+            await saveToStore("token", token as string);
             await saveToStore("username", userState);
             await saveToStore("password", passwordState);
             dispatch(setAuthState({
                 token: token as string,
                 tokenVerified: true,
-                username: userState, 
+                username: userState,
                 password: passwordState
             }));
-        }else {
+        } else {
             setLoadingState(false);
             Alert.alert("Error", "Invalid credentials");
         }
@@ -50,8 +50,8 @@ const LogIn : React.FC<Props> = ( { navigation }) => {
     }
 
     return (
-        <View style={styles.container}>
-            <SafeAreaView>
+        <AppLayout>
+            <View style={styles.container}>
                 {
                     loadingState ? <Loading /> : null
                 }
@@ -68,14 +68,14 @@ const LogIn : React.FC<Props> = ( { navigation }) => {
                         <Text style={styles.accountTitle}>Login To Account</Text>
                         <View>
                             <TextInput
-                                style={{...styles.input}}
+                                style={{ ...styles.input }}
                                 placeholder="Username:"
                                 onChangeText={text => setUserState(text)}
                                 value={userState}
                             />
 
                             <TextInput
-                                style={{...styles.input}}
+                                style={{ ...styles.input }}
                                 placeholder="Password:"
                                 onChangeText={text => setPasswordState(text)}
                                 value={passwordState}
@@ -84,7 +84,7 @@ const LogIn : React.FC<Props> = ( { navigation }) => {
                         </View>
                         <View>
                             <TouchableOpacity
-                                style={{ ...styles.button, backgroundColor: "green"}}
+                                style={{ ...styles.button, backgroundColor: "green" }}
                                 onPress={handleLogIn}
                             >
                                 <Text style={styles.buttonText}>Login</Text>
@@ -98,8 +98,8 @@ const LogIn : React.FC<Props> = ( { navigation }) => {
                         </View>
                     </View>
                 </View>
-            </SafeAreaView>
-        </View>
+            </View>
+        </AppLayout>
     );
 }
 

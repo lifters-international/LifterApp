@@ -1,13 +1,9 @@
 import React, { useRef, useEffect } from "react";
 import Lottie from 'lottie-react-native';
 
-import { View, StyleSheet, StyleProp } from "react-native";
+import { View, StyleSheet } from "react-native";
 
-export type LoadingProps = {
-    
-}
-
-const Logo: React.FC<LoadingProps> = ( {  }) => {
+const Logo: React.FC = () => {
     const animation = useRef<Lottie>(null);
 
     useEffect(() => {
@@ -30,12 +26,16 @@ const Logo: React.FC<LoadingProps> = ( {  }) => {
 
 const styles = StyleSheet.create({
     container: {
-        height: "20%",
+        height: "10%",
         alignContent: "center",
         display: "flex",
         alignItems: "center",
         flexDirection: "row",
-        justifyContent: "flex-start"
+        justifyContent: "flex-start",
+        borderBottomWidth: 1,
+        borderColor: "gainsboro",
+        padding: 10,
+        marginBottom: 14
     },
 
     lottie: {

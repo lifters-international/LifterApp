@@ -121,7 +121,7 @@ function TabNavigator() {
 
 function AuthNavigationStack() {
     return (
-        <Stack.Navigator screenOptions={{ headerShown : false}} >
+        <Stack.Navigator screenOptions={{ headerShown : false }} >
             <Stack.Screen name="Splash" component={Splash} options={{ headerShown: false }} />
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
             <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />

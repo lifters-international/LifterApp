@@ -16,3 +16,7 @@ export const useloadFonts = (): boolean => {
 }
 
 export * from "./useGetUserMatches";
+
+export * from "./useSignedInUserData";
+
+export * from "./useSaveUserProfileChanges";

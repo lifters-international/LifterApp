@@ -1,53 +1,53 @@
 import { NavigationProp } from "@react-navigation/native";
 import React, { useState } from "react";
-import { View, StyleSheet, SafeAreaView, Text, TouchableOpacity, TextInput, Alert } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, TextInput, Alert } from "react-native";
 import LottieView from 'lottie-react-native';
-import { Loading } from "../components";
+import { Loading, AppLayout } from "../components";
 import { useAppDispatch } from "../redux";
-import { logIn, signUp, SignUpAsyncThunkResult, LoginAsyncThunkResult, setAuthState } from "../redux/features/auth"; 
-import { saveToStore, GraphqlError } from "../utils";
+import { logIn, signUp, SignUpAsyncThunkResult, LoginAsyncThunkResult, setAuthState } from "../redux/features/auth";
+import { saveToStore } from "../utils";
 
 interface Props {
     navigation: NavigationProp<any>;
 }
 
-const SignUp: React.FC<Props> = ( { navigation }) => {
+const SignUp: React.FC<Props> = ({ navigation }) => {
     const dispatch = useAppDispatch();
-    const [ userState, setUserState ] = useState("");
-    const [ emailState, setEmailState ] = useState('');
-    const [ passwordState, setPasswordState ] = useState('');
-    const [ loadingState, setLoadingState ] = useState<boolean>(false);
-    
+    const [userState, setUserState] = useState("");
+    const [emailState, setEmailState] = useState('');
+    const [passwordState, setPasswordState] = useState('');
+    const [loadingState, setLoadingState] = useState<boolean>(false);
+
     const handleSignUp = async () => {
-        if ( userState.length < 1 || emailState.length < 1 || passwordState.length < 1 ) {
+        if (userState.length < 1 || emailState.length < 1 || passwordState.length < 1) {
             Alert.alert("Error", "Please fill out all fields");
             return
         }
 
         setLoadingState(true);
-        const signUpResult =  await dispatch(signUp({ email: emailState, password: passwordState, username: userState }));
+        const signUpResult = await dispatch(signUp({ email: emailState, password: passwordState, username: userState }));
 
-        if ( ( signUpResult.payload as SignUpAsyncThunkResult).successfull) {
+        if ((signUpResult.payload as SignUpAsyncThunkResult).successfull) {
             Alert.alert("Accounted Created", "Loggining you in.");
-            const loginResult = await dispatch( logIn({ username: userState, password: passwordState }) );
+            const loginResult = await dispatch(logIn({ username: userState, password: passwordState }));
 
-            if (( loginResult.payload as LoginAsyncThunkResult).successfull) {
-                await saveToStore("token", ( (loginResult.payload as LoginAsyncThunkResult).data as string));
+            if ((loginResult.payload as LoginAsyncThunkResult).successfull) {
+                await saveToStore("token", ((loginResult.payload as LoginAsyncThunkResult).data as string));
                 await saveToStore("username", userState);
                 await saveToStore("password", passwordState);
-                dispatch( setAuthState({
-                    token: ( (loginResult.payload as LoginAsyncThunkResult).data as string),
+                dispatch(setAuthState({
+                    token: ((loginResult.payload as LoginAsyncThunkResult).data as string),
                     tokenVerified: true,
-                    username: userState, 
+                    username: userState,
                     password: passwordState
-                }) );
-            }else {
+                }));
+            } else {
                 //console.log("LoginResult", (loginResult.payload as LoginAsyncThunkResult).errors);
             }
-        }else {
+        } else {
             if ((signUpResult.payload as SignUpAsyncThunkResult).errors[0].message === "Username Already exist") {
                 Alert.alert("Error", "Username already exist");
-            }else {
+            } else {
                 Alert.alert("Error", "Something went wrong, please try again");
             }
         }
@@ -61,9 +61,9 @@ const SignUp: React.FC<Props> = ( { navigation }) => {
 
 
     return (
-        <View style={styles.container}>
-            <SafeAreaView>
-                { 
+        <AppLayout>
+            <View style={styles.container}>
+                {
                     loadingState ? <Loading /> : null
                 }
                 <View style={styles.content}>
@@ -72,6 +72,7 @@ const SignUp: React.FC<Props> = ( { navigation }) => {
                             source={require("../assets/LifterNavBar.json")}
                             autoPlay
                             loop
+                            play
                             speed={0.2}
                         />
                     </View>
@@ -79,21 +80,21 @@ const SignUp: React.FC<Props> = ( { navigation }) => {
                         <Text style={styles.accountTitle}>Create Account</Text>
                         <View>
                             <TextInput
-                                style={{...styles.input}}
+                                style={{ ...styles.input }}
                                 placeholder="Username:"
                                 onChangeText={text => setUserState(text)}
                                 value={userState}
                             />
 
                             <TextInput
-                                style={{...styles.input}}
+                                style={{ ...styles.input }}
                                 placeholder="Email:"
                                 onChangeText={text => setEmailState(text)}
                                 value={emailState}
                             />
 
                             <TextInput
-                                style={{...styles.input}}
+                                style={{ ...styles.input }}
                                 placeholder="Password"
                                 onChangeText={text => setPasswordState(text)}
                                 value={passwordState}
@@ -102,7 +103,7 @@ const SignUp: React.FC<Props> = ( { navigation }) => {
                         </View>
                         <View>
                             <TouchableOpacity
-                                style={{ ...styles.button, backgroundColor: "green"}}
+                                style={{ ...styles.button, backgroundColor: "green" }}
                                 onPress={handleSignUp}
                             >
                                 <Text style={styles.buttonText}>Create Account</Text>
@@ -116,9 +117,9 @@ const SignUp: React.FC<Props> = ( { navigation }) => {
                         </View>
                     </View>
                 </View>
-            </SafeAreaView>
-        </View>
-    );   
+            </View>
+        </AppLayout>
+    );
 }
 
 const styles = StyleSheet.create({

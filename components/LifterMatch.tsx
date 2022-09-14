@@ -74,7 +74,7 @@ LifterMatch.defaultProps = {
 const styles = StyleSheet.create({
     container: {
         width: "70%",
-        marginTop: "1%",
+        marginTop: "10%",
         marginLeft: "auto",
         marginRight: "auto"
     },
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         padding: 10,
         textAlign: "center",
-        marginLeft: 24,
+        marginLeft: 20,
         marginBottom: 10
     },
 

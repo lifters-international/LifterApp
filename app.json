@@ -28,6 +28,16 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Lifters needs access to your photos"
+        }
+      ]
+    ]
+    
   }
 }

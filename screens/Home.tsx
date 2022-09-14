@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, SafeAreaView } from 'react-native';
-import { Logo, LifterMatch, Loading } from "../components";
+import { StyleSheet, View } from 'react-native';
+import { Logo, LifterMatch, Loading, AppLayout } from "../components";
 import { useSelector } from "react-redux";
 import { useGetUserMatches } from '../hooks';
 import { useAppDispatch } from "../redux";
-import { setAuthState } from "../redux/features/auth"; 
+import { setAuthState } from "../redux/features/auth";
 import { saveToStore } from "../utils";
 
-const Home : React.FC = ( ) => {
+const Home: React.FC = () => {
     const dispatch = useAppDispatch();
     const { token } = useSelector((state: any) => state.Auth);
-    const [ userMatches, setUserMatches ] = useGetUserMatches(token);
-    const [ currentMatch, setCurrentMatch ] = useState(0);
+    const [userMatches, setUserMatches] = useGetUserMatches(token);
+    const [currentMatch, setCurrentMatch] = useState(0);
 
-    if ( userMatches.error.length > 0 ) {
+    if (userMatches.error.length > 0) {
         if (userMatches.error[0].message === "User does not exist.") {
             (async () => {
                 await saveToStore("token", "");
@@ -29,28 +29,28 @@ const Home : React.FC = ( ) => {
         }
     }
 
-    if ( userMatches.loading ) return <Loading />;
+    if (userMatches.loading) return <Loading />;
 
     return (
-        <View style={styles.container}>
-            <SafeAreaView>
+        <AppLayout>
+            <View style={styles.container}>
                 <Logo />
                 <View>
                     <LifterMatch {...userMatches.users![currentMatch]} allowAction next={
                         () => {
-                            if (currentMatch  + 1 < userMatches.users!.length) setCurrentMatch(currentMatch + 1);
+                            if (currentMatch + 1 < userMatches.users!.length) setCurrentMatch(currentMatch + 1);
 
                             else {
-                                setUserMatches({ ...userMatches, refreshTimes: userMatches.refreshTimes + 1});
+                                setUserMatches({ ...userMatches, refreshTimes: userMatches.refreshTimes + 1 });
                                 setCurrentMatch(0);
                             }
                         }
-                    } userToken={token}/>
+                    } userToken={token} />
                 </View>
-            </SafeAreaView>
-        </View>
+            </View>
+        </AppLayout>
     )
-} 
+}
 
 const styles = StyleSheet.create({
     container: {

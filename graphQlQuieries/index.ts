@@ -9,3 +9,5 @@ export * from "./getSignedUser";
 export * from "./acceptDeclineMatch";
 
 export * from "./getUserMatches";
+
+export * from "./updateUserInformation";
