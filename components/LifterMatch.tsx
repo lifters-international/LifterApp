@@ -30,7 +30,7 @@ const LifterMatch: React.FC<LifterMatchProps> = ( { id, userToken, username, age
     return (
         <View style={styles.container}>
             <View style={styles.lifterImageContainer}>
-                <Image source={ returnImageSource(profilePicture as string) } style={styles.lifterImages}/>
+                <Image source={ returnImageSource(profilePicture as string) } style={styles.lifterImages} resizeMode="contain"/>
                 <BlurView intensity={0} tint="light" style={styles.liftersDetails}>
                     <Text style={{...styles.liftersDetailsText, ...styles.lifterDetailsName}}>{ username }, { age }</Text>
                     <TouchableOpacity onPress={() => Alert.alert(`${username}'s Bio`, bio)}>
@@ -74,7 +74,7 @@ LifterMatch.defaultProps = {
 const styles = StyleSheet.create({
     container: {
         width: "70%",
-        marginTop: "10%",
+        marginTop: "20%",
         marginLeft: "auto",
         marginRight: "auto"
     },
@@ -93,13 +93,13 @@ const styles = StyleSheet.create({
         borderColor: "gainsboro",
         borderRadius: 20,
         width: 270,
-        height: 400
+        height: 420
     },
 
     liftersDetails: {
         position: "relative",
         backgroundColor: "rgba(247, 112, 112, 0.562)",
-        top: 175,
+        top: 190,
         left: -85,
         width: 270,
         height: 45,

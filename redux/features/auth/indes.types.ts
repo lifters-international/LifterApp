@@ -5,6 +5,8 @@ export type AuthState = {
     tokenVerified: boolean;
     username: string;
     password: string;
+    profilePicture: string;
+    AppReady: boolean;
 }
 
 export type LoginAsyncThunkResult = {

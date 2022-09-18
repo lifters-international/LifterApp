@@ -3,19 +3,20 @@ import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, Platform, 
 import { AppLayout, Logo, Button, Loading } from "../components";
 import { useSelector } from "react-redux";
 import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
 
-import { saveToStore, userInformationToSave } from "../utils";
+import { saveToStore, userInformationToSave, getImageUploadApi, returnImageSource, getServerUrl } from "../utils";
 import { useAppDispatch } from "../redux";
-import { setAuthState } from "../redux/features/auth";
+import { setAuthState, setProfilePicture } from "../redux/features/auth";
 import { useSignedInUserData, useSaveUserProfileChanges } from "../hooks";
 
 const Profile: React.FC = () => {
     const dispatch = useAppDispatch();
-    const { token } = useSelector((state: any) => state.Auth);
+    const { token, profilePicture } = useSelector((state: any) => state.Auth);
     const [loading, setLoading] = useState(false);
     const signedInUser = useSignedInUserData(token);
     const saveUserData = useSaveUserProfileChanges();
-    const [ userData, setUserData ] = useState<userInformationToSave>();
+    const [userData, setUserData] = useState<userInformationToSave>();
 
     useEffect(() => {
         if (signedInUser.getUserDataSuccess) {
@@ -30,18 +31,64 @@ const Profile: React.FC = () => {
                 homeGymLocation: signedInUser.data?.homeGymLocation,
             })
         }
-    }, []);
+    }, [signedInUser]);
+
+    const pickImage = async () => {
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+            base64: true
+        });
+
+        if (result.cancelled) return;
+
+        setLoading(true);
+        const upRes = await FileSystem.uploadAsync(
+            getImageUploadApi(),
+            result.uri,
+            {
+                httpMethod: 'POST',
+                uploadType: FileSystem.FileSystemUploadType.MULTIPART,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                fieldName: 'image',
+                parameters: {
+                    'token': token,
+                }
+            }
+        )
+
+        const jsonRes = JSON.parse(upRes.body);
+
+        if (jsonRes.imageURL) {
+            setUserData({
+                ...userData,
+                profilePicture: jsonRes.imageURL
+            });
+
+            await saveUserData.saveAsync({
+                token,
+                userInfor: userData || {}
+            });
+
+            dispatch( setProfilePicture(getServerUrl() + "image/" + jsonRes.imageURL) );
+        }
+
+        setLoading(false);
+    }
 
     return (
         <AppLayout>
             {
                 loading ? <Loading /> : <></>
             }
-            <Logo />
             <View>
                 <View style={styles.EditProfilePicture}>
-                    <ImageBackground source={require("../assets/LiftersLogo.png")} style={{ flex: 1, justifyContent: "center" }}>
-                        <Button title="Upload New Profile Picture" style={styles.EditProfilePictureButton} textStyle={{ color: "white", fontSize: 10 }} />
+                    <ImageBackground source={returnImageSource(profilePicture)} style={{ flex: 1, justifyContent: "center" }}>
+                        <Button title="Upload New Profile Picture" style={styles.EditProfilePictureButton} textStyle={{ color: "white", fontSize: 10 }} onPress={pickImage} />
                     </ImageBackground>
                 </View>
 
@@ -174,7 +221,7 @@ const Profile: React.FC = () => {
                                 renderItem={({ item, index }) => (
                                     <View style={styles.EditProfileInput} key={`FlatList-ProfileInput-${rowIndex.toString()}-${index}`}>
                                         <Text style={styles.EditProfileInputTitle}>{item.title}</Text>
-                                        <TextInput style={styles.EditProfileInputField} value={item.value as string} keyboardType={`${item.title == "Age" ? "numeric" : "default"}`} onChangeText={item.onChange}/>
+                                        <TextInput style={styles.EditProfileInputField} value={item.value as string} keyboardType={`${item.title == "Age" ? "numeric" : "default"}`} onChangeText={item.onChange} />
                                     </View>
                                 )}
                                 keyExtractor={(item, index) => `FlatList-ProfileInput-${rowIndex.toString()}-${index}`}
@@ -190,7 +237,7 @@ const Profile: React.FC = () => {
                                     bio: text
                                 });
                             }
-                        }/>
+                        } />
                     </View>
                 </ScrollView>
             </View>
@@ -219,7 +266,7 @@ const styles = StyleSheet.create({
         padding: 10,
         backgroundColor: "red",
         position: "relative",
-        top: -50
+        top: -30
     },
 
     EditProfileTitle: {

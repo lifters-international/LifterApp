@@ -34,7 +34,6 @@ const Home: React.FC = () => {
     return (
         <AppLayout>
             <View style={styles.container}>
-                <Logo />
                 <View>
                     <LifterMatch {...userMatches.users![currentMatch]} allowAction next={
                         () => {

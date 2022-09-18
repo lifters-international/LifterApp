@@ -1,7 +1,9 @@
 import * as SecureStore from 'expo-secure-store';
 export * from "./types";
 export * from "./fetchGraphQl";
-export { getApiUrl } from "./url";
+export * from "./url";
+export * from "./client"
+export { default as socket } from "./socket";
 
 export const saveToStore =  async (key: string, value: string) => {
     await SecureStore.setItemAsync(key, value);
@@ -35,7 +37,7 @@ export const capitalizeFirstLetter = (sent: string) => {
 }
 
 export const returnImageSource = ( source : string, soureOp?: { [key : string] : string | number } ) => {
-    if (source === '/defaultPicture.png') {
+    if (source === '/defaultPicture.png' || source === '../assets/defaultPicture.png') {
         return require('../assets/defaultPicture.png');
     } else {
         return { uri: source, ...soureOp };

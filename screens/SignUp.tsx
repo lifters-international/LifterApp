@@ -72,7 +72,6 @@ const SignUp: React.FC<Props> = ({ navigation }) => {
                             source={require("../assets/LifterNavBar.json")}
                             autoPlay
                             loop
-                            play
                             speed={0.2}
                         />
                     </View>

@@ -9,40 +9,33 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 
 import { useSelector } from "react-redux";
 
-import { Home, Profile, Messages, Splash, Login, SignUp } from "../screens";
+import { Home, Profile, Messages, MessageBox, Splash, Login, SignUp, MessagesMatches } from "../screens";
 import { View, Image } from "react-native";
 import Lottie from 'lottie-react-native';
-import { getFromStore } from "../utils";
+import { getFromStore, returnImageSource } from "../utils";
 import { useAppDispatch } from "../redux";
-import { VerifyToken, setToken, logIn, LoginAsyncThunkResult, setAuthState, getSignedInUser, GetSignedUserAsyncThunkResult } from "../redux/features/auth"; 
+import { VerifyToken, setToken, logIn, LoginAsyncThunkResult, setAppReady, setProfilePicture, setAuthState, getSignedInUser, GetSignedUserAsyncThunkResult } from "../redux/features/auth"; 
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
+const MessagesStack = createNativeStackNavigator();
+
+const MessagesStackScreen = () => {
+    return (
+        <MessagesStack.Navigator>
+            <MessagesStack.Screen name="Messages" component={Messages} />
+            <MessagesStack.Screen name="MessagesMatches" component={MessagesMatches} options={{ headerShown: false }}/>
+            <MessagesStack.Screen name="MessageBox" component={MessageBox} options={{ headerShown: false }}/>
+        </MessagesStack.Navigator>
+    );
+}
 
 function TabNavigator() {
-    const dispatch = useAppDispatch();
-    const { token } = useSelector((state: any) => state.Auth);
-    const [ uri, setUri ] = useState("../assets/defaultPicture.png");
-
-    useEffect(() => {   
-        const profPicSetUp = async () => {
-            if(token) {
-                let resp = await dispatch( getSignedInUser(token) );
-                let payload = resp.payload as GetSignedUserAsyncThunkResult;
-
-                if (payload.data && payload.getUserDataSuccess) {
-                    if (payload.data.profilePicture !== "/defaultPicture.png") {
-                        setUri(payload.data.profilePicture);
-                    }
-                }
-            }
-        }
-
-        profPicSetUp().then();
-    }, []);
+    const { profilePicture, AppReady } = useSelector((state: any) => state.Auth);
 
     return (
-        <Tab.Navigator 
+        AppReady ? (
+            <Tab.Navigator 
             initialRouteName="Home"
             activeColor="#f0edf6"
             inactiveColor="#000000"
@@ -71,10 +64,10 @@ function TabNavigator() {
                 }}
             />
             <Tab.Screen 
-                name="Messages" 
-                component={Messages} 
+                name="Message" 
+                component={MessagesStackScreen} 
                 options={{
-                    tabBarLabel: "Messages",
+                    tabBarLabel: "Message",
                     tabBarIcon: () => (
                         <View>
                             <Lottie
@@ -100,7 +93,7 @@ function TabNavigator() {
                         <View>
                             <Image 
                                 source={ 
-                                    uri === "../assets/defaultPicture.png" ? require("../assets/defaultPicture.png") : { uri, width: 40, height: 40, borderRadius: 30} 
+                                    returnImageSource(profilePicture, { width: 40, height: 40, borderRadius: 30 })
                                 } 
                                 style={{
                                     padding: 5,
@@ -110,40 +103,59 @@ function TabNavigator() {
                                     width: 40,
                                     height: 40
                                 }}
+                                resizeMode="contain"
                             />
                         </View>
                     )
                 }}
             />
         </Tab.Navigator>
+        ) : null
     );
 }
 
 function AuthNavigationStack() {
+    const { AppReady } = useSelector((state: any) => state.Auth);
     return (
-        <Stack.Navigator screenOptions={{ headerShown : false }} >
+        AppReady ? (<Stack.Navigator screenOptions={{ headerShown : false }} >
             <Stack.Screen name="Splash" component={Splash} options={{ headerShown: false }} />
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
             <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
-        </Stack.Navigator>
+        </Stack.Navigator>) : null
     )
 }
 
 export default function Navigation() {
     const dispatch = useAppDispatch();
 
-    const { tokenVerified } = useSelector((state: any) => state.Auth);
+    const { tokenVerified, AppReady } = useSelector((state: any) => state.Auth);
 
     useEffect(() => {
         const setUp = async () => {
-            let token = await getFromStore("token");
+            let token_saved = await getFromStore("token");
             let username = await getFromStore("username");
             let password = await getFromStore("password");
 
-            let tokenVerified = await dispatch( VerifyToken(token || "") );
+            const profPicSetUp = async (token : string) => {
+                if (token) {
+                    let resp = await dispatch( getSignedInUser(token) );
+                    let payload = resp.payload as GetSignedUserAsyncThunkResult; 
+
+                    if (payload.data && payload.getUserDataSuccess) {
+                        if (payload.data.profilePicture !== "/defaultPicture.png") {
+                            dispatch( setProfilePicture(payload.data.profilePicture) );
+                        }
+                    }
+                }
+
+                dispatch( setAppReady(true) );
+            }
+
+            let tokenVerified = await dispatch( VerifyToken(token_saved || "") );
             
             if (tokenVerified.payload) {
-                dispatch( setToken(token!) );
+                dispatch( setToken(token_saved!) );
+                await profPicSetUp(token_saved!);
             }else if (username && password) {
                 let logged = await dispatch( logIn({ username, password }) );
 
@@ -154,16 +166,20 @@ export default function Navigation() {
                         username, 
                         password
                     }) );
+                    await profPicSetUp( ( (logged.payload as LoginAsyncThunkResult).data as string) );
                 }
             }
-
         }
         setUp().then(() => {});
     }, []);
 
     return (
         <NavigationContainer>
-            { tokenVerified ? <TabNavigator /> : <AuthNavigationStack /> }
+            { 
+                AppReady ? (
+                    tokenVerified ? <TabNavigator /> : <AuthNavigationStack />
+                ) : null 
+            }
         </NavigationContainer>
     )
 }

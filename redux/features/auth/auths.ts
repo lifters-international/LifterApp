@@ -7,6 +7,8 @@ const initialState: AuthState = {
     tokenVerified: false,
     username: '',
     password: '',
+    profilePicture: "../assets/defaultPicture.png",
+    AppReady: false
 }
 
 const AuthSlice =  createSlice({
@@ -21,16 +23,36 @@ const AuthSlice =  createSlice({
             }
         },
 
-        setAuthState: (state, action: PayloadAction<AuthState>) => {
+        setAuthState: (state, action: PayloadAction<{
+            token: string;
+            tokenVerified: boolean;
+            username: string;
+            password: string;
+        }>) => {
             return {
+                ...state,
                 token: action.payload.token,
                 tokenVerified: action.payload.tokenVerified,
                 username: action.payload.username,
                 password: action.payload.password
             }
+        },
+
+        setProfilePicture: (state, action: PayloadAction<string>) => {
+            return {
+                ...state,
+                profilePicture: action.payload
+            }
+        },
+
+        setAppReady: (state, action: PayloadAction<boolean>) => {
+            return {
+                ...state,
+                AppReady: action.payload
+            }
         }
     }
 });
 
-export const { setToken, setAuthState } = AuthSlice.actions;
+export const { setToken, setAuthState, setProfilePicture, setAppReady } = AuthSlice.actions;
 export default AuthSlice.reducer;
