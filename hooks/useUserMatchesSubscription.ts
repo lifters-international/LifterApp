@@ -72,13 +72,16 @@ export const useUserMatchesSubscription = (token : string, reload: boolean) : Us
                     }
                 });
 
-                socket.on("newUserMatches", ( datas : newUserMatches ) => {
-                    setState(prevState => (
+                socket.on("newUserMatches", ( datas : { forYou : boolean } & newUserMatches ) => {
+                    if ( datas.forYou ) setState(prevState => (
                         {
                             ...prevState,
                             data: {
                                 ...prevState.data!,
-                                matches: [...(prevState.data?.matches || []), datas]
+                                matches: [...(prevState.data?.matches || []), {
+                                    ...datas,
+                                    forYou: undefined
+                                }]
                             } 
                         }
                     ))
@@ -86,33 +89,6 @@ export const useUserMatchesSubscription = (token : string, reload: boolean) : Us
             }
         })
     }, [reload]);
-
-    /*
-    useSubscription(newUserMatchesSubscription, {
-        variables: { userToken: token },
-        client,
-        onSubscriptionData: ({ client, subscriptionData }) => {
-            let data:  { newUserMatches: newUserMatches } = subscriptionData.data;
-            if (subscriptionData.error) {
-                setState(prevState => {
-                    return { 
-                        ...prevState,
-                        error: subscriptionData.error
-                    }
-                });
-            } else {
-                setState(prevState => {
-                    return { 
-                        ...prevState,
-                        data: { 
-                            userSubscription: prevState.data?.userSubscription as SubscriptionType,
-                            matches: [data.newUserMatches].concat(prevState.data!.matches)
-                        }
-                    }
-                });
-            }
-        }
-    });    */  
 
     return state;
 }
