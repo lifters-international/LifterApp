@@ -4,7 +4,8 @@ const { getServerUrl } = require("./url");
 const events = {
     ChangeMatchesOrder: () => {},
     authenticated: () => {},
-    NewMessage: () => {}
+    NewMessage: () => {},
+    newUserMatches: () => {},
 }
 
 const socket = io(getServerUrl()+ "messages");

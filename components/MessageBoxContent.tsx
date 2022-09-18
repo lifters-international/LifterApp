@@ -1,5 +1,5 @@
-import React, { useRef, useEffect } from "react";
-import { View, Text, Image, ScrollView, StyleSheet } from "react-native";
+import React, { useRef } from "react";
+import { View, Text, ScrollView, StyleSheet } from "react-native";
 
 import { Message, MessageWhoSent } from "../utils";
 
@@ -8,15 +8,11 @@ import MessageView from "./Message";
 export type MessageBoxContentProps = {
     messages: Message[];
     whoSent: MessageWhoSent;
-    sendReadMessage?: ( messageId : string ) => void;
+    sendReadMessage: ( messageId : string ) => void;
 }
 
 const MessageBoxContent : React.FC<MessageBoxContentProps> = ({ messages, whoSent, sendReadMessage }) => {
     const contentRef = useRef<ScrollView>(null);
-
-    useEffect(() => {
-        contentRef.current?.scrollToEnd({animated: true});
-    }, [messages]);
 
     if ( messages.length === 0 ) {
         return (
@@ -30,7 +26,6 @@ const MessageBoxContent : React.FC<MessageBoxContentProps> = ({ messages, whoSen
         <ScrollView style={{ ...styles.MessageBoxContent, ...styles.Content }} ref={contentRef} horizontal={false} onContentSizeChange={() => contentRef.current?.scrollToEnd({animated: true})}>
             {
                 messages.map((message, index) => {
-                    sendReadMessage!(message.id);
 
                     if ( index == 0) return (
                         <MessageView 
@@ -38,6 +33,7 @@ const MessageBoxContent : React.FC<MessageBoxContentProps> = ({ messages, whoSen
                             {...message}
                             lastMessage={index === messages.length - 1}
                             CurrentWhoSent={whoSent}
+                            sendReadMessage={sendReadMessage}
                         />
                     )
 
@@ -47,6 +43,7 @@ const MessageBoxContent : React.FC<MessageBoxContentProps> = ({ messages, whoSen
                             {...message}
                             lastMessage={index === messages.length - 1}
                             CurrentWhoSent={whoSent}
+                            sendReadMessage={sendReadMessage}
                         />
                     )
 
@@ -57,6 +54,7 @@ const MessageBoxContent : React.FC<MessageBoxContentProps> = ({ messages, whoSen
                                 {...message}
                                 lastMessage={index === messages.length - 1}
                                 CurrentWhoSent={whoSent}
+                                sendReadMessage={sendReadMessage}
                             />
                         </View>
                     )

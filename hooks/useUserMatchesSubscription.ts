@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { newUserMatchesSubscription, getUserUnAcceptedMatches } from '../graphQlQuieries';
 import { useSubscription } from '@apollo/client';
-import { newUserSubscriptionMatches, client, fetchGraphQl, SubscriptionType, newUserMatches } from "../utils";
+import { newUserSubscriptionMatches, /*client,*/ fetchGraphQl, SubscriptionType, newUserMatches, socket } from "../utils";
 
 export type UserMatchesSubscription = {
     loading: boolean;
@@ -71,10 +71,23 @@ export const useUserMatchesSubscription = (token : string, reload: boolean) : Us
                         data: data.getUserUnAcceptedMatches
                     }
                 });
+
+                socket.on("newUserMatches", ( datas : newUserMatches ) => {
+                    setState(prevState => (
+                        {
+                            ...prevState,
+                            data: {
+                                ...prevState.data!,
+                                matches: [...(prevState.data?.matches || []), datas]
+                            } 
+                        }
+                    ))
+                })
             }
         })
     }, [reload]);
 
+    /*
     useSubscription(newUserMatchesSubscription, {
         variables: { userToken: token },
         client,
@@ -99,7 +112,7 @@ export const useUserMatchesSubscription = (token : string, reload: boolean) : Us
                 });
             }
         }
-    });      
+    });    */  
 
     return state;
 }

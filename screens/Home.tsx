@@ -29,7 +29,7 @@ const Home: React.FC = () => {
         }
     }
 
-    if (userMatches.loading) return <Loading />;
+    if (userMatches.loading) return <AppLayout><Loading /></AppLayout>;
 
     return (
         <AppLayout>

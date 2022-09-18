@@ -2,7 +2,7 @@ import * as SecureStore from 'expo-secure-store';
 export * from "./types";
 export * from "./fetchGraphQl";
 export * from "./url";
-export * from "./client"
+//export * from "./client"
 export { default as socket } from "./socket";
 
 export const saveToStore =  async (key: string, value: string) => {

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { StyleSheet, Text, View, StyleProp, ViewStyle, TextStyle, TouchableOpacity } from "react-native";
+import { Text, StyleProp, ViewStyle, TextStyle, TouchableOpacity } from "react-native";
 
 interface ButtonProps {
     title: string;

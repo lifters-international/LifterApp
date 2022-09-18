@@ -15,15 +15,13 @@ export type UserMessagesState = {
 export const useGetUserMessages = ( token : string, matchId : string ) : UserMessagesState => {
     const [ state, setState ] = useState<UserMessagesState>({
         userMessages: null,
-        loading: false,
+        loading: true,
         error: null,
         whoSent: null
     });
 
     useEffect(() => {
         if ( token == null ) return;
-        
-        setState( prevState => ( { ...prevState, loading: true } ) );
 
         fetchGraphQl( getUserMessages, { token, matchId } ).then( result => {
             let data : GetUserMessagesResult = result.data;
@@ -34,7 +32,7 @@ export const useGetUserMessages = ( token : string, matchId : string ) : UserMes
                 setState( prevState => (
                     {
                         ...prevState,
-                        userMessages: data.getUserMessages.messages.sort( (a, b) => Number(a.createdAt) - Number(b.createdAt) ),
+                        userMessages: data.getUserMessages.messages,
                         whoSent: data.getUserMessages.whoIsUser,
                         loading: false,
                         sendMessage: ( token, matchId, message, metaDataType ) => {
@@ -49,17 +47,18 @@ export const useGetUserMessages = ( token : string, matchId : string ) : UserMes
 
                 socket.on("NewMessage", ( newMessage: { matchId: string, message: Message }) => {
                     if ( newMessage.matchId === matchId ) {
+
                         setState(prevState => (
                             {
                                 ...prevState,
-                                userMessages: [...(prevState.userMessages || []), newMessage.message].sort( (a, b) => Number(a.createdAt) - Number(b.createdAt)),
+                                userMessages: [...(prevState.userMessages || []), newMessage.message]
                             }
                         ));
                     }
                 });
             }
         })
-    }, [ token, matchId ]);
+    }, [ ]);
 
     return state;
 }
