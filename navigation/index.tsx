@@ -9,12 +9,13 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 
 import { useSelector } from "react-redux";
 
-import { Home, Profile, Messages, MessageBox, Splash, Login, SignUp, MessagesMatches } from "../screens";
+import { Home, Profile, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
 import { View, Image } from "react-native";
 import Lottie from 'lottie-react-native';
 import { getFromStore, returnImageSource } from "../utils";
 import { useAppDispatch } from "../redux";
 import { VerifyToken, setToken, logIn, LoginAsyncThunkResult, setAppReady, setProfilePicture, setAuthState, getSignedInUser, GetSignedUserAsyncThunkResult } from "../redux/features/auth"; 
+import { Ionicons } from '@expo/vector-icons';
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -63,6 +64,29 @@ function TabNavigator() {
                     )
                 }}
             />
+
+            <Tab.Screen 
+                name="Search"
+                component={Search}
+                options={{
+                    tabBarLabel: "Search",
+                    tabBarIcon: () => (
+                        <View>
+                            <Ionicons 
+                                name="search" 
+                                size={30} 
+                                color="red" 
+                                style={{
+                                    width: 30,
+                                    height: 30,
+                                    textDecorationColor: "black",
+                                }}
+                            />
+                        </View>
+                    )
+                }}
+            />
+             
             <Tab.Screen 
                 name="Message" 
                 component={MessagesStackScreen} 

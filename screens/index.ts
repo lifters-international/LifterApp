@@ -13,3 +13,5 @@ export { default as SignUp } from "./SignUp";
 export { default as MessagesMatches } from "./MessagesMatches";
 
 export { default as MessageBox } from "./MessageBox";
+
+export { default as Search } from "./Search";
