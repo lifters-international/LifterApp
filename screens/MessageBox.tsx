@@ -20,6 +20,8 @@ const MessageBox: React.FC<Props> = ({ navigation, route }) => {
     const [messageState, setMessageState] = useState<string>("");
     const userMessages = useGetUserMessages(token, matchId);
 
+    if (userMessages.loading) return <AppLayout><Loading /></AppLayout>;
+
     return (
         <AppLayout>
             <View style={styles.HeaderContainer}>
@@ -32,27 +34,25 @@ const MessageBox: React.FC<Props> = ({ navigation, route }) => {
                 </View>
             </View>
 
-            {
-                userMessages.loading ? <Loading /> : (
-                    <KeyboardAwareScrollView style={{ height: "100%" }} extraScrollHeight={90}>
-                        <MessageBoxContent
-                            messages={userMessages.userMessages || []}
-                            whoSent={userMessages.whoSent as MessageWhoSent}
-                            sendReadMessage={userMessages.sendReadMessage!}
-                        />
 
-                        <View style={styles.MessageBoxInput}>
-                            <TextInput style={styles.MessageBoxInputText} placeholder="Type a message" multiline value={messageState} onChangeText={text => setMessageState(text)} />
-                            <TouchableOpacity style={styles.MessageBoxSendButton} onPress={() => {
-                                if (messageState.length > 0) userMessages.sendMessage!(token, matchId, messageState, MessageMetaDataType.TEXT);
-                                setMessageState("");
-                            }}>
-                                <Ionicons name="send" size={30} color="black" style={styles.MessageBoxSendButtonIcon} />
-                            </TouchableOpacity>
-                        </View>
-                    </KeyboardAwareScrollView>
-                )
-            }
+            <KeyboardAwareScrollView style={{ height: "100%" }} extraScrollHeight={90}>
+                <MessageBoxContent
+                    messages={userMessages.userMessages || []}
+                    whoSent={userMessages.whoSent as MessageWhoSent}
+                    sendReadMessage={userMessages.sendReadMessage!}
+                />
+
+                <View style={styles.MessageBoxInput}>
+                    <TextInput style={styles.MessageBoxInputText} placeholder="Type a message" multiline value={messageState} onChangeText={text => setMessageState(text)} />
+                    <TouchableOpacity style={styles.MessageBoxSendButton} onPress={() => {
+                        if (messageState.length > 0) userMessages.sendMessage!(token, matchId, messageState, MessageMetaDataType.TEXT);
+                        setMessageState("");
+                    }}>
+                        <Ionicons name="send" size={30} color="black" style={styles.MessageBoxSendButtonIcon} />
+                    </TouchableOpacity>
+                </View>
+            </KeyboardAwareScrollView>
+
         </AppLayout>
     )
 }

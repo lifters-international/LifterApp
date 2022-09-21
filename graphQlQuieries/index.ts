@@ -25,3 +25,7 @@ export * from "./getUserMessages";
 export * from "./searchQuery";
 
 export * from "./updateUserPassword";
+
+export * from "./getUserSubscriptionInfor";
+
+export * from "./subscribeToBasicLifter";

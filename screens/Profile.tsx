@@ -8,7 +8,7 @@ import * as FileSystem from 'expo-file-system';
 
 import { saveToStore, userInformationToSave, getImageUploadApi, returnImageSource, getServerUrl } from "../utils";
 import { useAppDispatch } from "../redux";
-import { setAuthState, setProfilePicture } from "../redux/features/auth";
+import { setAuthState } from "../redux/features/auth";
 import { useSignedInUserData, useSaveUserProfileChanges } from "../hooks";
 
 interface Props {
@@ -67,29 +67,25 @@ const Profile: React.FC<Props> = ({ navigation }) => {
         )
 
         const jsonRes = JSON.parse(upRes.body);
+        console.log("jsonRes", jsonRes)
 
         if (jsonRes.imageURL) {
-            setUserData({
-                ...userData,
-                profilePicture: jsonRes.imageURL
-            });
-
             await saveUserData.saveAsync({
                 token,
-                userInfor: userData || {}
+                userInfor: {
+                    profilePicture: jsonRes.imageURL
+                }
             });
 
-            //dispatch( setProfilePicture(getServerUrl() + "image/" + jsonRes.imageURL) );
         }
 
         setLoading(false);
     }
 
+    if ( loading ) return <AppLayout><Loading /></AppLayout>;
+
     return (
         <AppLayout>
-            {
-                loading ? <Loading /> : <></>
-            }
             <View>
                 <View style={styles.EditProfilePicture}>
                     <ImageBackground source={returnImageSource(profilePicture)} style={{ flex: 1, justifyContent: "center" }}>
@@ -113,7 +109,9 @@ const Profile: React.FC<Props> = ({ navigation }) => {
                             },
                             {
                                 title: "Subscription",
-                                onClick: () => console.log("Change Lifter Subscription"),
+                                onClick: () => {
+                                    navigation.navigate("Subscription");
+                                },
                             },
                             {
                                 title: "Password",

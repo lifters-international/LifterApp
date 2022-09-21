@@ -49,9 +49,11 @@ const LogIn: React.FC<Props> = ({ navigation }) => {
         navigation.navigate("SignUp");
     }
 
+    if (loadingState) return <AppLayout><Loading /></AppLayout>;
+
     return (
         <AppLayout>
-            <View style={styles.container}>
+            <View>
                 {
                     loadingState ? <Loading /> : null
                 }
@@ -138,11 +140,6 @@ const styles = StyleSheet.create({
         color: "white"
     },
 
-    container: {
-        backgroundColor: "white",
-        flex: 1,
-    },
-
     content: {
         padding: "5%",
     },
@@ -153,6 +150,12 @@ const styles = StyleSheet.create({
         alignContent: "center",
         display: "flex",
         alignItems: "center",
+        shadowRadius: 10,
+        shadowOpacity: 10,
+        shadowOffset: {
+            width: 20,
+            height: 10
+        }
     },
 
     header: {

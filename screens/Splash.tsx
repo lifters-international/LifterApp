@@ -24,12 +24,15 @@ const Splash: React.FC<Props> = ({ navigation }) => {
                             speed={0.2}
                         />
                     </View>
+                    <View>
+                        <Text style={styles.Liftersheader}>LIFTERS</Text>
+                    </View>
                     <View style={styles.footer}>
                         <View>
-                            <Text style={styles.header}>Find your next</Text>
+                            <Text style={styles.header}>#1</Text>
                         </View>
                         <View>
-                            <Text style={styles.header}>Gym / Life Partner</Text>
+                            <Text style={styles.header}>HOME FOR ALL THINGS GYM</Text>
                         </View>
                         <View
                             style={{
@@ -58,23 +61,43 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor: "red"
     },
+
     container: {
         backgroundColor: "white",
         flex: 1,
     },
+
     content: {
         padding: "5%",
     },
+
     animationFrame: {
         marginTop: "20%",
-        height: "60%",
+        height: "55%",
         alignContent: "center",
         display: "flex",
         alignItems: "center",
+        shadowRadius: 10,
+        shadowOpacity: 10,
+        shadowOffset: {
+            width: 20,
+            height: 10
+        }
     },
+
+    Liftersheader: {
+        fontSize: 40,
+        fontWeight: "bold",
+        textAlign: "center",
+        color: "red",
+        outlineColor: "black",
+        fontStyle: "italic"
+    },
+
     header: {
-        
         fontSize: 17.8,
+        fontWeight: "bold",
+        color: "red"
     },
 
     footer: {

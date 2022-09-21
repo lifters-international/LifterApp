@@ -8,7 +8,7 @@ const initialState: AuthState = {
     username: '',
     password: '',
     profilePicture: "../assets/defaultPicture.png",
-    AppReady: false
+    AppReady: true
 }
 
 const AuthSlice =  createSlice({

@@ -23,7 +23,7 @@ const MessagesMatches : React.FC<Props> = ({ navigation, route }) => {
         return <AppLayout><View></View></AppLayout>
     }
 
-    if (matchedDetails.loading) return <Loading />
+    if (matchedDetails.loading) return <AppLayout><Loading /></AppLayout>;
 
     return (
         <AppLayout>

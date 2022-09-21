@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Alert } from 'react-native';
-import { AppLayout, Button, Loading } from "../components";
+import { AppLayout } from "../components";
 import { useSelector } from "react-redux";
 import { NavigationProp } from "@react-navigation/native";
 
-import { saveToStore, userInformationToSave, getImageUploadApi, returnImageSource, getServerUrl, fetchGraphQl, userPasswordUpdateProps } from "../utils";
+import { saveToStore, fetchGraphQl, userPasswordUpdateProps } from "../utils";
 import { updateUserPassword } from "../graphQlQuieries";
 import { useAppDispatch } from "../redux";
 import { setAuthState } from "../redux/features/auth";

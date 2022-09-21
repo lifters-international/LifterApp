@@ -41,9 +41,8 @@ const SignUp: React.FC<Props> = ({ navigation }) => {
                     username: userState,
                     password: passwordState
                 }));
-            } else {
-                //console.log("LoginResult", (loginResult.payload as LoginAsyncThunkResult).errors);
             }
+            
         } else {
             if ((signUpResult.payload as SignUpAsyncThunkResult).errors[0].message === "Username Already exist") {
                 Alert.alert("Error", "Username already exist");
@@ -59,13 +58,11 @@ const SignUp: React.FC<Props> = ({ navigation }) => {
         navigation.navigate('Login');
     }
 
+    if ( loadingState ) return <AppLayout><Loading /></AppLayout>;
 
     return (
         <AppLayout>
-            <View style={styles.container}>
-                {
-                    loadingState ? <Loading /> : null
-                }
+            <View>
                 <View style={styles.content}>
                     <View style={styles.animationFrame}>
                         <LottieView
@@ -156,11 +153,6 @@ const styles = StyleSheet.create({
         color: "white"
     },
 
-    container: {
-        backgroundColor: "white",
-        flex: 1,
-    },
-
     content: {
         padding: "5%",
     },
@@ -171,6 +163,12 @@ const styles = StyleSheet.create({
         alignContent: "center",
         display: "flex",
         alignItems: "center",
+        shadowRadius: 10,
+        shadowOpacity: 10,
+        shadowOffset: {
+            width: 20,
+            height: 10
+        }
     },
 
     header: {

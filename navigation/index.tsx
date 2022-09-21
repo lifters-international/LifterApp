@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   NavigationContainer,
 } from "@react-navigation/native";
@@ -9,7 +9,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 
 import { useSelector } from "react-redux";
 
-import { Home, Profile, PasswordChange, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
+import { Home, Profile, PasswordChange, Subscription, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
 import { View, Image } from "react-native";
 import Lottie from 'lottie-react-native';
 import { getFromStore, returnImageSource } from "../utils";
@@ -37,6 +37,7 @@ const ProfileStackScreen = () => {
         <ProfileStack.Navigator>
             <ProfileStack.Screen name="Profiles" component={Profile} options={{ headerShown: false }}/>
             <ProfileStack.Screen name="Change Password" component={PasswordChange} />
+            <ProfileStack.Screen name="Subscription" component={Subscription} />
         </ProfileStack.Navigator>
     );
 }
@@ -162,8 +163,9 @@ function AuthNavigationStack() {
 export default function Navigation() {
     const dispatch = useAppDispatch();
 
-    const { tokenVerified, AppReady } = useSelector((state: any) => state.Auth);
-
+    const { tokenVerified, AppReady } = useSelector((state: any) => state.Auth); 
+    
+    
     useEffect(() => {
         const setUp = async () => {
             let token_saved = await getFromStore("token");
@@ -205,7 +207,7 @@ export default function Navigation() {
             }
         }
         setUp().then(() => {});
-    }, []);
+    }, []); 
 
     return (
         <NavigationContainer>

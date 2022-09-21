@@ -4,6 +4,8 @@ export { default as Profile } from "./Profile";
 
 export { default as PasswordChange } from "./PasswordChange";
 
+export { default as Subscription } from "./Subscription";
+
 export { default as Messages } from "./Messages";
 
 export { default as Splash } from "./Splash";

@@ -77,7 +77,7 @@ export const useSaveUserProfileChanges = (): SaveUserInformationState => {
                     params.userInfor.username != username 
                 ) {
                     
-                    if ( params.userInfor.username != username ) {
+                    if ( params.userInfor.username != username && params.userInfor.username ) {
                         await saveToStore("username", params.userInfor.username!);
                         dispatch(setAuthState({
                             token: params.token,
@@ -87,9 +87,9 @@ export const useSaveUserProfileChanges = (): SaveUserInformationState => {
                         }));
                     }
 
-                    if ( params.userInfor.profilePicture != profilePicture ) dispatch( 
+                    if ( params.userInfor.profilePicture != profilePicture && params.userInfor.profilePicture ) dispatch( 
                         setProfilePicture(
-                            getServerUrl() + "image/" + params.userInfor.username
+                            getServerUrl() + "image/" + params.userInfor.profilePicture!
                         ) 
                     );
                  
