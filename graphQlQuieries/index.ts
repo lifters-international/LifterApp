@@ -23,3 +23,5 @@ export * from "./getUserAcceptedMatches";
 export * from "./getUserMessages";
 
 export * from "./searchQuery";
+
+export * from "./updateUserPassword";

@@ -9,7 +9,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 
 import { useSelector } from "react-redux";
 
-import { Home, Profile, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
+import { Home, Profile, PasswordChange, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
 import { View, Image } from "react-native";
 import Lottie from 'lottie-react-native';
 import { getFromStore, returnImageSource } from "../utils";
@@ -20,6 +20,7 @@ import { Ionicons } from '@expo/vector-icons';
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 const MessagesStack = createNativeStackNavigator();
+const ProfileStack = createNativeStackNavigator();
 
 const MessagesStackScreen = () => {
     return (
@@ -28,6 +29,15 @@ const MessagesStackScreen = () => {
             <MessagesStack.Screen name="MessagesMatches" component={MessagesMatches} options={{ headerShown: false }}/>
             <MessagesStack.Screen name="MessageBox" component={MessageBox} options={{ headerShown: false }}/>
         </MessagesStack.Navigator>
+    );
+}
+
+const ProfileStackScreen = () => {
+    return (
+        <ProfileStack.Navigator>
+            <ProfileStack.Screen name="Profiles" component={Profile} options={{ headerShown: false }}/>
+            <ProfileStack.Screen name="Change Password" component={PasswordChange} />
+        </ProfileStack.Navigator>
     );
 }
 
@@ -110,7 +120,7 @@ function TabNavigator() {
             />
             <Tab.Screen 
                 name="Profile" 
-                component={Profile} 
+                component={ProfileStackScreen} 
                 options={{
                     tabBarLabel: "Profile",
                     tabBarIcon: () => (

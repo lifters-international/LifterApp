@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, Platform, TextInput, ImageBackground, FlatList } from 'react-native';
-import { AppLayout, Logo, Button, Loading } from "../components";
+import { StyleSheet, Text, View, ScrollView, TextInput, ImageBackground, FlatList } from 'react-native';
+import { AppLayout, Button, Loading } from "../components";
+import { NavigationProp } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
@@ -10,7 +11,11 @@ import { useAppDispatch } from "../redux";
 import { setAuthState, setProfilePicture } from "../redux/features/auth";
 import { useSignedInUserData, useSaveUserProfileChanges } from "../hooks";
 
-const Profile: React.FC = () => {
+interface Props {
+    navigation: NavigationProp<any>;
+}
+
+const Profile: React.FC<Props> = ({ navigation }) => {
     const dispatch = useAppDispatch();
     const { token, profilePicture } = useSelector((state: any) => state.Auth);
     const [loading, setLoading] = useState(false);
@@ -74,7 +79,7 @@ const Profile: React.FC = () => {
                 userInfor: userData || {}
             });
 
-            dispatch( setProfilePicture(getServerUrl() + "image/" + jsonRes.imageURL) );
+            //dispatch( setProfilePicture(getServerUrl() + "image/" + jsonRes.imageURL) );
         }
 
         setLoading(false);
@@ -112,7 +117,9 @@ const Profile: React.FC = () => {
                             },
                             {
                                 title: "Password",
-                                onClick: () => console.log("Change Password"),
+                                onClick: () => {
+                                    navigation.navigate("Change Password");
+                                },
                             },
                             {
                                 title: "Log Out",

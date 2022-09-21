@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { fetchGraphQl, GraphqlError, RequestResult, delay, userInformationToSave } from '../utils';
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "../redux";
+import { setAuthState, setProfilePicture } from "../redux/features/auth";
+import { fetchGraphQl, GraphqlError, RequestResult, delay, userInformationToSave, saveToStore, getServerUrl } from '../utils';
 import { updateUserInformationMutation } from "../graphQlQuieries";
 
 export type userSaveUserProfileChangesProps = {
@@ -17,6 +20,9 @@ export type SaveUserInformationState = {
 }
 
 export const useSaveUserProfileChanges = (): SaveUserInformationState => {
+    const dispatch = useAppDispatch();
+    const { token, profilePicture, username, password } = useSelector((state: any) => state.Auth);
+    
     const [ state, setState ] = useState<SaveUserInformationState>({
         isSaving: false,
         saveSuccessfully: false,
@@ -64,6 +70,30 @@ export const useSaveUserProfileChanges = (): SaveUserInformationState => {
                         saveSuccessfully: false
                     }
                 });
+
+                // Change occured so now we want to update the redux store
+                if (
+                    params.userInfor.profilePicture != profilePicture ||  
+                    params.userInfor.username != username 
+                ) {
+                    
+                    if ( params.userInfor.username != username ) {
+                        await saveToStore("username", params.userInfor.username!);
+                        dispatch(setAuthState({
+                            token: params.token,
+                            username: params.userInfor.username!,
+                            tokenVerified: true,
+                            password: password
+                        }));
+                    }
+
+                    if ( params.userInfor.profilePicture != profilePicture ) dispatch( 
+                        setProfilePicture(
+                            getServerUrl() + "image/" + params.userInfor.username
+                        ) 
+                    );
+                 
+                }
             }
         }
     });
