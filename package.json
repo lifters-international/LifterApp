@@ -17,6 +17,7 @@
     "@react-navigation/native": "^6.0.12",
     "@react-navigation/native-stack": "^6.8.0",
     "@reduxjs/toolkit": "^1.8.5",
+    "@stripe/stripe-react-native": "0.13.1",
     "apollo-link-http": "^1.5.17",
     "expo": "~46.0.9",
     "expo-av": "~12.0.4",

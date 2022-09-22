@@ -67,7 +67,6 @@ const Profile: React.FC<Props> = ({ navigation }) => {
         )
 
         const jsonRes = JSON.parse(upRes.body);
-        console.log("jsonRes", jsonRes)
 
         if (jsonRes.imageURL) {
             await saveUserData.saveAsync({

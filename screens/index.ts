@@ -6,6 +6,8 @@ export { default as PasswordChange } from "./PasswordChange";
 
 export { default as Subscription } from "./Subscription";
 
+export { default as SubscriptionCheckOut } from "./SubscriptionCheckOut";
+
 export { default as Messages } from "./Messages";
 
 export { default as Splash } from "./Splash";

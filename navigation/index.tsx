@@ -9,7 +9,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 
 import { useSelector } from "react-redux";
 
-import { Home, Profile, PasswordChange, Subscription, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
+import { Home, Profile, PasswordChange, Subscription, SubscriptionCheckOut, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
 import { View, Image } from "react-native";
 import Lottie from 'lottie-react-native';
 import { getFromStore, returnImageSource } from "../utils";
@@ -38,6 +38,7 @@ const ProfileStackScreen = () => {
             <ProfileStack.Screen name="Profiles" component={Profile} options={{ headerShown: false }}/>
             <ProfileStack.Screen name="Change Password" component={PasswordChange} />
             <ProfileStack.Screen name="Subscription" component={Subscription} />
+            <ProfileStack.Screen name="Subscription CheckOut" component={SubscriptionCheckOut}  options={{ headerShown: false }}/>
         </ProfileStack.Navigator>
     );
 }

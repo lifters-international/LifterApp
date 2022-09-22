@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Alert } from 'react-native';
 
@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 import { NavigationProp } from "@react-navigation/native";
 
-import { PlanType, fetchGraphQl, GraphqlError } from "../utils";
+import { PlanType, fetchGraphQl } from "../utils";
 
 import { subscribeToBasicLifter } from "../graphQlQuieries";
 
@@ -16,7 +16,11 @@ import { useUserSubscriptionInfor } from '../hooks';
 
 import LottieView from 'lottie-react-native';
 
-const Subscription: React.FC = () => {
+interface Props {
+    navigation: NavigationProp<any>;
+}
+
+const Subscription: React.FC<Props> = ({ navigation }) => {
     const { token } = useSelector((state: any) => state.Auth);
     const { result, loading, error, refresh } = useUserSubscriptionInfor(token);
     const [ refreshState, setRefreshState ] = useState(false);
@@ -71,7 +75,7 @@ const Subscription: React.FC = () => {
                             <Text style={styles.buttonText}>Cancel Subscription</Text>
                         </TouchableOpacity>
                     ) : (
-                        <TouchableOpacity style={styles.buttonSub}>
+                        <TouchableOpacity style={styles.buttonSub} onPress={() => navigation.navigate("Subscription CheckOut")}>
                             <Text style={styles.buttonText}>Subscribe</Text>
                         </TouchableOpacity>
                     )

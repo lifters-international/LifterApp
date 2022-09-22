@@ -29,3 +29,5 @@ export * from "./updateUserPassword";
 export * from "./getUserSubscriptionInfor";
 
 export * from "./subscribeToBasicLifter";
+
+export * from "./subscribeToProLifter";
