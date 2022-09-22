@@ -93,8 +93,6 @@ const SubscriptionCheckOut: React.FC<Props> = ({ navigation }) => {
                             }
                         });
 
-                        console.log(paymentMethod);
-
                         if ( paymentMethod.error ) {
                             Alert.alert("Problem creating subscription. Please try again later.");
                             setLoading(false);
