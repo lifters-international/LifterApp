@@ -31,3 +31,7 @@ export * from "./getUserSubscriptionInfor";
 export * from "./subscribeToBasicLifter";
 
 export * from "./subscribeToProLifter";
+
+export * from "./GetFood";
+
+export * from "./searchFood";

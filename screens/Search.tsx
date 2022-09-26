@@ -35,7 +35,10 @@ const Search: React.FC = () => {
                     showDiv ?
                         (
                             <View style={styles.SearchResultView}>
-                                <ScrollView style={styles.LifterMatches}>
+                                <ScrollView style={styles.LifterMatches}
+                                    showsVerticalScrollIndicator={false}
+                                    showsHorizontalScrollIndicator={false}
+                                >
                                     {
                                         queryResult.result?.map((lifter, index) => (
                                                 (

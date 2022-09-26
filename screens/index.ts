@@ -21,3 +21,5 @@ export { default as MessagesMatches } from "./MessagesMatches";
 export { default as MessageBox } from "./MessageBox";
 
 export { default as Search } from "./Search";
+
+export { default as FoodScreen } from "./Food";

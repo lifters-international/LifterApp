@@ -30,7 +30,6 @@ const MessageContainer: React.FC<MessageContainerProps> = ({ token, matches }) =
                             return (
                                 <Link 
                                     key={message.id} 
-                                    //onPress={() => setCurrentView({ currentMatchId: message.id, name: message.name, profilePicture: message.profilePicture })}
                                     style={styles.MessageMatches}
                                     to={{ screen: "MessageBox", params: { matchId: message.id, name: message.name, profilePicture: message.profilePicture } }}
                                     >

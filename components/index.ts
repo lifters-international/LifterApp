@@ -15,3 +15,5 @@ export { default as MessageBoxContent } from "./MessageBoxContent";
 export { default as Message } from "./Message";
 
 export { default as BenefitText } from "./BenefitText";
+
+export { default as FoodView } from "./FoodView";

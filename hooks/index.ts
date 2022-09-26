@@ -19,3 +19,7 @@ export * from "./useAcceptDeclineMatch";
 export * from "./useSearchQuery";
 
 export * from "./useUserSubscriptionInfor";
+
+export * from "./useGetFood";
+
+export * from "./useSearchFood";
