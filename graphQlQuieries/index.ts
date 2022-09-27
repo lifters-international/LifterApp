@@ -35,3 +35,5 @@ export * from "./subscribeToProLifter";
 export * from "./GetFood";
 
 export * from "./searchFood";
+
+export * from "./AddFoodToLiftersDailyFood";

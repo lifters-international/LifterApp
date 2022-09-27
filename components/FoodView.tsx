@@ -4,10 +4,16 @@ import { StyleSheet, View, ScrollView, Text } from "react-native";
 
 import { Food } from "../utils";
 
+import { useAddFoodToLiftersDailyFood } from "../hooks";
+
+import Button from "./Button";
+
 export type Props = {
 } & Food;
 
 const FoodView: React.FC<Props> = ({ id, name, calories, servingSize, nutritionFacts }) => {
+    const { addFoodToLiftersDailyFood, statement } = useAddFoodToLiftersDailyFood();
+
     return (
         <View style={styles.container} >
             <Text style={styles.foodName}>{name}</Text>
@@ -34,6 +40,13 @@ const FoodView: React.FC<Props> = ({ id, name, calories, servingSize, nutritionF
                     <Text style={styles.foodText}>Potassium: {nutritionFacts.potassium.measurment}{nutritionFacts.potassium.unit}</Text>
                 </ScrollView>
             </View>
+
+            <Button 
+                title={statement} 
+                onPress={() => addFoodToLiftersDailyFood(id)} 
+                style={styles.button}
+                textStyle={{ textAlign: 'center', color: 'white', fontSize: 20 }}
+            />
         </View>
     )
 }
@@ -85,6 +98,15 @@ const styles = StyleSheet.create({
         borderColor: 'gainsboro',
         borderRadius: 5,
         padding: 5
+    },
+
+    button: {
+        marginTop: 10,
+        marginBottom: 10,
+        backgroundColor: 'dodgerblue',
+        padding: 10,
+        borderRadius: 10,
+        width: '100%'
     }
 });
 

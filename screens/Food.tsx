@@ -6,13 +6,11 @@ import { FoodView, Loading, AppLayout } from "../components";
 import { useGetFood, useSearchFood } from "../hooks";
 
 import { useSelector } from "react-redux";
-import { useAppDispatch } from "../redux";
 
 import { AntDesign } from '@expo/vector-icons';
 
 const Food: React.FC = () => {
     const { token } = useSelector((state: any) => state.Auth);
-    const dispatch = useAppDispatch();
     const [search, setSearch] = useState('');
     const { foods, loading, error } = useGetFood();
     const { foods: searchFood, loading: searchLoading, error: searchError } = useSearchFood(search, token);

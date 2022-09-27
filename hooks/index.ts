@@ -23,3 +23,5 @@ export * from "./useUserSubscriptionInfor";
 export * from "./useGetFood";
 
 export * from "./useSearchFood";
+
+export * from "./useAddFoodToLiftersDailyFood";
