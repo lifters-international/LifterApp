@@ -9,9 +9,10 @@ import { useAddFoodToLiftersDailyFood } from "../hooks";
 import Button from "./Button";
 
 export type Props = {
+    action?: boolean
 } & Food;
 
-const FoodView: React.FC<Props> = ({ id, name, calories, servingSize, nutritionFacts }) => {
+const FoodView: React.FC<Props> = ({ id, name, calories, servingSize, nutritionFacts, action }) => {
     const { addFoodToLiftersDailyFood, statement } = useAddFoodToLiftersDailyFood();
 
     return (
@@ -41,14 +42,22 @@ const FoodView: React.FC<Props> = ({ id, name, calories, servingSize, nutritionF
                 </ScrollView>
             </View>
 
-            <Button 
-                title={statement} 
-                onPress={() => addFoodToLiftersDailyFood(id)} 
-                style={styles.button}
-                textStyle={{ textAlign: 'center', color: 'white', fontSize: 20 }}
-            />
+            {
+                action ? (
+                    <Button
+                        title={statement}
+                        onPress={() => addFoodToLiftersDailyFood(id)}
+                        style={styles.button}
+                        textStyle={{ textAlign: 'center', color: 'white', fontSize: 20 }}
+                    />
+                ) : null
+            }
         </View>
     )
+}
+
+FoodView.defaultProps = {
+    action: true
 }
 
 const styles = StyleSheet.create({

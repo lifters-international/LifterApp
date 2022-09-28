@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, TextInput, ScrollView, Text } from 'react-native';
+import { NavigationProp } from "@react-navigation/native";
 
 import { FoodView, Loading, AppLayout } from "../components";
 
@@ -9,7 +10,11 @@ import { useSelector } from "react-redux";
 
 import { AntDesign } from '@expo/vector-icons';
 
-const Food: React.FC = () => {
+interface Props {
+    navigation: NavigationProp<any>;
+}
+
+const Food: React.FC<Props> = ({ navigation }) => {
     const { token } = useSelector((state: any) => state.Auth);
     const [search, setSearch] = useState('');
     const { foods, loading, error } = useGetFood();
@@ -26,7 +31,7 @@ const Food: React.FC = () => {
                     <View style={styles.SearchBar}>
                         <TextInput placeholder="Search Lifters Foods" style={styles.SearchInput} value={search} onChangeText={query => setSearch(query)} />
                     </View>
-                    <AntDesign name="barschart" size={40} color="black" style={styles.barChart}/>
+                    <AntDesign name="barschart" size={40} color="black" style={styles.barChart} onPress={() => navigation.navigate("FoodAnalystics")}/>
                 </View>
 
                 <ScrollView style={styles.FoodContainer}

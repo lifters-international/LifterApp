@@ -9,7 +9,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 
 import { useSelector } from "react-redux";
 
-import { Home, Profile, PasswordChange, FoodScreen, Subscription, SubscriptionCheckOut, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
+import { Home, Profile, PasswordChange, FoodScreen, FoodAnalystics, Subscription, SubscriptionCheckOut, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
 import { View, Image } from "react-native";
 import Lottie from 'lottie-react-native';
 import { getFromStore, returnImageSource } from "../utils";
@@ -22,6 +22,7 @@ const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 const MessagesStack = createNativeStackNavigator();
 const ProfileStack = createNativeStackNavigator();
+const FoodStack = createNativeStackNavigator();
 
 const MessagesStackScreen = () => {
     return (
@@ -41,6 +42,15 @@ const ProfileStackScreen = () => {
             <ProfileStack.Screen name="Subscription" component={Subscription} />
             <ProfileStack.Screen name="Subscription CheckOut" component={SubscriptionCheckOut} options={{ headerShown: false }} />
         </ProfileStack.Navigator>
+    );
+}
+
+const FoodStackScreen = () => {
+    return (
+        <FoodStack.Navigator>
+            <FoodStack.Screen name="Food" component={FoodScreen} options={{ headerShown: false }} />
+            <FoodStack.Screen name="FoodAnalystics" component={FoodAnalystics} options={{ headerShown: false }} />
+        </FoodStack.Navigator>
     );
 }
 
@@ -124,9 +134,9 @@ function TabNavigator() {
 
                 <Tab.Screen
                     name="Food"
-                    component={FoodScreen}
+                    component={FoodStackScreen}
                     options={{
-                        tabBarLabel: "Food",
+                        tabBarLabel: "FoodTab",
                         tabBarIcon: () => (
                             <View>
                                 <Ionicons 

@@ -25,3 +25,5 @@ export * from "./SearchQueryResult";
 export * from "./UserSubscriptionInfor";
 
 export * from "./Food";
+
+export * from "./LiftersDailyFoodAnalstics";
