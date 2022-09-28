@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from "react-redux";
 
-import { fetchGraphQl, LiftersDailyFoodAnalstics } from '../utils';
+import { fetchGraphQl, LiftersDailyFoodAnalstics, getCurrentDate } from '../utils';
 
 import { getLiftersDailyFoodAnalytics } from "../graphQlQuieries";
 
@@ -22,7 +22,7 @@ export const useGetDailyFoodAnalystics = ( ): DailyFoodAnalsticsState => {
 
     React.useEffect(() => {
         const getDailyFoodAnalystics = async () => {
-            const res = await fetchGraphQl(getLiftersDailyFoodAnalytics, { token, date: "2022-09-27" });
+            const res = await fetchGraphQl(getLiftersDailyFoodAnalytics, { token, date: getCurrentDate() });
 
             if (res.errors) {
                 setState({

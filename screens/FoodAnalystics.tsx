@@ -1,21 +1,13 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, ScrollView, Dimensions, Text } from 'react-native';
+import { StyleSheet, View, ScrollView, Dimensions, Text } from 'react-native';
 import {
-    LineChart,
-    BarChart,
     PieChart,
-    ProgressChart,
-    ContributionGraph,
-    StackedBarChart,
+    ProgressChart
 } from 'react-native-chart-kit';
 
 import { FoodView, Loading, AppLayout } from "../components";
 
-import { useGetFood, useSearchFood, useGetDailyFoodAnalystics } from "../hooks";
-
-import { useSelector } from "react-redux";
-
-import { AntDesign } from '@expo/vector-icons';
+import { useGetDailyFoodAnalystics } from "../hooks";
 
 const FoodAnalystics: React.FC = () => {
     const { loading, error, analysis } = useGetDailyFoodAnalystics();

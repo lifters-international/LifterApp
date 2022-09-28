@@ -4,6 +4,7 @@ export * from "./fetchGraphQl";
 export * from "./url";
 //export * from "./client"
 export { default as socket } from "./socket";
+export * from "./getCurrentDate";
 
 export const saveToStore =  async (key: string, value: string) => {
     await SecureStore.setItemAsync(key, value);
