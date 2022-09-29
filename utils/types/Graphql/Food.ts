@@ -16,7 +16,8 @@ export enum NutritionUnits {
     kg = "kg",
     lb = "lb",
     oz = "oz",
-    can = "can"
+    can = "can",
+    percent = "%"
 }
 
 export type NutritionFactsJson = {
