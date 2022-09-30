@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "LifterApp",
-    "slug": "LifterApp",
+    "name": "Lifters",
+    "slug": "Lifters",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,18 +18,21 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.pagepro.testpublishapp",
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.pagepro.testpublishapp",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-
     "plugins": [
       [
         "expo-image-picker",
@@ -37,7 +40,6 @@
           "photosPermission": "Lifters needs access to your photos"
         }
       ],
-
       [
         "@stripe/stripe-react-native",
         {
@@ -46,6 +48,5 @@
         }
       ]
     ]
-    
   }
 }

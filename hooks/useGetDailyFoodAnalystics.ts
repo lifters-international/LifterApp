@@ -23,7 +23,6 @@ export const useGetDailyFoodAnalystics = ( ): DailyFoodAnalsticsState => {
     React.useEffect(() => {
         const getDailyFoodAnalystics = async () => {
             const res = await fetchGraphQl(getLiftersDailyFoodAnalytics, { token, date: getCurrentDate() });
-
             if (res.errors) {
                 setState({
                     ...state,

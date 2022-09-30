@@ -133,7 +133,7 @@ function TabNavigator() {
                 />
 
                 <Tab.Screen
-                    name="Food"
+                    name="FoodStack"
                     component={FoodStackScreen}
                     options={{
                         tabBarLabel: "FoodTab",

@@ -21,6 +21,7 @@ const FoodAnalystics: React.FC = () => {
         (analysis?.Carbs || 0) +
         (analysis?.Protein || 0)
     );
+
     return (
         <AppLayout>
             <View style={styles.Header}>
@@ -32,52 +33,58 @@ const FoodAnalystics: React.FC = () => {
             >
                 <View style={styles.ChartContainer}>
                     <Text style={styles.ChartTitle}>Macronutrient BreakDown</Text>
-                    <PieChart
-                        data={[
-                            {
-                                name: "Fats",
-                                count: analysis?.Fat,
-                                color: 'rgb(255, 112, 112)',
-                                legendFontColor: 'white',
-                                legendFontSize: 20,
-                            },
+                    {
+                        analysis?.Calories == 0 ? (
+                            <Text style={styles.ChartText}>No food has been logged today.</Text>
+                        ) : (
+                            <PieChart
+                                data={[
+                                    {
+                                        name: "Fats",
+                                        count: analysis?.Fat,
+                                        color: 'rgb(255, 112, 112)',
+                                        legendFontColor: 'white',
+                                        legendFontSize: 20,
+                                    },
 
-                            {
-                                name: "Carbs",
-                                count: analysis?.Carbs,
-                                color: 'rgb(163, 221, 163)',
-                                legendFontColor: 'white',
-                                legendFontSize: 20,
-                            },
+                                    {
+                                        name: "Carbs",
+                                        count: analysis?.Carbs,
+                                        color: 'rgb(163, 221, 163)',
+                                        legendFontColor: 'white',
+                                        legendFontSize: 20,
+                                    },
 
-                            {
-                                name: "Protein",
-                                count: analysis?.Protein,
-                                color: 'rgba(131, 167, 234, 1)',
-                                legendFontColor: 'white',
-                                legendFontSize: 20
-                            }
-                        ]}
-                        width={Dimensions.get('window').width - 50}
-                        height={220}
-                        chartConfig={{
-                            backgroundColor: '#1cc910',
-                            backgroundGradientFrom: '#eff3ff',
-                            backgroundGradientTo: '#efefef',
-                            decimalPlaces: 2,
-                            color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                            style: {
-                                borderRadius: 16,
-                            }
-                        }}
-                        style={{
-                            marginVertical: 8,
-                            borderRadius: 16,
-                        }}
-                        accessor="count"
-                        backgroundColor="transparent"
-                        paddingLeft="15"
-                    />
+                                    {
+                                        name: "Protein",
+                                        count: analysis?.Protein,
+                                        color: 'rgba(131, 167, 234, 1)',
+                                        legendFontColor: 'white',
+                                        legendFontSize: 20
+                                    }
+                                ]}
+                                width={Dimensions.get('window').width - 50}
+                                height={220}
+                                chartConfig={{
+                                    backgroundColor: '#1cc910',
+                                    backgroundGradientFrom: '#eff3ff',
+                                    backgroundGradientTo: '#efefef',
+                                    decimalPlaces: 2,
+                                    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                                    style: {
+                                        borderRadius: 16,
+                                    }
+                                }}
+                                style={{
+                                    marginVertical: 8,
+                                    borderRadius: 16,
+                                }}
+                                accessor="count"
+                                backgroundColor="transparent"
+                                paddingLeft="15"
+                            />
+                        )
+                    }
                     <Text style={{ ...styles.ChartTitle, fontSize: 15 }}>Estimated % of Calories</Text>
                 </View>
 
@@ -97,47 +104,53 @@ const FoodAnalystics: React.FC = () => {
                             <Text style={{ fontSize: 15, color: 'white' }}>Protein: {analysis?.ProteinGoal}g</Text>
                         </View>
                     </View>
-                    <ProgressChart
-                        data={{
-                            labels: ["Fats", "Carbs", "Protein"], // optional
-                            data: [
-                                ((analysis?.Fat || 0) / total),
-                                ((analysis?.Carbs || 0) / total),
-                                ((analysis?.Protein || 0) / total)
-                            ],
-                            colors: ["rgb(255, 112, 112)", "rgb(163, 221, 163)", "rgba(131, 167, 234, 1)"]
-                        }}
-                        width={Dimensions.get('window').width - 150}
-                        height={200}
-                        strokeWidth={16}
-                        radius={30}
-                        chartConfig={{
-                            backgroundGradientFrom: '#01200e',
-                            backgroundGradientTo: 'rgba(0, 0, 0, 0)',
-                            decimalPlaces: 1, // optional, defaults to 2dp
-                            color: (opacity = 1, index) => {
-                                if (index == 0) return `rgba(255, 112, 112, ${opacity})`;
-                                else if (index == 1) return `rgba(163, 221, 163, ${opacity})`;
-                                else return `rgba(131, 167, 234, ${opacity})`;
-                            },
-                            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                            style: {
-                                marginBottom: 50
-                            }
-                        }}
-                        hideLegend={true}
-                        style={{ borderRadius: 50, padding: 20, marginLeft: 10, marginRight: 10, marginBottom: 20, position: 'relative', left: -10 }}
-                    />
+                    {
+                        analysis?.Calories == 0 ? (
+                            <Text style={styles.ChartText}>No food has been logged today.</Text>
+                        ) : (
+                            <ProgressChart
+                                data={{
+                                    labels: ["Fats", "Carbs", "Protein"], // optional
+                                    data: [
+                                        ((analysis?.Fat || 0) / total),
+                                        ((analysis?.Carbs || 0) / total),
+                                        ((analysis?.Protein || 0) / total)
+                                    ],
+                                    colors: ["rgb(255, 112, 112)", "rgb(163, 221, 163)", "rgba(131, 167, 234, 1)"]
+                                }}
+                                width={Dimensions.get('window').width - 150}
+                                height={200}
+                                strokeWidth={16}
+                                radius={30}
+                                chartConfig={{
+                                    backgroundGradientFrom: '#01200e',
+                                    backgroundGradientTo: 'rgba(0, 0, 0, 0)',
+                                    decimalPlaces: 1, // optional, defaults to 2dp
+                                    color: (opacity = 1, index) => {
+                                        if (index == 0) return `rgba(255, 112, 112, ${opacity})`;
+                                        else if (index == 1) return `rgba(163, 221, 163, ${opacity})`;
+                                        else return `rgba(131, 167, 234, ${opacity})`;
+                                    },
+                                    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                                    style: {
+                                        marginBottom: 50
+                                    }
+                                }}
+                                hideLegend={true}
+                                style={{ borderRadius: 50, padding: 20, marginLeft: 10, marginRight: 10, marginBottom: 20, position: 'relative', left: -10 }}
+                            />
+                        )
+                    }
                 </View>
-                    
-                <View style={{ marginTop: 15, borderWidth: 3, borderTopRadius: 10, borderColor: 'gainsboro' }}>
-                    <Text style={{ ...styles.ChartTitle, textAlign: 'center', color:"black", fontSize:25,  }}>Food Ate Today</Text>
+
+                <View style={styles.FoodAteTodayView}>
+                    <Text style={{ ...styles.ChartTitle, textAlign: 'center', color: "black", fontSize: 25, }}>Food Ate Today</Text>
                     <View>
                         {
                             analysis?.Foods.map((food, index) => (
                                 (
                                     <View key={`food-item-${food.id}-${index}`} style={{ marginBottom: 5 }}>
-                                        <FoodView {...food} action={false}/>
+                                        <FoodView {...food} action={false} />
                                     </View>
                                 )
                             ))
@@ -181,6 +194,18 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: 'white'
+    },
+
+    ChartText: {
+        fontSize: 15,
+        color: 'white'
+    },
+
+    FoodAteTodayView: {
+        marginTop: 15,
+        borderWidth: 3,
+        borderTopRadius: 10,
+        borderColor: 'gainsboro'
     }
 
 });
