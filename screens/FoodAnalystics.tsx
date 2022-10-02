@@ -16,12 +16,6 @@ const FoodAnalystics: React.FC = () => {
 
     if (error) return <AppLayout><Text>There was a problem loading your daily food analysis. Please try again.</Text></AppLayout>
 
-    const total = (
-        (analysis?.Fat || 0) +
-        (analysis?.Carbs || 0) +
-        (analysis?.Protein || 0)
-    );
-
     return (
         <AppLayout>
             <View style={styles.Header}>
@@ -112,9 +106,9 @@ const FoodAnalystics: React.FC = () => {
                                 data={{
                                     labels: ["Fats", "Carbs", "Protein"], // optional
                                     data: [
-                                        ((analysis?.Fat || 0) / total),
-                                        ((analysis?.Carbs || 0) / total),
-                                        ((analysis?.Protein || 0) / total)
+                                        ((analysis?.Fat || 0) / ( analysis?.FatsGoal || 0 ) ),
+                                        ((analysis?.Carbs || 0) / ( analysis?.CarbsGoal || 0 ) ),
+                                        ((analysis?.Protein || 0) / ( analysis?.ProteinGoal || 0 ) )
                                     ],
                                     colors: ["rgb(255, 112, 112)", "rgb(163, 221, 163)", "rgba(131, 167, 234, 1)"]
                                 }}

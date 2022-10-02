@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
 
 import { fetchGraphQl, LiftersDailyFoodAnalstics, getCurrentDate } from '../utils';
@@ -12,7 +12,7 @@ export type DailyFoodAnalsticsState = {
 }
 
 export const useGetDailyFoodAnalystics = ( ): DailyFoodAnalsticsState => {
-    const [ state, setState ] = React.useState<DailyFoodAnalsticsState>({
+    const [ state, setState ] = useState<DailyFoodAnalsticsState>({
         loading: true,
         error: false,
         analysis: null
@@ -20,7 +20,7 @@ export const useGetDailyFoodAnalystics = ( ): DailyFoodAnalsticsState => {
 
     const { token } = useSelector((state: any) => state.Auth);
 
-    React.useEffect(() => {
+    useEffect(() => {
         const getDailyFoodAnalystics = async () => {
             const res = await fetchGraphQl(getLiftersDailyFoodAnalytics, { token, date: getCurrentDate() });
             if (res.errors) {
