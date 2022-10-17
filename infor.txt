@@ -1,0 +1,3 @@
+Short Desc: Lifters is an app that hopes to become the #1 Home For All Things GYM
+
+Long Desc: We allow our users to connect with other fitness enthusiast, while giving them full access to our food database so they are able to accurately count their daily calories and get information regarding their daily macronutrient. We continuously try to launch new updates and features so we can accomplish our goals of becoming the #1 Home for All Things GYM.

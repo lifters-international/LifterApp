@@ -19,7 +19,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.pagepro.testpublishapp",
+      "bundleIdentifier": "com.lifters.international.lifters",
       "buildNumber": "1.0.0"
     },
     "android": {
@@ -27,12 +27,17 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.pagepro.testpublishapp",
-      "versionCode": 1
+      "package": "com.lifters.international.lifters",
+      "versionCode": 1,
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
+
     "web": {
       "favicon": "./assets/favicon.png"
     },
+
     "plugins": [
       [
         "expo-image-picker",
@@ -47,6 +52,12 @@
           "enableGooglePay": true
         }
       ]
-    ]
+    ],
+
+    "extra": {
+      "eas": {
+        "projectId": "14148554-5f7a-4231-8543-46149cfbc0e5"
+      }
+    }
   }
 }
