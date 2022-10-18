@@ -5,7 +5,7 @@ import LottieView from 'lottie-react-native';
 import { Loading, AppLayout } from "../components";
 import { useAppDispatch } from "../redux";
 import { logIn, signUp, SignUpAsyncThunkResult, LoginAsyncThunkResult, setAuthState } from "../redux/features/auth";
-import { saveToStore } from "../utils";
+import { saveToStore, scale, verticalScale, moderateScale } from "../utils";
 
 interface Props {
     navigation: NavigationProp<any>;
@@ -64,14 +64,14 @@ const SignUp: React.FC<Props> = ({ navigation }) => {
         <AppLayout>
             <View>
                 <View style={styles.content}>
-                    <View style={styles.animationFrame}>
-                        <LottieView
-                            source={require("../assets/LifterNavBar.json")}
-                            autoPlay
-                            loop
-                            speed={0.2}
-                        />
-                    </View>
+                    <LottieView
+                        source={require("../assets/LifterNavBar.json")}
+                        autoPlay
+                        loop
+                        speed={0.2}
+                        style={styles.animation}
+                        resizeMode="cover"
+                    />
                     <View style={styles.footer}>
                         <Text style={styles.accountTitle}>Create Account</Text>
                         <View>
@@ -120,34 +120,35 @@ const SignUp: React.FC<Props> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     accountTitle: {
-        fontSize: 17,
+        fontSize: moderateScale(30),
         fontWeight: "bold",
-        marginBottom: 20
     },
 
     buttonText: {
         color: "white",
-        textAlign: "center"
+        textAlign: "center",
+        fontSize: moderateScale(20)
     },
 
     input: {
-        width: 300,
-        marginBottom: 10,
-        borderWidth: 1,
+        width: scale(300),
+        marginBottom: moderateScale(10),
+        borderWidth: moderateScale(1),
         borderColor: "gainsboro",
-        borderRadius: 10,
-        padding: 10
+        borderRadius: moderateScale(10),
+        padding: moderateScale(10),
+        fontSize: moderateScale(20)
     },
 
     button: {
         textAlign: "center",
-        width: 300,
-        marginBottom: 10,
-        borderWidth: 1,
+        width: scale(300),
+        marginBottom: moderateScale(10),
+        borderWidth: moderateScale(1),
         borderColor: "gainsboro",
-        borderRadius: 5,
-        padding: 10,
-        fontSize: 20,
+        borderRadius: moderateScale(5),
+        padding: moderateScale(10),
+        fontSize: moderateScale(25),
         fontWeight: "bold",
         backgroundColor: "#00bcd4",
         color: "white"
@@ -157,28 +158,30 @@ const styles = StyleSheet.create({
         padding: "5%",
     },
 
-    animationFrame: {
-        marginTop: "20%",
-        height: "30%",
-        alignContent: "center",
+    animation: {
+        width: scale(350),
+        height: verticalScale(210),
+        padding: scale(10),
+        borderRadius: moderateScale(50),
         display: "flex",
-        alignItems: "center",
-        shadowRadius: 10,
-        shadowOpacity: 10,
+        shadowRadius: moderateScale(10),
+        shadowOpacity: moderateScale(10),
         shadowOffset: {
-            width: 20,
-            height: 10
-        }
+            width: moderateScale(20),
+            height: moderateScale(10)
+        },
+        position: "absolute",
+        top: moderateScale(20),
     },
 
     header: {
-        fontSize: 17.8,
+        fontSize: moderateScale(17.8),
     },
 
     footer: {
         width: "100%",
         display: "flex",
-        marginTop: "0%",
+        marginTop: moderateScale(275),
         justifyContent: "center",
         alignItems: "center",
     },

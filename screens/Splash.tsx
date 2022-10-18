@@ -4,7 +4,7 @@ import { View, StyleSheet, SafeAreaView, Text, TouchableOpacity } from "react-na
 
 import LottieView from 'lottie-react-native';
 
-import { scale, verticalScale, moderateScale, deviceWidth, deviceHeight } from "../utils";
+import { scale, verticalScale, moderateScale } from "../utils";
 
 interface Props {
     navigation: NavigationProp<any>;
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
 
     content: {
         padding: "5%",
-        marginTop: moderateScale(400),
+        marginTop: moderateScale(400)
     },
 
     animation: {
@@ -87,7 +87,6 @@ const styles = StyleSheet.create({
             width: moderateScale(20),
             height: moderateScale(10)
         },
-
         position: "absolute",
         bottom: moderateScale(100),
     },
