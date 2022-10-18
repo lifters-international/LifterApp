@@ -1,7 +1,10 @@
 import { NavigationProp } from "@react-navigation/native";
 import React from "react";
-import { View, StyleSheet, SafeAreaView, Text, Image, TouchableOpacity } from "react-native";
+import { View, StyleSheet, SafeAreaView, Text, TouchableOpacity } from "react-native";
+
 import LottieView from 'lottie-react-native';
+
+import { scale, verticalScale, moderateScale, deviceWidth, deviceHeight } from "../utils";
 
 interface Props {
     navigation: NavigationProp<any>;
@@ -16,14 +19,14 @@ const Splash: React.FC<Props> = ({ navigation }) => {
         <View style={styles.container}>
             <SafeAreaView>
                 <View style={styles.content}>
-                    <View style={styles.animationFrame}>
-                        <LottieView
-                            source={require("../assets/LifterNavBar.json")}
-                            autoPlay
-                            loop
-                            speed={0.2}
-                        />
-                    </View>
+                    <LottieView
+                        source={require("../assets/LifterNavBar.json")}
+                        autoPlay
+                        loop
+                        speed={0.2}
+                        style={styles.animation}
+                        resizeMode="cover"
+                    />
                     <View>
                         <Text style={styles.Liftersheader}>LIFTERS</Text>
                     </View>
@@ -39,11 +42,11 @@ const Splash: React.FC<Props> = ({ navigation }) => {
                                 width: "100%",
                                 display: "flex",
                                 alignItems: "center",
-                                marginTop: 50,
+                                marginTop: moderateScale(50),
                             }}
                         >
                             <TouchableOpacity onPress={nextPage} style={styles.button}>
-                                <Text style={{color: "white"}}>Get Started</Text>
+                                <Text style={{ color: "white", fontSize: moderateScale(30) }}>Get Started</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -69,24 +72,28 @@ const styles = StyleSheet.create({
 
     content: {
         padding: "5%",
+        marginTop: moderateScale(400),
     },
 
-    animationFrame: {
-        marginTop: "20%",
-        height: "55%",
-        alignContent: "center",
+    animation: {
+        width: scale(350),
+        height: verticalScale(210),
+        padding: scale(10),
+        borderRadius: moderateScale(50),
         display: "flex",
-        alignItems: "center",
-        shadowRadius: 10,
-        shadowOpacity: 10,
+        shadowRadius: moderateScale(10),
+        shadowOpacity: moderateScale(10),
         shadowOffset: {
-            width: 20,
-            height: 10
-        }
+            width: moderateScale(20),
+            height: moderateScale(10)
+        },
+
+        position: "absolute",
+        bottom: moderateScale(100),
     },
 
     Liftersheader: {
-        fontSize: 40,
+        fontSize: moderateScale(40),
         fontWeight: "bold",
         textAlign: "center",
         color: "red",
@@ -95,7 +102,7 @@ const styles = StyleSheet.create({
     },
 
     header: {
-        fontSize: 17.8,
+        fontSize: moderateScale(17.8),
         fontWeight: "bold",
         color: "red"
     },
