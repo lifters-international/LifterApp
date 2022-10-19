@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Logo, LifterMatch, Loading, AppLayout } from "../components";
+import { LifterMatch, Loading, AppLayout } from "../components";
 import { useSelector } from "react-redux";
 import { useGetUserMatches } from '../hooks';
 import { useAppDispatch } from "../redux";

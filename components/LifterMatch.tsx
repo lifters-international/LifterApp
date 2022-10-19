@@ -1,8 +1,7 @@
 import React from "react";
 import { IconFill } from "@ant-design/icons-react-native";
 import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
-import { BlurView } from 'expo-blur';
-import { returnImageSource } from "../utils";
+import { returnImageSource, scale, verticalScale, moderateScale } from "../utils";
 import { useAppDispatch } from "../redux";
 import { acceptDeclineMatchThunk } from "../redux/features/auth"; 
 
@@ -31,12 +30,12 @@ const LifterMatch: React.FC<LifterMatchProps> = ( { id, userToken, username, age
         <View style={styles.container}>
             <View style={styles.lifterImageContainer}>
                 <Image source={ returnImageSource(profilePicture as string) } style={styles.lifterImages} resizeMode="contain"/>
-                <BlurView intensity={0} tint="light" style={styles.liftersDetails}>
+                <View style={styles.liftersDetails}>
                     <Text style={{...styles.liftersDetailsText, ...styles.lifterDetailsName}}>{ username }, { age }</Text>
                     <TouchableOpacity onPress={() => Alert.alert(`${username}'s Bio`, bio)}>
                         <Text style={{...styles.liftersDetailsText, ...styles.lifterDetailsBio}}>{ shortenedBio }</Text>
                     </TouchableOpacity>
-                </BlurView>
+                </View>
             </View>
 
             <View style={styles.lifterMatchActionContainer}>
@@ -46,7 +45,7 @@ const LifterMatch: React.FC<LifterMatchProps> = ( { id, userToken, username, age
                         if (next) next()
                     }: undefined
                 }>
-                    <Text style={{color: "rgb(255, 155, 5)", textAlign: "center", fontSize: 20}}>X</Text>
+                    <Text style={{color: "rgb(255, 155, 5)", textAlign: "center", fontSize: moderateScale(20) }}>X</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={{ ...styles.circle, ...styles.lifterMatchHeart }} onPress={
@@ -55,7 +54,7 @@ const LifterMatch: React.FC<LifterMatchProps> = ( { id, userToken, username, age
                         if (next) next()
                     }: undefined
                 }>
-                    <IconFill name="heart" style={{color: "#fe005d", textAlign: "center", fontSize: 20}}/>
+                    <IconFill name="heart" style={{color: "#fe005d", textAlign: "center", fontSize: moderateScale(20) }}/>
                 </TouchableOpacity>
             </View>
         </View>
@@ -73,8 +72,9 @@ LifterMatch.defaultProps = {
 
 const styles = StyleSheet.create({
     container: {
-        width: "70%",
-        marginTop: "20%",
+        width: scale(200),
+        height: verticalScale(500),
+        marginTop: verticalScale(70),
         marginLeft: "auto",
         marginRight: "auto"
     },
@@ -83,29 +83,30 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-around",
-        alignItems: "center",
-        marginLeft: "31.3%"
+        alignItems: "center"
     },
 
     lifterImages: {
-        marginLeft: 10,
-        borderWidth: 2,
+        borderWidth: moderateScale(2),
         borderColor: "gainsboro",
-        borderRadius: 20,
-        width: 270,
-        height: 420
+        borderRadius: moderateScale(20),
+        width: scale(270),
+        height: verticalScale(420),
+        position: "absolute",
+        right: scale(-35),
+        top: verticalScale(20)
     },
 
     liftersDetails: {
-        position: "relative",
-        backgroundColor: "rgba(247, 112, 112, 0.562)",
-        top: 190,
-        left: -85,
-        width: 270,
-        height: 45,
+        position: "absolute",
+        backgroundColor: "#f99f9f",
+        top: verticalScale(395),
+        left: scale(-35),
+        width: scale(270),
+        height: verticalScale(45),
         borderRadius: 0,
-        borderBottomRightRadius: 20,
-        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: moderateScale(20),
+        borderBottomLeftRadius: moderateScale(20),
         textAlign: "left"
     },
 
@@ -115,10 +116,10 @@ const styles = StyleSheet.create({
     },
 
     lifterDetailsName: {
-        fontSize: 20,
+        fontSize: moderateScale(20),
         fontWeight: "bold",
-        marginTop: 1,
-        marginLeft: 25,
+        marginTop: verticalScale(1),
+        marginLeft: scale(25),
     },
 
     lifterDetailsBio: {
@@ -135,25 +136,27 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-around",
         alignItems: "center",
-        marginTop: 20,
+        marginTop: verticalScale(20),
         marginLeft: "auto",
         marginRight: "auto",
-        width: "100%"
+        width: "100%",
+        position: "absolute",
+        bottom: 0,
     },
 
     circle: {
-        height: 45,
-        width: 45,
-        borderRadius: 50,
-        padding: 10,
+        height: verticalScale(45),
+        width: scale(45),
+        borderRadius: moderateScale(50),
+        padding: moderateScale(10),
         textAlign: "center",
-        marginLeft: 20,
-        marginBottom: 10
+        marginLeft: scale(20),
+        marginBottom: verticalScale(10)
     },
 
     liftMatchX: {
         backgroundColor: "hsl(35, 86%, 86%)",
-        fontSize: 50,
+        fontSize: moderateScale(50),
         textAlign: "center"
     },
 
