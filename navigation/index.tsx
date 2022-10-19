@@ -12,11 +12,12 @@ import { useSelector } from "react-redux";
 import { Home, Profile, PasswordChange, FoodScreen, FoodAnalystics, Subscription, SubscriptionCheckOut, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
 import { View, Image } from "react-native";
 import Lottie from 'lottie-react-native';
-import { getFromStore, returnImageSource } from "../utils";
+import { getFromStore, returnImageSource, scale, verticalScale, moderateScale } from "../utils";
 import { useAppDispatch } from "../redux";
 import { VerifyToken, setToken, logIn, LoginAsyncThunkResult, setAppReady, setProfilePicture, setAuthState, getSignedInUser, GetSignedUserAsyncThunkResult } from "../redux/features/auth";
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
+import { TabBar } from './Tab';
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -56,130 +57,136 @@ const FoodStackScreen = () => {
 
 function TabNavigator() {
     const { profilePicture, AppReady } = useSelector((state: any) => state.Auth);
+    const viewStyle = {
+        
+    }
 
     return (
         AppReady ? (
-            <Tab.Navigator
-                initialRouteName="Home"
-                activeColor="#f0edf6"
-                inactiveColor="#000000"
-                barStyle={{ backgroundColor: "white" }}
-                labeled={false}
-            >
-                <Tab.Screen
-                    name="Home"
-                    component={Home}
-                    options={{
-                        tabBarLabel: "Home",
-                        tabBarIcon: () => (
-                            <View>
+            <TabBar 
+                initialTab="Home"
+                tabs={[
+                    {
+                        name: "Home",
+                        component: <Home />,
+                        options: {
+                            label: "Home",
+                            icon: (
+                                <View>
                                 <FontAwesome 
                                     name="home" 
-                                    size={30} 
+                                    size={moderateScale(30)} 
                                     color="red" 
                                     style={{
-                                        width: 30,
-                                        height: 30,
+                                        width: scale(30),
+                                        height: verticalScale(30),
                                         textDecorationColor: "black",
+                                        position: "relative",
+                                        top: moderateScale(2),
                                     }}
                                 />
                             </View>
-                        )
-                    }}
-                />
-
-                <Tab.Screen
-                    name="Search"
-                    component={Search}
-                    options={{
-                        tabBarLabel: "Search",
-                        tabBarIcon: () => (
-                            <View>
+                            )
+                                }
+                    },
+                    {
+                        name: "Search",
+                        component: <Search />,
+                        options: {
+                            label: "Search",
+                            icon: (
+                                <View>
                                 <Ionicons
                                     name="search"
-                                    size={30}
+                                    size={moderateScale(30)}
                                     color="red"
                                     style={{
-                                        width: 30,
-                                        height: 30,
+                                        width: scale(30),
+                                        height: verticalScale(30),
                                         textDecorationColor: "black",
+                                        position: "relative",
+                                        top: moderateScale(2),
                                     }}
                                 />
                             </View>
-                        )
-                    }}
-                />
-
-                <Tab.Screen
-                    name="Message"
-                    component={MessagesStackScreen}
-                    options={{
-                        tabBarLabel: "Message",
-                        tabBarIcon: () => (
-                            <View>
+                            )
+                        }
+                    },
+                    {
+                        name: "Message",
+                        component: <MessagesStackScreen />,
+                        options: {
+                            label: "Message",
+                            icon: (
+                                <View>
                                 <Lottie
                                     loop
                                     autoPlay
                                     speed={1}
                                     source={require("../assets/messagingIcon.json")}
                                     style={{
-                                        width: 30,
-                                        height: 30,
+                                        width: scale(30),
+                                        height: verticalScale(30),
+                                        position: "relative",
                                     }}
                                 />
                             </View>
-                        )
-                    }}
-                />
-
-                <Tab.Screen
-                    name="FoodStack"
-                    component={FoodStackScreen}
-                    options={{
-                        tabBarLabel: "FoodTab",
-                        tabBarIcon: () => (
-                            <View>
+                            )
+                        }
+                    },
+                    {
+                        name: "FoodStack",
+                        component: <FoodStackScreen />,
+                        options: {
+                            label: "FoodTab",
+                            icon: (
+                                <View>
                                 <Ionicons 
                                     name="fast-food" 
-                                    size={28} 
+                                    size={moderateScale(28)} 
                                     color="red" 
                                     style={{
-                                        width: 30,
-                                        height: 30,
+                                        width: scale(30),
+                                        height: verticalScale(30),
                                         textDecorationColor: "black",
+                                        position: "relative",
+                                        top: moderateScale(2),
                                     }}
                                 />
                             </View>
-                        )
-                    }}
-                />
-
-                <Tab.Screen
-                    name="Profile"
-                    component={ProfileStackScreen}
-                    options={{
-                        tabBarLabel: "Profile",
-                        tabBarIcon: () => (
-                            <View>
+                            )
+                        }
+                    },
+                    {
+                        name: "Profile",
+                        component: <ProfileStackScreen />,
+                        options: {
+                            label: "Profile",
+                            icon: (
+                                <View>
                                 <Image
                                     source={
-                                        returnImageSource(profilePicture, { width: 40, height: 40, borderRadius: 30 })
+                                        returnImageSource(profilePicture, { width: scale(40), height: verticalScale(40), borderRadius: moderateScale(30), borderWidth: moderateScale(2) })
                                     }
                                     style={{
-                                        padding: 5,
-                                        borderRadius: 30,
-                                        borderWidth: 1,
+                                        padding: moderateScale(4),
+                                        borderRadius: moderateScale(30),
+                                        borderWidth: moderateScale(2),
                                         borderColor: "red",
-                                        width: 40,
-                                        height: 40
+                                        width: scale(40),
+                                        height: verticalScale(40),
+                                        position: "relative",
+                                        top: moderateScale(7),
                                     }}
                                     resizeMode="contain"
                                 />
                             </View>
-                        )
-                    }}
-                />
-            </Tab.Navigator>
+                            )
+                        }
+                    },
+                ]}
+                
+            />
         ) : null
     );
 }
