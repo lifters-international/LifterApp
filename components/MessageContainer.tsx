@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { AcceptedUserMatches, Message, MessageWhoSent, MessageMetaDataType, returnImageSource } from '../utils';
+import { AcceptedUserMatches, returnImageSource, scale, verticalScale, moderateScale } from '../utils';
 
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 
 import { Link } from "@react-navigation/native";
 
@@ -36,7 +36,7 @@ const MessageContainer: React.FC<MessageContainerProps> = ({ token, matches }) =
                                     <View style={{ flex: 1}}>
                                         <Image 
                                             source={ 
-                                                returnImageSource(message.profilePicture, { width: 40, height: 40, borderRadius: 30 })
+                                                returnImageSource(message.profilePicture, { width: scale(40), height: verticalScale(40), borderRadius: moderateScale(30) })
                                             } 
                                             style={styles.MessageMatchesProfilePicture}
                                             resizeMode="contain"
@@ -67,67 +67,68 @@ const MessageContainer: React.FC<MessageContainerProps> = ({ token, matches }) =
 
 const styles = StyleSheet.create({
     MessageContainer: {
-        marginTop: 4
+        marginTop: moderateScale(4)
     },
 
     MessageHolderContext: {
         height: "78%",
-        borderTopWidth: 1,
+        borderTopWidth: moderateScale(1),
         borderTopColor: "gainsboro",
-        borderRadius: 5
+        borderRadius: moderateScale(5)
     }, 
 
     MessageMatchesProfilePicture: {
-        width: 60,
-        height: 60,
-        padding: 5,
-        borderRadius: 30,
-        borderWidth: 1,
+        width: scale(60),
+        height: verticalScale(60),
+        padding: moderateScale(5),
+        borderRadius: moderateScale(30),
+        borderWidth: moderateScale(1),
         borderColor: "red"
     },
 
     MessageMatches: {
-        borderBottomWidth: 1,
+        borderBottomWidth: moderateScale(1),
         borderBottomColor: "gainsboro",
-        borderRadius: 5,
-        padding: 5,
+        borderRadius: moderateScale(5),
+        padding: moderateScale(5),
         display: "flex",
         flexDirection: "row",
-        gap: 10,
-        marginTop: 10
+        gap: moderateScale(10),
+        marginTop: moderateScale(10)
     },
 
     MessageMatchesContext: {
-        flex: 3
+        flex: moderateScale(3),
+
     },
 
     MessageMatchesContextNameHeader: {
         display: "flex",
         flexDirection: "row",
-        marginTop: 4
+        marginTop: moderateScale(4)
     },
 
     MessageMatchesContextName: {
         fontWeight: "bold",
-        fontSize: 20,
+        fontSize: moderateScale(20),
         color: "black"
     },
 
     circle: {
-        height: 25,
-        width: 25,
-        borderWidth: 1,
-        borderRadius: 50,
+        height: verticalScale(25),
+        width: scale(25),
+        borderWidth: moderateScale(1),
+        borderRadius: moderateScale(50),
         borderColor: "red",
-        padding: 10,
+        padding: moderateScale(10),
         textAlign: "center",
         backgroundColor: "red",
         color: "white",
         alignItems: "center",
         justifyContent: "center",
         position: "relative",
-        top: -4,
-        left: 5
+        top: verticalScale(-4),
+        left: scale(5)
     },
 
     circleText: {
@@ -135,15 +136,15 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
-        fontSize: 12,
-        padding: 10,
+        fontSize: moderateScale(12),
+        padding: moderateScale(10),
         position: "relative",
-        top: -6,
-        left: -3
+        top: verticalScale(-6),
+        left: scale(-3)
     },
 
     MessageMatchesContextMessage: {
-        fontSize: 17,
+        fontSize: moderateScale(17),
         color: "rgb(139, 139, 139)"
     },
 

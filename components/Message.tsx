@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { View, Text, Image, StyleSheet } from 'react-native';
-import { Video, AVPlaybackStatus, ResizeMode } from 'expo-av';
+import { Video, ResizeMode } from 'expo-av';
 
-import { Message, MessageWhoSent, MessageMetaDataType, returnImageSource, UserMessageStatus } from '../utils';
+import { Message, MessageWhoSent, MessageMetaDataType, returnImageSource, UserMessageStatus, scale, verticalScale, moderateScale } from '../utils';
 
 export type MessageProps = {
     CurrentWhoSent: MessageWhoSent;
@@ -46,32 +46,34 @@ const styles = StyleSheet.create({
     },
 
     MessageViewYou: {
-        maxWidth: 200,
+        maxWidth: scale(200),
         boxShadow: "0 0 5px #ccc",
         alignSelf: 'flex-end',
-        borderWidth: 1,
+        borderWidth: moderateScale(1),
         borderColor: "rgb(29, 134, 253)",
         backgroundColor: "rgb(29, 134, 253)",
-        borderRadius: 10,
-        padding: 10,
+        borderRadius: moderateScale(10),
+        padding: moderateScale(10),
     },
 
     MessageViewThey: {
         backgroundColor: "black",
-        borderWidth: 1,
-        borderRadius: 10,
-        padding: 10,
+        borderWidth: moderateScale(1),
+        borderRadius: moderateScale(10),
+        padding: moderateScale(10),
         boxShadow: "0 0 5px #ccc",
         alignSelf: 'flex-start',
-        maxWidth: 200
+        maxWidth: scale(200)
     },
 
     YouSentMessage: {
         color: "white",
+        fontSize: moderateScale(16),
     },
 
     TheySentMessage: {
-        color: "white"
+        color: "white", 
+        fontSize: moderateScale(16),
     },
 
     MessageImage: {},

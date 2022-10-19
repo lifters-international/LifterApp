@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 
-import { Message, MessageWhoSent } from "../utils";
+import { Message, MessageWhoSent, verticalScale, moderateScale } from "../utils";
 
 import MessageView from "./Message";
 
@@ -23,7 +23,7 @@ const MessageBoxContent : React.FC<MessageBoxContentProps> = ({ messages, whoSen
     }
 
     return (
-        <ScrollView style={{ ...styles.MessageBoxContent, ...styles.Content }} ref={contentRef} horizontal={false} onContentSizeChange={() => contentRef.current?.scrollToEnd({animated: true})}>
+        <ScrollView style={{ ...styles.MessageBoxContent, ...styles.Content }} ref={contentRef} horizontal={false} onContentSizeChange={() => contentRef.current?.scrollToEnd({ animated: true })}>
             {
                 messages.map((message, index) => {
 
@@ -66,24 +66,24 @@ const MessageBoxContent : React.FC<MessageBoxContentProps> = ({ messages, whoSen
 
 const styles = StyleSheet.create({
     MessageBoxContent: {
-        borderWidth: 1,
+        borderWidth: moderateScale(1),
         borderColor: 'gainsboro',
-        height: 440
+        height: verticalScale(440)
     },
 
     NoMessages: {
         textAlign: 'center',
-        fontSize: 30,
+        fontSize: moderateScale(30),
         position: 'relative',
-        top: 200
+        top: verticalScale(200)
     },
 
     Content: {
-        
+        height: verticalScale(470)
     },
 
     divideTheySentYouSent: {
-        marginTop: 10
+        marginTop: moderateScale(10)
     }
 });
 

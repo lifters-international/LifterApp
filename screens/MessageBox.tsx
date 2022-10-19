@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useSelector } from "react-redux";
 
 import { AppLayout, MessageBoxContent, Loading } from "../components";
-import { returnImageSource, MessageWhoSent, MessageMetaDataType } from "../utils";
+import { returnImageSource, MessageWhoSent, MessageMetaDataType, scale, verticalScale, moderateScale } from "../utils";
 import { useGetUserMessages } from "../hooks";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -26,16 +26,16 @@ const MessageBox: React.FC<Props> = ({ navigation, route }) => {
         <AppLayout>
             <View style={styles.HeaderContainer}>
                 <TouchableOpacity style={styles.HeaderIconContainer} onPress={() => navigation.goBack()} >
-                    <Ionicons name="arrow-back" size={30} color="black" style={styles.HeaderIcon} />
+                    <Ionicons name="arrow-back" size={moderateScale(30)} color="black" style={styles.HeaderIcon} />
                 </TouchableOpacity>
                 <View style={styles.HeaderDetailsContainer}>
-                    <Image source={returnImageSource(profilePicture, { width: 65, height: 65, borderRadius: 30 })} resizeMode="contain" style={styles.HeaderDetailsImage} />
+                    <Image source={returnImageSource(profilePicture, { width: scale(65), height: verticalScale(65), borderRadius: moderateScale(30) })} resizeMode="contain" style={styles.HeaderDetailsImage} />
                     <Text style={styles.HeaderDetailsText}>{name}</Text>
                 </View>
             </View>
 
 
-            <KeyboardAwareScrollView style={{ height: "100%" }} extraScrollHeight={90}>
+            <KeyboardAwareScrollView style={{ height: "100%" }} extraScrollHeight={verticalScale(90)}>
                 <MessageBoxContent
                     messages={userMessages.userMessages || []}
                     whoSent={userMessages.whoSent as MessageWhoSent}
@@ -48,7 +48,7 @@ const MessageBox: React.FC<Props> = ({ navigation, route }) => {
                         if (messageState.length > 0) userMessages.sendMessage!(token, matchId, messageState, MessageMetaDataType.TEXT);
                         setMessageState("");
                     }}>
-                        <Ionicons name="send" size={30} color="black" style={styles.MessageBoxSendButtonIcon} />
+                        <Ionicons name="send" size={moderateScale(30)} color="black" style={styles.MessageBoxSendButtonIcon} />
                     </TouchableOpacity>
                 </View>
             </KeyboardAwareScrollView>
@@ -61,50 +61,50 @@ const styles = StyleSheet.create({
     HeaderContainer: {
         display: 'flex',
         flexDirection: 'row',
-        borderBottomWidth: 1,
+        borderBottomWidth: moderateScale(1),
         borderColor: 'gainsboro',
     },
 
     HeaderIconContainer: {
-        flex: 1
+        flex: moderateScale(1)
     },
 
     HeaderIcon: {
-        marginTop: 20
+        marginTop: moderateScale(20)
     },
 
     HeaderDetailsContainer: {
-        flex: 1.4
+        flex: moderateScale(1.4)
     },
 
     HeaderDetailsImage: {
-        padding: 5,
-        borderRadius: 30,
-        borderWidth: 1,
+        padding: moderateScale(5),
+        borderRadius: moderateScale(30),
+        borderWidth: moderateScale(1),
         borderColor: "red"
     },
 
     HeaderDetailsText: {
-        fontSize: 20,
+        fontSize: moderateScale(20),
         fontWeight: 'bold',
         textAlign: 'center',
         position: "relative",
-        right: 75
+        right: moderateScale(75)
     },
 
     MessageBoxInput: {
-        borderWidth: 1,
+        borderWidth: moderateScale(1),
         borderColor: 'gainsboro',
-        padding: 5,
+        padding: moderateScale(5),
         display: "flex",
         flexDirection: "row"
     },
 
     MessageBoxInputText: {
-        flex: 3,
-        fontSize: 15,
-        width: 330,
-        maxHeight: 60
+        flex: moderateScale(3),
+        fontSize: moderateScale(15),
+        width: scale(330),
+        maxHeight: verticalScale(60)
     },
 
     MessageBoxSendButton: {},
