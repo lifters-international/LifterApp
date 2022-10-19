@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { StyleSheet, View, ScrollView, Text } from "react-native";
 
-import { Food } from "../utils";
+import { Food, verticalScale, moderateScale } from "../utils";
 
 import { useAddFoodToLiftersDailyFood } from "../hooks";
 
@@ -48,7 +48,7 @@ const FoodView: React.FC<Props> = ({ id, name, calories, servingSize, nutritionF
                         title={statement}
                         onPress={() => addFoodToLiftersDailyFood(id)}
                         style={styles.button}
-                        textStyle={{ textAlign: 'center', color: 'white', fontSize: 20 }}
+                        textStyle={{ textAlign: 'center', color: 'white', fontSize: moderateScale(20) }}
                     />
                 ) : null
             }
@@ -63,23 +63,23 @@ FoodView.defaultProps = {
 const styles = StyleSheet.create({
     container: {
         borderColor: 'gainsboro',
-        padding: 15,
+        padding: moderateScale(15),
         marginRight: "auto",
         marginLeft: "auto",
-        marginBottom: 15,
-        marginTop: 10,
-        borderRadius: 10,
+        marginBottom: moderateScale(15),
+        marginTop: moderateScale(10),
+        borderRadius: moderateScale(10),
         display: 'flex',
         flexDirection: 'column',
         width: '90%',
-        borderWidth: 2,
+        borderWidth: moderateScale(2),
     },
 
     foodName: {
-        fontSize: 20,
+        fontSize: moderateScale(20),
         fontWeight: 'bold',
         textAlign: 'center',
-        marginBottom: 10,
+        marginBottom: moderateScale(10),
         fontStyle: 'italic',
         textDecorationLine: "underline"
     },
@@ -91,30 +91,30 @@ const styles = StyleSheet.create({
     },
 
     foodText: {
-        fontSize: 15
+        fontSize: moderateScale(15)
     },
 
     foodTextImportant: {
-        fontSize: 15,
+        fontSize: moderateScale(15),
         fontWeight: 'bold'
     },
 
     nutritionFacts: {
-        maxHeight: 100,
-        marginTop: 10,
-        marginBottom: 10,
-        borderWidth: 1,
+        maxHeight: verticalScale(100),
+        marginTop: moderateScale(10),
+        marginBottom: moderateScale(10),
+        borderWidth: moderateScale(1),
         borderColor: 'gainsboro',
-        borderRadius: 5,
-        padding: 5
+        borderRadius: moderateScale(5),
+        padding: moderateScale(5)
     },
 
     button: {
-        marginTop: 10,
-        marginBottom: 10,
+        marginTop: moderateScale(10),
+        marginBottom: moderateScale(10),
         backgroundColor: 'dodgerblue',
-        padding: 10,
-        borderRadius: 10,
+        padding: moderateScale(10),
+        borderRadius: moderateScale(10),
         width: '100%'
     }
 });

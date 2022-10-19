@@ -10,6 +10,8 @@ import { useSelector } from "react-redux";
 
 import { AntDesign } from '@expo/vector-icons';
 
+import { scale, moderateScale } from "../utils";
+
 interface Props {
     navigation: NavigationProp<any>;
 }
@@ -67,29 +69,29 @@ const styles = StyleSheet.create({
     },
 
     SearchBar: {
-        marginTop: 5,
+        marginTop: moderateScale(5),
         width: "85%",
         display: "flex",
         flexDirection: "row",
-        borderRadius: 5,
-        padding: 2
+        borderRadius: moderateScale(5),
+        padding: moderateScale(2)
     },
 
     SearchInput: {
         width: "100%",
-        borderWidth: 2,
+        borderWidth: moderateScale(2),
         borderColor: "black",
-        borderRadius: 5,
-        padding: 5,
+        borderRadius: moderateScale(5),
+        padding: moderateScale(5),
         color: "black"
     },
 
     barChart: {
-        width: 50
+        width: scale(50)
     },
 
     FoodContainer: {
-        marginTop: 10,
+        marginTop: moderateScale(10),
         marginBottom: "-30%",
         width: "100%",
         height: "100%"
