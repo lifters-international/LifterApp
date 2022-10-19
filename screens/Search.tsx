@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import { StyleSheet, View, TextInput, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { Loading, AppLayout } from "../components";
 import { useSearchQuery, useAcceptDeclineMatch } from '../hooks';
-import { returnImageSource, SubscriptionType } from "../utils";
+import { returnImageSource, SubscriptionType, scale, verticalScale, moderateScale } from "../utils";
 import { useSelector } from "react-redux";
 import { IconFill } from "@ant-design/icons-react-native";
-import { BlurView } from 'expo-blur';
 
 const Search: React.FC = () => {
     const { token } = useSelector((state: any) => state.Auth);
@@ -50,11 +49,11 @@ const Search: React.FC = () => {
                                                         />
                                                         <Text style={styles.name}>{lifter.username}</Text>
                                                         <TouchableOpacity style={styles.liftMatchX} onPress={() => acceptMatch(false, lifter.id)}>
-                                                            <Text style={{ color: "rgb(255, 155, 5)", textAlign: "center", fontSize: 20 }}>X</Text>
+                                                            <Text style={{ color: "rgb(255, 155, 5)", textAlign: "center", fontSize: moderateScale(20) }}>X</Text>
                                                         </TouchableOpacity>
 
                                                         <TouchableOpacity style={styles.lifterMatchHeart} onPress={() => acceptMatch(true, lifter.id)}>
-                                                            <IconFill name="heart" style={{ color: "#fe005d", textAlign: "center", fontSize: 20 }} />
+                                                            <IconFill name="heart" style={{ color: "#fe005d", textAlign: "center", fontSize: moderateScale(20) }} />
                                                         </TouchableOpacity>
                                                     </View>
                                                 )
@@ -64,11 +63,11 @@ const Search: React.FC = () => {
                                 </ScrollView>
                                 {
                                     queryResult.userSubscription === SubscriptionType.BASIC ? (
-                                        <BlurView tint="light" style={styles.SubscriptionView}>
+                                        <View style={styles.SubscriptionView}>
                                             <View style={styles.SubscriptionText}>
-                                                <Text>Upgrade to Pro. To See Lifters</Text>
+                                                <Text style={{ textAlign: "center", fontSize: moderateScale(20) }}>Upgrade to Pro. To See Lifters</Text>
                                             </View>
-                                        </BlurView>
+                                        </View>
                                     ) : null
                                 }
                             </View>
@@ -85,34 +84,34 @@ const Search: React.FC = () => {
 
 const styles = StyleSheet.create({
     Header: {
-        borderBottomWidth: 2,
+        borderBottomWidth: moderateScale(2),
         borderColor: "gainsboro",
-        borderRadius: 10,
-        padding: 10,
+        borderRadius: moderateScale(10),
+        padding: moderateScale(10),
     },
 
     HeaderText: {
-        fontSize: 30,
+        fontSize: moderateScale(30),
         fontWeight: "bold",
         color: "black",
         textAlign: "center",
     },
 
     SearchBar: {
-        marginTop: 5,
+        marginTop: verticalScale(5),
         width: "100%",
         display: "flex",
         flexDirection: "row",
-        borderRadius: 5,
-        padding: 2
+        borderRadius: moderateScale(5),
+        padding: moderateScale(2)
     },
 
     SearchInput: {
         width: "100%",
-        borderWidth: 2,
+        borderWidth: moderateScale(2),
         borderColor: "black",
-        borderRadius: 5,
-        padding: 5,
+        borderRadius: moderateScale(5),
+        padding: moderateScale(5),
         color: "black"
     },
 
@@ -122,36 +121,36 @@ const styles = StyleSheet.create({
 
     LifterMatches: {
         backgroundColor: "#f5f5f5",
-        borderWidth: 1,
+        borderWidth: moderateScale(1),
         borderColor: "#e5e5e5",
-        borderRadius: 4,
-        padding: 10,
+        borderRadius: moderateScale(4),
+        padding: moderateScale(10),
         height: "100%"
     },
 
     SearchResult: {
-        borderWidth: 1,
+        borderWidth: moderateScale(1),
         borderColor: "gainsboro",
         backgroundColor: "white",
-        borderRadius: 10,
-        padding: 10,
+        borderRadius: moderateScale(10),
+        padding: moderateScale(10),
         display: "flex",
         flexDirection: "row",
         gap: "1%",
-        marginBottom: 10
+        marginBottom: moderateScale(10)
     },
 
     SearchResultImage: {
-        width: 50,
-        height: 50,
-        padding: 5,
-        borderRadius: 30,
-        borderWidth: 1,
+        width: scale(50),
+        height: verticalScale(50),
+        padding: moderateScale(5),
+        borderRadius: moderateScale(30),
+        borderWidth: moderateScale(1),
         borderColor: "red"
     },
 
     name: {
-        fontSize: 20,
+        fontSize: moderateScale(20),
         fontWeight: "bold",
         marginTop: "2.5%",
         marginLeft: "2.5%"
@@ -159,29 +158,29 @@ const styles = StyleSheet.create({
 
     liftMatchX: {
         marginTop: "2%",
-        height: 25,
-        width: 50,
-        borderRadius: 50,
-        borderWidth: 1,
+        height: verticalScale(25),
+        width: scale(50),
+        borderRadius: moderateScale(50),
+        borderWidth: moderateScale(1),
         borderColor: "rgb(255, 155, 5)",
         marginLeft: "1.5%"
     },
 
     lifterMatchHeart: {
         marginTop: "2%",
-        height: 25,
-        width: 50,
-        borderRadius: 50,
-        borderWidth: 1,
+        height: verticalScale(25),
+        width: scale(50),
+        borderRadius: moderateScale(50),
+        borderWidth: moderateScale(1),
         borderColor: "red",
         marginLeft: "1.5%"
     },
 
     NoLifters: {
-        borderWidth: 2,
+        borderWidth: moderateScale(2),
         borderColor: "gainsboro",
-        borderRadius: 10,
-        padding: 10,
+        borderRadius: moderateScale(10),
+        padding: moderateScale(10),
         marginTop: "50%",
         width: "70%",
         marginLeft: "auto",
@@ -189,7 +188,7 @@ const styles = StyleSheet.create({
     },
 
     NoLiftersText: {
-        fontSize: 30,
+        fontSize: moderateScale(30),
         fontWeight: "bold",
         color: "black",
         textAlign: "center",
@@ -203,12 +202,13 @@ const styles = StyleSheet.create({
     },
 
     SubscriptionText: {
-        position: "absolute",
+        position: "relative",
         top: "25%",
-        left: "22%",
+        left: "10%",
+        width: scale(280),
         backgroundColor: "white",
-        padding: 10,
-        borderRadius: 10
+        padding: moderateScale(10),
+        borderRadius: moderateScale(10)
     }
 })
 
