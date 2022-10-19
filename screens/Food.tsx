@@ -33,7 +33,7 @@ const Food: React.FC<Props> = ({ navigation }) => {
                     <View style={styles.SearchBar}>
                         <TextInput placeholder="Search Lifters Foods" style={styles.SearchInput} value={search} onChangeText={query => setSearch(query)} />
                     </View>
-                    <AntDesign name="barschart" size={40} color="black" style={styles.barChart} onPress={() => navigation.navigate("FoodAnalystics")}/>
+                    <AntDesign name="barschart" size={moderateScale(40)} color="black" style={styles.barChart} onPress={() => navigation.navigate("FoodAnalystics")}/>
                 </View>
 
                 <ScrollView style={styles.FoodContainer}
