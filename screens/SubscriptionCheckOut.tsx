@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 import { NavigationProp } from "@react-navigation/native";
 
-import { fetchGraphQl } from "../utils";
+import { fetchGraphQl, scale, verticalScale, moderateScale } from "../utils";
 
 import { subscribeToProLifter } from "../graphQlQuieries";
 
@@ -122,35 +122,36 @@ const SubscriptionCheckOut: React.FC<Props> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     Header: {
-        borderBottomWidth: 1,
+        borderBottomWidth: moderateScale(1),
         borderBottomColor: "#E5E5E5",
-        padding: 10,
+        padding: moderateScale(10),
         alignItems: "center"
     },
 
     HeaderText: {
-        fontSize: 20,
+        fontSize: moderateScale(20),
         fontWeight: "bold"
     },
 
     CardForm: {
-        height: 200
+        height: verticalScale(200),
+        fontSize: moderateScale(20)
     },
 
     button: {
         backgroundColor: "rgb(69, 156, 255)",
-        padding: 10,
-        borderRadius: 10,
-        borderWidth: 1,
+        padding: moderateScale(10),
+        borderRadius: moderateScale(10),
+        borderWidth: moderateScale(1),
         width: "50%",
-        marginTop: 10,
+        marginTop: moderateScale(10),
         alignSelf: "center"
     },
 
     buttonText: {
         color: "white",
         textAlign: "center",
-        fontSize: 20
+        fontSize: moderateScale(20)
     }
 });
 

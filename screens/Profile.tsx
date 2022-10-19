@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 
-import { saveToStore, userInformationToSave, getImageUploadApi, returnImageSource, getServerUrl } from "../utils";
+import { saveToStore, userInformationToSave, getImageUploadApi, returnImageSource, scale, verticalScale, moderateScale } from "../utils";
 import { useAppDispatch } from "../redux";
 import { setAuthState } from "../redux/features/auth";
 import { useSignedInUserData, useSaveUserProfileChanges } from "../hooks";
@@ -88,7 +88,7 @@ const Profile: React.FC<Props> = ({ navigation }) => {
             <View>
                 <View style={styles.EditProfilePicture}>
                     <ImageBackground source={returnImageSource(profilePicture)} style={{ flex: 1, justifyContent: "center" }}>
-                        <Button title="Upload New Profile Picture" style={styles.EditProfilePictureButton} textStyle={{ color: "white", fontSize: 10 }} onPress={pickImage} />
+                        <Button title="Upload New Profile Picture" style={styles.EditProfilePictureButton} textStyle={{ color: "white", fontSize: moderateScale(10) }} onPress={pickImage} />
                     </ImageBackground>
                 </View>
 
@@ -136,7 +136,7 @@ const Profile: React.FC<Props> = ({ navigation }) => {
                             }
                         ]}
                         renderItem={({ item }) => (
-                            <Button title={item.title} style={styles.EditProfileButton} textStyle={{ color: "white", fontSize: 10, textAlign: "center" }} onPress={item.onClick} />
+                            <Button title={item.title} style={styles.EditProfileButton} textStyle={{ color: "white", fontSize: moderateScale(10), textAlign: "center" }} onPress={item.onClick} />
                         )}
 
                     />
@@ -256,86 +256,87 @@ const styles = StyleSheet.create({
         marginRight: "auto",
         marginLeft: "auto",
         marginTop: "-3%",
-        borderWidth: 1,
+        borderWidth: moderateScale(1),
         borderColor: "gainsboro",
-        borderRadius: 10,
-        padding: 10
+        borderRadius: moderateScale(10),
+        padding: moderateScale(10)
     },
 
     EditProfilePictureButton: {
         alignSelf: "flex-end",
-        borderWidth: 2,
+        borderWidth: moderateScale(2),
         borderColor: "black",
-        borderRadius: 10,
-        padding: 10,
+        borderRadius: moderateScale(10),
+        padding: moderateScale(10),
         backgroundColor: "red",
         position: "relative",
-        top: -30
+        top: verticalScale(-30)
     },
 
     EditProfileTitle: {
-        fontSize: 20,
+        fontSize: moderateScale(20),
         fontWeight: "bold",
     },
 
     EditProfileButtons: {
         display: "flex",
         width: "100%",
-        height: 80,
+        height: verticalScale(80),
     },
 
     EditProfileButton: {
-        borderWidth: 2,
+        borderWidth: moderateScale(2),
         borderColor: "black",
-        borderRadius: 10,
-        padding: 10,
+        borderRadius: moderateScale(10),
+        padding: moderateScale(10),
         backgroundColor: "red",
-        marginRight: 1,
-        width: 94,
-        height: "50%",
+        marginRight: moderateScale(2),
+        width: scale(85),
+        height: moderateScale(40),
     },
 
     EditProfileInputJoin: {
         display: "flex",
         flexDirection: "column",
         width: "100%",
-        marginLeft: 5
+        marginLeft: moderateScale(3)
     },
 
     EditProfileInput: {
-        width: "50%"
+        width: "50%",
     },
 
     EditProfileInputTitle: {
-        fontSize: 10,
+        fontSize: moderateScale(15),
         fontWeight: "bold",
-        marginBottom: 10,
-        width: 200
+        marginBottom: moderateScale(10),
+        width: scale(200)
     },
 
     EditProfileInputField: {
-        width: 180,
-        borderWidth: 2,
+        width: scale(170),
+        borderWidth: moderateScale(2),
         borderColor: "gainsboro",
-        borderRadius: 10,
-        padding: 10,
-        marginBottom: 10,
-        fontSize: 10
+        borderRadius: moderateScale(10),
+        padding: moderateScale(10),
+        marginBottom: moderateScale(10),
+        fontSize: moderateScale(15)
     },
 
     EditProfileBioView: {
-        marginLeft: 5
+        marginLeft: moderateScale(5)
     },
 
     EditProfileInputBio: {
         width: "97%",
-        height: 85,
+        height: verticalScale(85),
         overflow: "scroll",
-        borderWidth: 2,
+        borderWidth: moderateScale(2),
         borderColor: "gainsboro",
-        borderRadius: 10,
-        padding: 10,
-        marginBottom: 10
+        borderRadius: moderateScale(10),
+        padding: moderateScale(10),
+        marginBottom: moderateScale(10),
+        fontSize: moderateScale(15)
     }
 });
 

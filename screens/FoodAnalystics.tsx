@@ -9,7 +9,7 @@ import { FoodView, Loading, AppLayout } from "../components";
 
 import { useGetDailyFoodAnalystics } from "../hooks";
 
-import { scale, verticalScale, moderateScale } from "../utils";
+import { verticalScale, moderateScale } from "../utils";
 
 const FoodAnalystics: React.FC = () => {
     const { loading, error, analysis } = useGetDailyFoodAnalystics();
