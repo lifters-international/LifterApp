@@ -4,7 +4,7 @@ import { NavigationProp } from "@react-navigation/native";
 import { AppLayout, Loading, MessageContainer } from "../components";
 import { useSelector } from "react-redux";
 
-import { socket, SubscriptionType, returnImageSource, scale, verticalScale, moderateScale } from "../utils";
+import { socket, SubscriptionType, returnImageSource, scale, verticalScale, moderateScale } from "../utils"
 import { useUserMatchesSubscription, useUserAcceptedMatchesSubscription } from '../hooks';
 
 interface Props {
