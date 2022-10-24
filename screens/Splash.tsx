@@ -13,7 +13,6 @@ interface Props {
 
 const Splash: React.FC<Props> = ({ navigation }) => {
     const nextPage = () => {
-        console.log("HDASDASdsa")
         navigation.navigate("SignUp");
     }
 
