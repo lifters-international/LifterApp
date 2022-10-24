@@ -122,8 +122,9 @@ const SignUp: React.FC<Props> = ({ navigation }) => {
                                 style={{ ...styles.input }}
                                 placeholder="Password"
                                 onChangeText={text => setPasswordState(text)}
-                                value={userState}
+                                value={passwordState}
                                 placeholderTextColor="#afadad"
+                                secureTextEntry={true}
                             />
                         </View>
 
