@@ -58,47 +58,6 @@ const LogIn: React.FC<Props> = ({ navigation }) => {
                     loadingState ? <Loading /> : null
                 }
                 <View style={styles.content}>
-                    {/*<LottieView
-                        source={require("../assets/LifterNavBar.json")}
-                        autoPlay
-                        loop
-                        speed={0.2}
-                        style={styles.animation}
-                        resizeMode="cover"
-                    />
-                    <View style={styles.footer}>
-                        <Text style={styles.accountTitle}>Login To Account</Text>
-                        <View>
-                            <TextInput
-                                style={{ ...styles.input }}
-                                placeholder="Username:"
-                                onChangeText={text => setUserState(text)}
-                                value={userState}
-                            />
-
-                            <TextInput
-                                style={{ ...styles.input }}
-                                placeholder="Password:"
-                                onChangeText={text => setPasswordState(text)}
-                                value={passwordState}
-                                secureTextEntry={true}
-                            />
-                        </View>
-                        <View>
-                            <TouchableOpacity
-                                style={{ ...styles.button, backgroundColor: "green" }}
-                                onPress={handleLogIn}
-                            >
-                                <Text style={styles.buttonText}>Login</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={styles.button}
-                                onPress={signUpPage}
-                            >
-                                <Text style={styles.buttonText}>Don't have an Account? Create One Now</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>*/}
 
                     <Image
                         source={require("../assets/logo.png")}

@@ -11,12 +11,10 @@ import { useSelector } from "react-redux";
 
 import { Home, Profile, PasswordChange, FoodScreen, FoodAnalystics, Subscription, SubscriptionCheckOut, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
 import { View, Image } from "react-native";
-import Lottie from 'lottie-react-native';
 import { getFromStore, returnImageSource, scale, verticalScale, moderateScale } from "../utils";
 import { useAppDispatch } from "../redux";
 import { VerifyToken, setToken, logIn, LoginAsyncThunkResult, setAppReady, setProfilePicture, setAuthState, getSignedInUser, GetSignedUserAsyncThunkResult } from "../redux/features/auth";
-import { Ionicons } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
+import { Ionicons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
 import { TabBar } from './Tab';
 
 const Stack = createNativeStackNavigator();
@@ -58,12 +56,12 @@ const FoodStackScreen = () => {
 function TabNavigator() {
     const { profilePicture, AppReady } = useSelector((state: any) => state.Auth);
     const viewStyle = {
-        
+
     }
 
     return (
         AppReady ? (
-            <TabBar 
+            <TabBar
                 initialTab="Home"
                 tabs={[
                     {
@@ -71,45 +69,49 @@ function TabNavigator() {
                         component: <Home />,
                         options: {
                             label: "Home",
-                            icon: (
-                                <View>
-                                <FontAwesome 
-                                    name="home" 
-                                    size={moderateScale(30)} 
-                                    color="red" 
-                                    style={{
-                                        width: scale(30),
-                                        height: verticalScale(30),
-                                        textDecorationColor: "black",
-                                        position: "relative",
-                                        top: moderateScale(2),
-                                    }}
-                                />
-                            </View>
-                            )
-                                }
+                            icon: ({ focus }) => {
+                                return (
+                                    <View>
+                                        <FontAwesome
+                                            name="home"
+                                            size={moderateScale(30)}
+                                            color={focus ? "#FF3636" : "#5e5c5c"}
+                                            style={{
+                                                width: scale(30),
+                                                height: verticalScale(30),
+                                                textDecorationColor: "black",
+                                                position: "relative",
+                                                top: moderateScale(2),
+                                            }}
+                                        />
+                                    </View>
+                                )
+                            }
+                        }
                     },
                     {
                         name: "Search",
                         component: <Search />,
                         options: {
                             label: "Search",
-                            icon: (
-                                <View>
-                                <Ionicons
-                                    name="search"
-                                    size={moderateScale(30)}
-                                    color="red"
-                                    style={{
-                                        width: scale(30),
-                                        height: verticalScale(30),
-                                        textDecorationColor: "black",
-                                        position: "relative",
-                                        top: moderateScale(2),
-                                    }}
-                                />
-                            </View>
-                            )
+                            icon: ({ focus }) => {
+                                return (
+                                    <View>
+                                        <Ionicons
+                                            name="search"
+                                            size={moderateScale(30)}
+                                            color={focus ? "#FF3636" : "#5e5c5c"}
+                                            style={{
+                                                width: scale(30),
+                                                height: verticalScale(30),
+                                                textDecorationColor: "black",
+                                                position: "relative",
+                                                top: moderateScale(2),
+                                            }}
+                                        />
+                                    </View>
+                                )
+                            }
                         }
                     },
                     {
@@ -117,20 +119,21 @@ function TabNavigator() {
                         component: <MessagesStackScreen />,
                         options: {
                             label: "Message",
-                            icon: (
+                            icon: ({ focus }) => (
                                 <View>
-                                <Lottie
-                                    loop
-                                    autoPlay
-                                    speed={1}
-                                    source={require("../assets/messagingIcon.json")}
-                                    style={{
-                                        width: scale(30),
-                                        height: verticalScale(30),
-                                        position: "relative",
-                                    }}
-                                />
-                            </View>
+                                    <Ionicons
+                                        name="mail"
+                                        size={moderateScale(28)}
+                                        color={focus ? "#FF3636" : "#5e5c5c"}
+                                        style={{
+                                            width: scale(30),
+                                            height: verticalScale(30),
+                                            textDecorationColor: "black",
+                                            position: "relative",
+                                            top: moderateScale(2),
+                                        }}
+                                    />
+                                </View>
                             )
                         }
                     },
@@ -139,21 +142,21 @@ function TabNavigator() {
                         component: <FoodStackScreen />,
                         options: {
                             label: "FoodTab",
-                            icon: (
+                            icon: ({ focus }) => (
                                 <View>
-                                <Ionicons 
-                                    name="fast-food" 
-                                    size={moderateScale(28)} 
-                                    color="red" 
-                                    style={{
-                                        width: scale(30),
-                                        height: verticalScale(30),
-                                        textDecorationColor: "black",
-                                        position: "relative",
-                                        top: moderateScale(2),
-                                    }}
-                                />
-                            </View>
+                                    <Ionicons
+                                        name="fast-food"
+                                        size={moderateScale(28)}
+                                        color={focus ? "#FF3636" : "#5e5c5c"}
+                                        style={{
+                                            width: scale(30),
+                                            height: verticalScale(30),
+                                            textDecorationColor: "black",
+                                            position: "relative",
+                                            top: moderateScale(2),
+                                        }}
+                                    />
+                                </View>
                             )
                         }
                     },
@@ -162,30 +165,26 @@ function TabNavigator() {
                         component: <ProfileStackScreen />,
                         options: {
                             label: "Profile",
-                            icon: (
+                            icon: ({ focus }) => (
                                 <View>
-                                <Image
-                                    source={
-                                        returnImageSource(profilePicture, { width: scale(40), height: verticalScale(40), borderRadius: moderateScale(30), borderWidth: moderateScale(2) })
-                                    }
-                                    style={{
-                                        padding: moderateScale(4),
-                                        borderRadius: moderateScale(30),
-                                        borderWidth: moderateScale(2),
-                                        borderColor: "red",
-                                        width: scale(40),
-                                        height: verticalScale(40),
-                                        position: "relative",
-                                        top: moderateScale(7),
-                                    }}
-                                    resizeMode="contain"
-                                />
-                            </View>
+                                    <FontAwesome5
+                                        name="dumbbell"
+                                        size={moderateScale(30)}
+                                        color={focus ? "#FF3636" : "#5e5c5c"}
+                                        style={{
+                                            width: scale(35),
+                                            height: verticalScale(30),
+                                            textDecorationColor: "black",
+                                            position: "relative",
+                                            top: moderateScale(2),
+                                        }}
+                                    />
+                                </View>
                             )
                         }
                     },
                 ]}
-                
+
             />
         ) : null
     );

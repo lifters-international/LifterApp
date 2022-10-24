@@ -7,7 +7,7 @@ export type TabProps = {
     component: JSX.Element;
     options?: {
         label: string;
-        icon: JSX.Element;
+        icon: React.FC<{ focus: boolean}>;
     }
 }
 
@@ -55,9 +55,9 @@ export const TabBar: React.FC<TabBarProps> = ({ tabs, initialTab, onChangeTab, b
                                     setCurrentScreen(tab.name);
                                     if (onChangeTab) onChangeTab(tab);
                                 }}
-                                style={[styles.customTab, tabStyle]}
+                                style={[styles.customTab, tabStyle ]}
                             >
-                                {tab.options?.icon}
+                                {tab.options?.icon({ focus: tab.name === currentScreen })}
                                 <Text>{tab.options?.label && labeled}</Text>
                             </TouchableOpacity>
                         )
@@ -71,15 +71,17 @@ export const TabBar: React.FC<TabBarProps> = ({ tabs, initialTab, onChangeTab, b
 const styles = StyleSheet.create({
     customTabBar: {
         flexDirection: "row",
-        backgroundColor: "white", 
-        padding: moderateScale(10),
-        height: verticalScale(60),
-        width: scale(359),
+        backgroundColor: "#1d1c1c", 
+        padding: moderateScale(20),
+        height: verticalScale(80),
+        width: scale(340),
+        borderRadius: moderateScale(25),
         borderWidth: 1,
         borderColor: "gainsboro",
         alignItems: "center",
         position: "absolute",
-        bottom: verticalScale(0)
+        bottom: verticalScale(0),
+        left: scale(5),
     },
 
     customTab: {
