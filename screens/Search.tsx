@@ -189,7 +189,8 @@ const styles = StyleSheet.create({
     },
 
     lifterMatchHeart: {
-        marginTop: "2%",
+        position: "relative",
+        top: verticalScale(6),
         height: verticalScale(25),
         width: scale(50),
         marginLeft: "1.5%"
