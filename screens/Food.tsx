@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, ScrollView, Text } from 'react-native';
+import { StyleSheet, View, TextInput, ScrollView, Text, Image } from 'react-native';
 import { NavigationProp } from "@react-navigation/native";
 
 import { FoodView, Loading, AppLayout } from "../components";
@@ -8,9 +8,9 @@ import { useGetFood, useSearchFood } from "../hooks";
 
 import { useSelector } from "react-redux";
 
-import { AntDesign } from '@expo/vector-icons';
+import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 
-import { scale, moderateScale } from "../utils";
+import { scale, moderateScale, verticalScale } from "../utils";
 
 interface Props {
     navigation: NavigationProp<any>;
@@ -22,39 +22,58 @@ const Food: React.FC<Props> = ({ navigation }) => {
     const { foods, loading, error } = useGetFood();
     const { foods: searchFood, loading: searchLoading, error: searchError } = useSearchFood(search, token);
 
-    if ( loading || searchLoading ) return <AppLayout><Loading /></AppLayout>;
+    if (loading || searchLoading) return <AppLayout><Loading /></AppLayout>;
 
-    if ( error || searchError ) return <AppLayout><Text>There was a problem loading the app. Please try again later.</Text></AppLayout>;
+    if (error || searchError) return <AppLayout><Text>There was a problem loading the app. Please try again later.</Text></AppLayout>;
 
     return (
-        <AppLayout>
+        <AppLayout backgroundColor="black">
             <View>
                 <View style={styles.Headercontainer}>
                     <View style={styles.SearchBar}>
-                        <TextInput placeholder="Search Lifters Foods" style={styles.SearchInput} value={search} onChangeText={query => setSearch(query)} />
+                        <Ionicons
+                            name="search"
+                            size={moderateScale(35)}
+                            color="#5e5c5c"
+                            style={{
+                                width: scale(35),
+                                height: verticalScale(35),
+                                textDecorationColor: "black",
+                                position: "relative",
+                                top: verticalScale(3.5),
+                            }}
+                        />
+                        <TextInput placeholder="Search Lifters Foods" style={styles.SearchInput} value={search} onChangeText={query => setSearch(query)} placeholderTextColor="#8f8d8d"/>
+
                     </View>
-                    <AntDesign name="barschart" size={moderateScale(40)} color="black" style={styles.barChart} onPress={() => navigation.navigate("FoodAnalystics")}/>
+                    <MaterialIcons name="insert-chart-outlined" size={moderateScale(40)} color="white" style={styles.barChart} onPress={() => navigation.navigate("FoodAnalystics")} />
                 </View>
 
                 <ScrollView style={styles.FoodContainer}
                     showsVerticalScrollIndicator={false}
                     showsHorizontalScrollIndicator={false}
+                    automaticallyAdjustContentInsets = {false}
+                    contentContainerStyle={{
+                        justifyContent: 'space-between'
+                    }}
                 >
                     {
                         search.length > 0 ? (
-                            searchFood.map(( food ) => (
+                            searchFood.map((food) => (
                                 <View key={`food-item-${food.id}`}>
-                                    <FoodView {...food}  />
+                                    <FoodView {...food} />
                                 </View>
                             ))
                         ) : (
-                            foods.map(( food ) => (
+                            foods.map((food) => (
                                 <View key={`food-item-${food.id}`}>
-                                    <FoodView {...food}  />
+                                    <FoodView {...food} />
                                 </View>
                             ))
                         )
                     }
+
+                    <View style={{ height: verticalScale(100) }}></View>
                 </ScrollView>
             </View>
         </AppLayout>
@@ -71,10 +90,13 @@ const styles = StyleSheet.create({
     SearchBar: {
         marginTop: moderateScale(5),
         width: "85%",
+        height: verticalScale(48),
         display: "flex",
         flexDirection: "row",
         borderRadius: moderateScale(5),
-        padding: moderateScale(2)
+        padding: moderateScale(2),
+        borderBottomWidth: moderateScale(1),
+        borderColor: "#5e5c5c",
     },
 
     SearchInput: {
@@ -83,18 +105,22 @@ const styles = StyleSheet.create({
         borderColor: "black",
         borderRadius: moderateScale(5),
         padding: moderateScale(5),
-        color: "black"
+        color: "#8f8d8d",
+        fontSize: moderateScale(22),
     },
 
     barChart: {
-        width: scale(50)
+        width: scale(50),
+        transform: [{ rotateY: "180deg" }],
+        height: verticalScale(50),
+        position: "relative",
+        top: verticalScale(10),
     },
 
     FoodContainer: {
         marginTop: moderateScale(10),
-        marginBottom: "-30%",
         width: "100%",
-        height: "100%"
+        height: verticalScale(600)
     }
 });
 
