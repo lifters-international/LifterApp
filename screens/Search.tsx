@@ -5,7 +5,7 @@ import { useSearchQuery, useAcceptDeclineMatch } from '../hooks';
 import { returnImageSource, SubscriptionType, scale, verticalScale, moderateScale } from "../utils";
 import { useSelector } from "react-redux";
 import { IconFill } from "@ant-design/icons-react-native";
-import { Ionicons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 const Search: React.FC = () => {
     const { token } = useSelector((state: any) => state.Auth);
