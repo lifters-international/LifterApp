@@ -5,6 +5,7 @@ import { useSearchQuery, useAcceptDeclineMatch } from '../hooks';
 import { returnImageSource, SubscriptionType, scale, verticalScale, moderateScale } from "../utils";
 import { useSelector } from "react-redux";
 import { IconFill } from "@ant-design/icons-react-native";
+import { Ionicons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
 
 const Search: React.FC = () => {
     const { token } = useSelector((state: any) => state.Auth);
@@ -21,11 +22,28 @@ const Search: React.FC = () => {
     if (showDiv) showDiv = queryResult.result!.length > 0 ? true : false;
 
     return (
-        <AppLayout>
+        <AppLayout backgroundColor="black">
             <View style={styles.Header}>
-                <Text style={styles.HeaderText}>Search For Lifters</Text>
+                <Text style={styles.HeaderText}>SEARCH FOR LIFTERS</Text>
+                <Image
+                    source={require("../assets/images/hero-section-line-vector.png")}
+                    style={styles.line}
+                    resizeMode="contain"
+                />
             </View>
             <View style={styles.SearchBar}>
+                <Ionicons
+                    name="search"
+                    size={moderateScale(30)}
+                    color="#5e5c5c"
+                    style={{
+                        width: scale(30),
+                        height: verticalScale(30),
+                        textDecorationColor: "black",
+                        position: "relative",
+                        top: moderateScale(2),
+                    }}
+                />
                 <TextInput placeholder="Search Lifters" style={styles.SearchInput} value={search} onChangeText={query => setSearch(query)} />
             </View>
 
@@ -40,24 +58,26 @@ const Search: React.FC = () => {
                                 >
                                     {
                                         queryResult.result?.map((lifter, index) => (
-                                                (
-                                                    <View key={`user-search-result-${index}`} style={styles.SearchResult}>
-                                                        <Image
-                                                            style={styles.SearchResultImage}
-                                                            source={returnImageSource(lifter.profilePicture)}
-                                                            resizeMode="contain"
-                                                        />
-                                                        <Text style={styles.name}>{lifter.username}</Text>
+                                            (
+                                                <View key={`user-search-result-${index}`} style={styles.SearchResult}>
+                                                    <Image
+                                                        style={styles.SearchResultImage}
+                                                        source={returnImageSource(lifter.profilePicture)}
+                                                        resizeMode="contain"
+                                                    />
+                                                    <Text style={styles.name}>{lifter.username}</Text>
+                                                    <View style={{ display: "flex", flexDirection: "row", alignSelf: "stretch", position: "relative", left: scale(120) }}>
                                                         <TouchableOpacity style={styles.liftMatchX} onPress={() => acceptMatch(false, lifter.id)}>
-                                                            <Text style={{ color: "rgb(255, 155, 5)", textAlign: "center", fontSize: moderateScale(20) }}>X</Text>
+                                                            <Text style={{ color: "white", textAlign: "center", fontSize: moderateScale(25) }}>X</Text>
                                                         </TouchableOpacity>
 
                                                         <TouchableOpacity style={styles.lifterMatchHeart} onPress={() => acceptMatch(true, lifter.id)}>
-                                                            <IconFill name="heart" style={{ color: "#fe005d", textAlign: "center", fontSize: moderateScale(20) }} />
+                                                            <IconFill name="heart" style={{ color: "white", textAlign: "center", fontSize: moderateScale(25) }} />
                                                         </TouchableOpacity>
                                                     </View>
-                                                )
+                                                </View>
                                             )
+                                        )
                                         )
                                     }
                                 </ScrollView>
@@ -84,17 +104,22 @@ const Search: React.FC = () => {
 
 const styles = StyleSheet.create({
     Header: {
-        borderBottomWidth: moderateScale(2),
-        borderColor: "gainsboro",
-        borderRadius: moderateScale(10),
-        padding: moderateScale(10),
+        padding: moderateScale(10)
     },
 
     HeaderText: {
-        fontSize: moderateScale(30),
+        fontSize: moderateScale(25),
         fontWeight: "bold",
-        color: "black",
+        color: "white",
         textAlign: "center",
+        position: "relative",
+        top: moderateScale(20)
+    },
+
+    line: {
+        height: verticalScale(100),
+        width: scale(400),
+        zIndex: 1
     },
 
     SearchBar: {
@@ -102,8 +127,12 @@ const styles = StyleSheet.create({
         width: "100%",
         display: "flex",
         flexDirection: "row",
-        borderRadius: moderateScale(5),
-        padding: moderateScale(2)
+        padding: moderateScale(2),
+        borderBottomWidth: moderateScale(2),
+        borderColor: "gainsboro",
+        borderRadius: moderateScale(10),
+        position: "relative",
+        bottom: moderateScale(80)
     },
 
     SearchInput: {
@@ -112,57 +141,50 @@ const styles = StyleSheet.create({
         borderColor: "black",
         borderRadius: moderateScale(5),
         padding: moderateScale(5),
-        color: "black"
+        fontSize: moderateScale(20),
+        color: "#afadad"
     },
 
     SearchResultView: {
-
+        position: "relative",
+        bottom: moderateScale(50),
     },
 
     LifterMatches: {
-        backgroundColor: "#f5f5f5",
-        borderWidth: moderateScale(1),
-        borderColor: "#e5e5e5",
-        borderRadius: moderateScale(4),
+        backgroundColor: "black",
         padding: moderateScale(10),
         height: "100%"
     },
 
     SearchResult: {
-        borderWidth: moderateScale(1),
-        borderColor: "gainsboro",
-        backgroundColor: "white",
-        borderRadius: moderateScale(10),
-        padding: moderateScale(10),
+        borderTopWidth: moderateScale(1),
+        borderBottomWidth: moderateScale(1),
+        borderColor: "#5e5c5c",
+        backgroundColor: "black",
+        padding: moderateScale(20),
         display: "flex",
         flexDirection: "row",
-        gap: "1%",
-        marginBottom: moderateScale(10)
+        width: scale(345)
     },
 
     SearchResultImage: {
         width: scale(50),
         height: verticalScale(50),
-        padding: moderateScale(5),
-        borderRadius: moderateScale(30),
-        borderWidth: moderateScale(1),
-        borderColor: "red"
+        padding: moderateScale(5)
     },
 
     name: {
         fontSize: moderateScale(20),
         fontWeight: "bold",
         marginTop: "2.5%",
-        marginLeft: "2.5%"
+        marginLeft: "2.5%",
+        color: "#5e5c5c"
     },
 
     liftMatchX: {
         marginTop: "2%",
         height: verticalScale(25),
         width: scale(50),
-        borderRadius: moderateScale(50),
-        borderWidth: moderateScale(1),
-        borderColor: "rgb(255, 155, 5)",
         marginLeft: "1.5%"
     },
 
@@ -170,9 +192,6 @@ const styles = StyleSheet.create({
         marginTop: "2%",
         height: verticalScale(25),
         width: scale(50),
-        borderRadius: moderateScale(50),
-        borderWidth: moderateScale(1),
-        borderColor: "red",
         marginLeft: "1.5%"
     },
 

@@ -76,8 +76,6 @@ const styles = StyleSheet.create({
         height: verticalScale(80),
         width: scale(340),
         borderRadius: moderateScale(25),
-        borderWidth: 1,
-        borderColor: "gainsboro",
         alignItems: "center",
         position: "absolute",
         bottom: verticalScale(0),
@@ -91,6 +89,7 @@ const styles = StyleSheet.create({
     },
 
     customTabScreen: {
-        flex: 1
+        flex: 1,
+        backgroundColor: "black"
     }
 });

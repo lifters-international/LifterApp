@@ -10,8 +10,8 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { useSelector } from "react-redux";
 
 import { Home, Profile, PasswordChange, FoodScreen, FoodAnalystics, Subscription, SubscriptionCheckOut, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
-import { View, Image } from "react-native";
-import { getFromStore, returnImageSource, scale, verticalScale, moderateScale } from "../utils";
+import { View } from "react-native";
+import { getFromStore, scale, verticalScale, moderateScale } from "../utils";
 import { useAppDispatch } from "../redux";
 import { VerifyToken, setToken, logIn, LoginAsyncThunkResult, setAppReady, setProfilePicture, setAuthState, getSignedInUser, GetSignedUserAsyncThunkResult } from "../redux/features/auth";
 import { Ionicons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
