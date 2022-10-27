@@ -11,7 +11,7 @@ export type AddFoodToLiftersDailyFoodStates = {
 }
 
 export const useAddFoodToLiftersDailyFood = (): AddFoodToLiftersDailyFoodStates => {
-    const [statement, setStatement] = useState("Add to Daily Food");
+    const [statement, setStatement] = useState("ADD TO DAILY FOOD");
     const { token } = useSelector((state: any) => state.Auth);
 
     const addFoodToLiftersDailyFood = async (foodId: string) => {
@@ -27,7 +27,7 @@ export const useAddFoodToLiftersDailyFood = (): AddFoodToLiftersDailyFoodStates 
 
         await delay(2000);
 
-        setStatement("Add to Daily Food");
+        setStatement("ADD TO DAILY FOOD");
     };
 
     return { addFoodToLiftersDailyFood, statement };

@@ -18,6 +18,7 @@ export type LifterMatchProps = {
 
 const LifterMatch: React.FC<LifterMatchProps> = ( { id, userToken, username, age, bio, profilePicture, allowAction, next } ) => {
     const dispatch = useAppDispatch();
+    bio = "Creator of lifters app, loves travelling and meeting new people."
     const shortenedBio = bio?.slice(0, 30) + ( (bio?.length!) >= 45 ? "..." : "" );
 
     const acceptMatch = async ( accept: boolean ) => {
@@ -29,33 +30,37 @@ const LifterMatch: React.FC<LifterMatchProps> = ( { id, userToken, username, age
     return (
         <View style={styles.container}>
             <View style={styles.lifterImageContainer}>
-                <Image source={ returnImageSource(profilePicture as string) } style={styles.lifterImages} resizeMode="contain"/>
+                <Image source={ returnImageSource(profilePicture as string) } style={styles.lifterImages} resizeMode="stretch"/>
+                
                 <View style={styles.liftersDetails}>
                     <Text style={{...styles.liftersDetailsText, ...styles.lifterDetailsName}}>{ username }, { age }</Text>
-                    <TouchableOpacity onPress={() => Alert.alert(`${username}'s Bio`, bio)}>
-                        <Text style={{...styles.liftersDetailsText, ...styles.lifterDetailsBio}}>{ shortenedBio }</Text>
+
+
+                    <TouchableOpacity onPress={() => Alert.alert(`${username}'s Bio`, bio)} style={{ borderBottomWidth: 0.5, borderColor: "#363434" }}>
+                        <Text style={{...styles.liftersDetailsText, ...styles.lifterDetailsBio, marginBottom: verticalScale(10) }}>{ shortenedBio }</Text>
                     </TouchableOpacity>
+
+                    <View style={styles.lifterMatchActionContainer}>
+                        <TouchableOpacity style={{ ...styles.circle, ...styles.liftMatchX }} onPress={
+                            allowAction ? () => {
+                                acceptMatch(false); 
+                                if (next) next()
+                            }: undefined
+                        }>
+                            <Text style={{color: "white", textAlign: "center", fontSize: moderateScale(20) }}>X</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={{ ...styles.circle, ...styles.lifterMatchHeart }} onPress={
+                            allowAction ? () => {
+                                acceptMatch(true); 
+                                if (next) next()
+                            }: undefined
+                        }>
+                            <IconFill name="heart" style={{color: "white", textAlign: "center", fontSize: moderateScale(20) }}/>
+                        </TouchableOpacity>
+                    </View>
+
                 </View>
-            </View>
-
-            <View style={styles.lifterMatchActionContainer}>
-                <TouchableOpacity style={{ ...styles.circle, ...styles.liftMatchX }} onPress={
-                    allowAction ? () => {
-                        acceptMatch(false); 
-                        if (next) next()
-                    }: undefined
-                }>
-                    <Text style={{color: "rgb(255, 155, 5)", textAlign: "center", fontSize: moderateScale(20) }}>X</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={{ ...styles.circle, ...styles.lifterMatchHeart }} onPress={
-                    allowAction ? () => {
-                        acceptMatch(true); 
-                        if (next) next()
-                    }: undefined
-                }>
-                    <IconFill name="heart" style={{color: "#fe005d", textAlign: "center", fontSize: moderateScale(20) }}/>
-                </TouchableOpacity>
             </View>
         </View>
     );
@@ -74,7 +79,7 @@ const styles = StyleSheet.create({
     container: {
         width: scale(200),
         height: verticalScale(500),
-        marginTop: verticalScale(70),
+        marginTop: verticalScale(60),
         marginLeft: "auto",
         marginRight: "auto"
     },
@@ -87,11 +92,8 @@ const styles = StyleSheet.create({
     },
 
     lifterImages: {
-        borderWidth: moderateScale(2),
-        borderColor: "gainsboro",
-        borderRadius: moderateScale(20),
         width: scale(270),
-        height: verticalScale(420),
+        height: verticalScale(300),
         position: "absolute",
         right: scale(-35),
         top: verticalScale(20)
@@ -99,27 +101,23 @@ const styles = StyleSheet.create({
 
     liftersDetails: {
         position: "absolute",
-        backgroundColor: "#f99f9f",
-        top: verticalScale(395),
+        backgroundColor: "hsl(0, 1%, 13%)",
+        top: verticalScale(312),
         left: scale(-35),
         width: scale(270),
-        height: verticalScale(45),
-        borderRadius: 0,
-        borderBottomRightRadius: moderateScale(20),
-        borderBottomLeftRadius: moderateScale(20),
-        textAlign: "left"
+        height: verticalScale(150),
     },
 
     liftersDetailsText: {
-        marginLeft: "10%",
+        textAlign: "center",
         color: "white"
     },
 
     lifterDetailsName: {
-        fontSize: moderateScale(20),
+        fontSize: moderateScale(25),
         fontWeight: "bold",
-        marginTop: verticalScale(1),
-        marginLeft: scale(25),
+        marginTop: verticalScale(10),
+        marginBottom: verticalScale(10)
     },
 
     lifterDetailsBio: {
@@ -146,22 +144,21 @@ const styles = StyleSheet.create({
 
     circle: {
         height: verticalScale(45),
-        width: scale(45),
-        borderRadius: moderateScale(50),
+        width: scale(100),
         padding: moderateScale(10),
         textAlign: "center",
-        marginLeft: scale(20),
+        marginLeft: scale(10),
         marginBottom: verticalScale(10)
     },
 
     liftMatchX: {
-        backgroundColor: "hsl(35, 86%, 86%)",
+        backgroundColor: "#363434",
         fontSize: moderateScale(50),
         textAlign: "center"
     },
 
     lifterMatchHeart: {
-        backgroundColor: "rgb(243, 210, 210)",
+        backgroundColor: "#FF3636",
         alignItems: "center",
         justifyContent: "center"
     }

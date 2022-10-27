@@ -32,7 +32,7 @@ const Home: React.FC = () => {
     if (userMatches.loading) return <AppLayout><Loading /></AppLayout>;
 
     return (
-        <AppLayout>
+        <AppLayout backgroundColor="black">
             <View style={styles.container}>
                 <View>
                     <LifterMatch {...userMatches.users![currentMatch]} allowAction next={
@@ -53,7 +53,7 @@ const Home: React.FC = () => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "white",
+        backgroundColor: "black",
     }
 });
 

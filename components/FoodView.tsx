@@ -122,7 +122,7 @@ const FoodView: React.FC<Props> = ({ id, name, calories, servingSize, nutritionF
                         }}
                     >
                         <TouchableOpacity onPress={() => addFoodToLiftersDailyFood(id)} style={styles.button}>
-                            <Text style={{ color: "white", fontSize: moderateScale(25), textAlign: "center", position: "absolute", top: verticalScale(10), left: scale(10) }}>ADD TO DAILY FOOD</Text>
+                            <Text style={{ color: "white", fontSize: moderateScale(25), textAlign: "center", position: "absolute", top: verticalScale(10), left: scale(10) }}>{statement}</Text>
                             <AntDesign name="plus" size={moderateScale(40)} color="white" style={{ position: "absolute", left: scale(238), top: verticalScale(4) }}/>
                         </TouchableOpacity>
                     </View>
