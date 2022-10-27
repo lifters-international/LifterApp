@@ -50,14 +50,14 @@ const styles = StyleSheet.create({
         boxShadow: "0 0 5px #ccc",
         alignSelf: 'flex-end',
         borderWidth: moderateScale(1),
-        borderColor: "rgb(29, 134, 253)",
-        backgroundColor: "rgb(29, 134, 253)",
+        borderColor: "black",
+        backgroundColor: "black",
         borderRadius: moderateScale(10),
         padding: moderateScale(10),
     },
 
     MessageViewThey: {
-        backgroundColor: "black",
+        backgroundColor: "hsl(0, 1%, 18%)",
         borderWidth: moderateScale(1),
         borderRadius: moderateScale(10),
         padding: moderateScale(10),

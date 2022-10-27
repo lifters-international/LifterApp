@@ -66,9 +66,8 @@ const MessageBoxContent : React.FC<MessageBoxContentProps> = ({ messages, whoSen
 
 const styles = StyleSheet.create({
     MessageBoxContent: {
-        borderWidth: moderateScale(1),
-        borderColor: 'gainsboro',
-        height: verticalScale(440)
+        height: verticalScale(440),
+        backgroundColor: "#1d1c1c"
     },
 
     NoMessages: {
@@ -83,7 +82,7 @@ const styles = StyleSheet.create({
     },
 
     divideTheySentYouSent: {
-        marginTop: moderateScale(10)
+        marginTop: moderateScale(12)
     }
 });
 

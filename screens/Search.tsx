@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         padding: moderateScale(2),
         borderBottomWidth: moderateScale(2),
-        borderColor: "gainsboro",
+        borderColor: "hsl(0, 1%, 22%)",
         borderRadius: moderateScale(10),
         position: "relative",
         bottom: moderateScale(80)

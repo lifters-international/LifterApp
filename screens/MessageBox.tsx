@@ -23,14 +23,14 @@ const MessageBox: React.FC<Props> = ({ navigation, route }) => {
     if (userMessages.loading) return <AppLayout><Loading /></AppLayout>;
 
     return (
-        <AppLayout>
+        <AppLayout backgroundColor="black">
             <View style={styles.HeaderContainer}>
                 <TouchableOpacity style={styles.HeaderIconContainer} onPress={() => navigation.goBack()} >
-                    <Ionicons name="arrow-back" size={moderateScale(30)} color="black" style={styles.HeaderIcon} />
+                    <Ionicons name="arrow-back" size={moderateScale(30)} color="white" style={styles.HeaderIcon} />
                 </TouchableOpacity>
                 <View style={styles.HeaderDetailsContainer}>
-                    <Image source={returnImageSource(profilePicture, { width: scale(65), height: verticalScale(65), borderRadius: moderateScale(30) })} resizeMode="contain" style={styles.HeaderDetailsImage} />
                     <Text style={styles.HeaderDetailsText}>{name}</Text>
+                    <Image source={returnImageSource(profilePicture, { width: scale(65), height: verticalScale(65), borderRadius: moderateScale(30) })} resizeMode="contain" style={styles.HeaderDetailsImage} />
                 </View>
             </View>
 
@@ -43,7 +43,13 @@ const MessageBox: React.FC<Props> = ({ navigation, route }) => {
                 />
 
                 <View style={styles.MessageBoxInput}>
-                    <TextInput style={styles.MessageBoxInputText} placeholder="Type a message" multiline value={messageState} onChangeText={text => setMessageState(text)} />
+                    <TextInput 
+                        style={styles.MessageBoxInputText} 
+                        placeholder="Type a message" 
+                        placeholderTextColor="hsl(0, 1%, 18%)"
+                        multiline value={messageState} 
+                        onChangeText={text => setMessageState(text)} 
+                    />
                     <TouchableOpacity style={styles.MessageBoxSendButton} onPress={() => {
                         if (messageState.length > 0) userMessages.sendMessage!(token, matchId, messageState, MessageMetaDataType.TEXT);
                         setMessageState("");
@@ -60,9 +66,7 @@ const MessageBox: React.FC<Props> = ({ navigation, route }) => {
 const styles = StyleSheet.create({
     HeaderContainer: {
         display: 'flex',
-        flexDirection: 'row',
-        borderBottomWidth: moderateScale(1),
-        borderColor: 'gainsboro',
+        flexDirection: 'row'
     },
 
     HeaderIconContainer: {
@@ -74,27 +78,29 @@ const styles = StyleSheet.create({
     },
 
     HeaderDetailsContainer: {
-        flex: moderateScale(1.4)
+        flex: moderateScale(7),
+        width: "100%",
+        display: 'flex',
+        flexDirection: 'row'
     },
 
     HeaderDetailsImage: {
         padding: moderateScale(5),
-        borderRadius: moderateScale(30),
-        borderWidth: moderateScale(1),
-        borderColor: "red"
+        position: 'relative',
+        left: scale(190)
     },
 
     HeaderDetailsText: {
-        fontSize: moderateScale(20),
+        fontSize: moderateScale(28),
         fontWeight: 'bold',
         textAlign: 'center',
-        position: "relative",
-        right: moderateScale(75)
+        color: "white", 
+        position: 'relative',
+        left: scale(120),
+        top: verticalScale(15)
     },
 
     MessageBoxInput: {
-        borderWidth: moderateScale(1),
-        borderColor: 'gainsboro',
         padding: moderateScale(5),
         display: "flex",
         flexDirection: "row"
@@ -102,7 +108,7 @@ const styles = StyleSheet.create({
 
     MessageBoxInputText: {
         flex: moderateScale(3),
-        fontSize: moderateScale(15),
+        fontSize: moderateScale(18),
         width: scale(330),
         maxHeight: verticalScale(60)
     },
@@ -110,7 +116,7 @@ const styles = StyleSheet.create({
     MessageBoxSendButton: {},
 
     MessageBoxSendButtonIcon: {
-        color: "red",
+        color: "white",
         borderColor: "black"
     }
 });

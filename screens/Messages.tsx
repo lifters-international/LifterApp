@@ -44,13 +44,20 @@ const Messages: React.FC<Props> = ({ navigation }) => {
     }
 
     return (
-        <AppLayout>
+        <AppLayout backgroundColor="black">
+            <View style={styles.Header}>
+                <Text style={styles.HeaderText}>MESSAGES</Text>
+                <Image
+                    source={require("../assets/images/hero-section-line-vector.png")}
+                    style={styles.line}
+                    resizeMode="contain"
+                />
+            </View>
+
             <View style={styles.UnMatchedLiftersContainer}>
                 <View style={styles.UnMatchedPeersContainerContext}>
-                    <Text style={{ color: "red", fontSize: moderateScale(15) }}>NEW MATCHES</Text>
-                    <View style={styles.circle}>
-                        <Text style={styles.circleText}>{userMatchesSubscription.data?.matches.length}</Text>
-                    </View>
+                    <Text style={{ color: "white", fontSize: moderateScale(20) }}>New Matches</Text>
+                    <Text style={styles.circleText}>{userMatchesSubscription.data?.matches.length}</Text>
                 </View>
                 <View style={styles.UnMatchedContain}>
                     {
@@ -87,9 +94,31 @@ const Messages: React.FC<Props> = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
+    Header: {
+        padding: moderateScale(10),
+        height: verticalScale(110)
+    },
+
+    HeaderText: {
+        fontSize: moderateScale(25),
+        fontWeight: "bold",
+        color: "white",
+        textAlign: "center",
+        position: "relative",
+        top: moderateScale(20)
+    },
+
+    line: {
+        height: verticalScale(100),
+        width: scale(400),
+        zIndex: 1,
+        position: "relative",
+        bottom: moderateScale(25)
+    },
+
     UnMatchedLiftersContainer: {
         borderWidth: moderateScale(1),
-        borderColor: 'gainsboro',
+        borderTopColor: 'hsl(0, 1%, 22%)',
         borderRadius: moderateScale(5),
         width: "100%",
         overflowX: "scoll"
@@ -101,32 +130,15 @@ const styles = StyleSheet.create({
         flexDirection: "row"
     },
 
-    circle: {
-        height: verticalScale(30),
-        width: scale(35),
-        borderWidth: moderateScale(1),
-        borderRadius: moderateScale(50),
-        borderColor: "red",
-        padding: moderateScale(10),
-        textAlign: "center",
-        backgroundColor: "red",
-        color: "white",
-        alignItems: "center",
-        justifyContent: "center",
-        position: "relative",
-        top: verticalScale(-4),
-        left: scale(5)
-    },
-
     circleText: {
-        color: "white",
+        color: "#FF3636",
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
         fontSize: moderateScale(25),
         padding: moderateScale(10),
         position: "relative",
-        top: verticalScale(-6),
+        bottom: verticalScale(12),
         left: 0,
         width: scale(40),
         height: verticalScale(35),
@@ -145,10 +157,7 @@ const styles = StyleSheet.create({
     UnMatchedContainProfilePicture: {
         height: verticalScale(70),
         width: scale(70),
-        padding: moderateScale(5),
-        borderRadius: moderateScale(30),
-        borderWidth: moderateScale(1),
-        borderColor: "red",
+        padding: moderateScale(5)
     },
 
     UnMatchedPeersBlured: {

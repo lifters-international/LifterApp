@@ -18,7 +18,6 @@ import { Ionicons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
 import { TabBar } from './Tab';
 
 const Stack = createNativeStackNavigator();
-const Tab = createMaterialBottomTabNavigator();
 const MessagesStack = createNativeStackNavigator();
 const ProfileStack = createNativeStackNavigator();
 const FoodStack = createNativeStackNavigator();
@@ -26,7 +25,7 @@ const FoodStack = createNativeStackNavigator();
 const MessagesStackScreen = () => {
     return (
         <MessagesStack.Navigator>
-            <MessagesStack.Screen name="Messages" component={Messages} />
+            <MessagesStack.Screen name="Messages" component={Messages} options={{ headerShown: false }} />
             <MessagesStack.Screen name="MessagesMatches" component={MessagesMatches} options={{ headerShown: false }} />
             <MessagesStack.Screen name="MessageBox" component={MessageBox} options={{ headerShown: false }} />
         </MessagesStack.Navigator>

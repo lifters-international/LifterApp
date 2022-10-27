@@ -12,10 +12,14 @@ export type MessageContainerProps = {
 }
 
 const MessageContainer: React.FC<MessageContainerProps> = ({ token, matches }) => {
-    matches.sort( (a, b) => Number(b.date) - Number(a.date));
+    matches.sort((a, b) => Number(b.date) - Number(a.date));
 
     return (
         <View style={styles.MessageContainer}>
+            <View style={{ marginTop: verticalScale(20), marginBottom: verticalScale(20), padding: moderateScale(10) }}>
+                <Text style={{ fontSize: moderateScale(25), color: "white" }}>Chats</Text>
+            </View>
+
             <ScrollView style={styles.MessageHolderContext}>
                 {
                     matches.length === 0 ? (
@@ -23,25 +27,26 @@ const MessageContainer: React.FC<MessageContainerProps> = ({ token, matches }) =
                             <Text style={{ fontSize: 30 }}>No Messages</Text>
                         </View>
                     ) : (
-                        matches.map(( message : AcceptedUserMatches ) => {
+                        matches.map((message: AcceptedUserMatches) => {
                             let text = message.lastMessage?.message || "";
                             const shortenedText = text.slice(0, 33) + ((text.length!) >= 33 ? "..." : "");
 
                             return (
-                                <Link 
-                                    key={message.id} 
+                                <Link
+                                    key={message.id}
                                     style={styles.MessageMatches}
                                     to={{ screen: "MessageBox", params: { matchId: message.id, name: message.name, profilePicture: message.profilePicture } }}
-                                    >
-                                    <View style={{ flex: 1}}>
-                                        <Image 
-                                            source={ 
+                                >
+                                    <View style={{ flex: 1 }}>
+                                        <Image
+                                            source={
                                                 returnImageSource(message.profilePicture, { width: scale(40), height: verticalScale(40), borderRadius: moderateScale(30) })
-                                            } 
+                                            }
                                             style={styles.MessageMatchesProfilePicture}
                                             resizeMode="contain"
                                         />
                                     </View>
+
                                     <View style={styles.MessageMatchesContext}>
                                         <View style={styles.MessageMatchesContextNameHeader}>
                                             <Text style={styles.MessageMatchesContextName}>{message.name}</Text>
@@ -72,18 +77,13 @@ const styles = StyleSheet.create({
 
     MessageHolderContext: {
         height: "78%",
-        borderTopWidth: moderateScale(1),
-        borderTopColor: "gainsboro",
         borderRadius: moderateScale(5)
-    }, 
+    },
 
     MessageMatchesProfilePicture: {
         width: scale(60),
         height: verticalScale(60),
-        padding: moderateScale(5),
-        borderRadius: moderateScale(30),
-        borderWidth: moderateScale(1),
-        borderColor: "red"
+        padding: moderateScale(5)
     },
 
     MessageMatches: {
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     MessageMatchesContextName: {
         fontWeight: "bold",
         fontSize: moderateScale(20),
-        color: "black"
+        color: "white"
     },
 
     circle: {
