@@ -45,13 +45,6 @@
         {
           "photosPermission": "Lifters needs access to your photos"
         }
-      ],
-      [
-        "@stripe/stripe-react-native",
-        {
-          "merchantIdentifier": "",
-          "enableGooglePay": true
-        }
       ]
     ],
 
