@@ -5,21 +5,17 @@ import {
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-
 import { useSelector } from "react-redux";
 
-import { Home, Profile, PasswordChange, FoodScreen, FoodAnalystics, Subscription, SubscriptionCheckOut, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
-import { View, Image } from "react-native";
-import Lottie from 'lottie-react-native';
-import { getFromStore, returnImageSource } from "../utils";
+import { Home, Profile, PasswordChange, FoodScreen, FoodAnalystics, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
+import { View } from "react-native";
+import { getFromStore, scale, verticalScale, moderateScale } from "../utils";
 import { useAppDispatch } from "../redux";
 import { VerifyToken, setToken, logIn, LoginAsyncThunkResult, setAppReady, setProfilePicture, setAuthState, getSignedInUser, GetSignedUserAsyncThunkResult } from "../redux/features/auth";
-import { Ionicons } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
+import { Ionicons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
+import { TabBar } from './Tab';
 
 const Stack = createNativeStackNavigator();
-const Tab = createMaterialBottomTabNavigator();
 const MessagesStack = createNativeStackNavigator();
 const ProfileStack = createNativeStackNavigator();
 const FoodStack = createNativeStackNavigator();
@@ -27,7 +23,7 @@ const FoodStack = createNativeStackNavigator();
 const MessagesStackScreen = () => {
     return (
         <MessagesStack.Navigator>
-            <MessagesStack.Screen name="Messages" component={Messages} />
+            <MessagesStack.Screen name="Messages" component={Messages} options={{ headerShown: false }} />
             <MessagesStack.Screen name="MessagesMatches" component={MessagesMatches} options={{ headerShown: false }} />
             <MessagesStack.Screen name="MessageBox" component={MessageBox} options={{ headerShown: false }} />
         </MessagesStack.Navigator>
@@ -38,9 +34,7 @@ const ProfileStackScreen = () => {
     return (
         <ProfileStack.Navigator>
             <ProfileStack.Screen name="Profiles" component={Profile} options={{ headerShown: false }} />
-            <ProfileStack.Screen name="Change Password" component={PasswordChange} />
-            <ProfileStack.Screen name="Subscription" component={Subscription} />
-            <ProfileStack.Screen name="Subscription CheckOut" component={SubscriptionCheckOut} options={{ headerShown: false }} />
+            <ProfileStack.Screen name="Change Password" component={PasswordChange} options={{ headerShown: false }} />
         </ProfileStack.Navigator>
     );
 }
@@ -55,131 +49,135 @@ const FoodStackScreen = () => {
 }
 
 function TabNavigator() {
-    const { profilePicture, AppReady } = useSelector((state: any) => state.Auth);
+    const { AppReady } = useSelector((state: any) => state.Auth);
 
     return (
         AppReady ? (
-            <Tab.Navigator
-                initialRouteName="Home"
-                activeColor="#f0edf6"
-                inactiveColor="#000000"
-                barStyle={{ backgroundColor: "white" }}
-                labeled={false}
-            >
-                <Tab.Screen
-                    name="Home"
-                    component={Home}
-                    options={{
-                        tabBarLabel: "Home",
-                        tabBarIcon: () => (
-                            <View>
-                                <FontAwesome 
-                                    name="home" 
-                                    size={30} 
-                                    color="red" 
-                                    style={{
-                                        width: 30,
-                                        height: 30,
-                                        textDecorationColor: "black",
-                                    }}
-                                />
-                            </View>
-                        )
-                    }}
-                />
+            <TabBar
+                initialTab="Home"
+                tabs={[
+                    {
+                        name: "Home",
+                        component: <Home />,
+                        options: {
+                            label: "Home",
+                            icon: ({ focus }) => {
+                                return (
+                                    <View>
+                                        <FontAwesome
+                                            name="home"
+                                            size={moderateScale(30)}
+                                            color={focus ? "#FF3636" : "#5e5c5c"}
+                                            style={{
+                                                width: scale(30),
+                                                height: verticalScale(30),
+                                                textDecorationColor: "black",
+                                                position: "relative",
+                                                top: moderateScale(2),
+                                            }}
+                                        />
+                                    </View>
+                                )
+                            }
+                        }
+                    },
+                    {
+                        name: "Search",
+                        component: <Search />,
+                        options: {
+                            label: "Search",
+                            icon: ({ focus }) => {
+                                return (
+                                    <View>
+                                        <Ionicons
+                                            name="search"
+                                            size={moderateScale(30)}
+                                            color={focus ? "#FF3636" : "#5e5c5c"}
+                                            style={{
+                                                width: scale(30),
+                                                height: verticalScale(30),
+                                                textDecorationColor: "black",
+                                                position: "relative",
+                                                top: moderateScale(2),
+                                            }}
+                                        />
+                                    </View>
+                                )
+                            }
+                        }
+                    },
+                    {
+                        name: "Message",
+                        component: <MessagesStackScreen />,
+                        options: {
+                            label: "Message",
+                            icon: ({ focus }) => (
+                                <View>
+                                    <Ionicons
+                                        name="mail"
+                                        size={moderateScale(28)}
+                                        color={focus ? "#FF3636" : "#5e5c5c"}
+                                        style={{
+                                            width: scale(30),
+                                            height: verticalScale(30),
+                                            textDecorationColor: "black",
+                                            position: "relative",
+                                            top: moderateScale(2),
+                                        }}
+                                    />
+                                </View>
+                            )
+                        }
+                    },
+                    {
+                        name: "FoodStack",
+                        component: <FoodStackScreen />,
+                        options: {
+                            label: "FoodTab",
+                            icon: ({ focus }) => (
+                                <View>
+                                    <Ionicons
+                                        name="fast-food"
+                                        size={moderateScale(28)}
+                                        color={focus ? "#FF3636" : "#5e5c5c"}
+                                        style={{
+                                            width: scale(30),
+                                            height: verticalScale(30),
+                                            textDecorationColor: "black",
+                                            position: "relative",
+                                            top: moderateScale(2),
+                                        }}
+                                    />
+                                </View>
+                            )
+                        }
+                    },
+                    {
+                        name: "Profile",
+                        component: <ProfileStackScreen />,
+                        options: {
+                            label: "Profile",
+                            icon: ({ focus }) => (
+                                <View>
+                                    <FontAwesome5
+                                        name="dumbbell"
+                                        size={moderateScale(30)}
+                                        color={focus ? "#FF3636" : "#5e5c5c"}
+                                        style={{
+                                            width: scale(35),
+                                            height: verticalScale(30),
+                                            textDecorationColor: "black",
+                                            position: "relative",
+                                            top: moderateScale(2),
+                                        }}
+                                    />
+                                </View>
+                            )
+                        }
+                    },
+                ]}
 
-                <Tab.Screen
-                    name="Search"
-                    component={Search}
-                    options={{
-                        tabBarLabel: "Search",
-                        tabBarIcon: () => (
-                            <View>
-                                <Ionicons
-                                    name="search"
-                                    size={30}
-                                    color="red"
-                                    style={{
-                                        width: 30,
-                                        height: 30,
-                                        textDecorationColor: "black",
-                                    }}
-                                />
-                            </View>
-                        )
-                    }}
-                />
-
-                <Tab.Screen
-                    name="Message"
-                    component={MessagesStackScreen}
-                    options={{
-                        tabBarLabel: "Message",
-                        tabBarIcon: () => (
-                            <View>
-                                <Lottie
-                                    loop
-                                    autoPlay
-                                    speed={1}
-                                    source={require("../assets/messagingIcon.json")}
-                                    style={{
-                                        width: 30,
-                                        height: 30,
-                                    }}
-                                />
-                            </View>
-                        )
-                    }}
-                />
-
-                <Tab.Screen
-                    name="FoodStack"
-                    component={FoodStackScreen}
-                    options={{
-                        tabBarLabel: "FoodTab",
-                        tabBarIcon: () => (
-                            <View>
-                                <Ionicons 
-                                    name="fast-food" 
-                                    size={28} 
-                                    color="red" 
-                                    style={{
-                                        width: 30,
-                                        height: 30,
-                                        textDecorationColor: "black",
-                                    }}
-                                />
-                            </View>
-                        )
-                    }}
-                />
-
-                <Tab.Screen
-                    name="Profile"
-                    component={ProfileStackScreen}
-                    options={{
-                        tabBarLabel: "Profile",
-                        tabBarIcon: () => (
-                            <View>
-                                <Image
-                                    source={
-                                        returnImageSource(profilePicture, { width: 40, height: 40, borderRadius: 30 })
-                                    }
-                                    style={{
-                                        padding: 5,
-                                        borderRadius: 30,
-                                        borderWidth: 1,
-                                        borderColor: "red",
-                                        width: 40,
-                                        height: 40
-                                    }}
-                                    resizeMode="contain"
-                                />
-                            </View>
-                        )
-                    }}
-                />
-            </Tab.Navigator>
+            />
         ) : null
     );
 }

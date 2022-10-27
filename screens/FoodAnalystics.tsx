@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, ScrollView, Dimensions, Text } from 'react-native';
+import React from 'react';
+import { StyleSheet, View, ScrollView, Dimensions, Text, Image } from 'react-native';
 import {
     PieChart,
     ProgressChart
@@ -9,17 +9,24 @@ import { FoodView, Loading, AppLayout } from "../components";
 
 import { useGetDailyFoodAnalystics } from "../hooks";
 
+import { verticalScale, moderateScale, scale } from "../utils";
+
 const FoodAnalystics: React.FC = () => {
     const { loading, error, analysis } = useGetDailyFoodAnalystics();
 
-    if (loading) return <AppLayout><Loading /></AppLayout>
+    if (loading) return <AppLayout backgroundColor="black"><Loading /></AppLayout>
 
     if (error) return <AppLayout><Text>There was a problem loading your daily food analysis. Please try again.</Text></AppLayout>
 
     return (
-        <AppLayout>
+        <AppLayout backgroundColor="black">
             <View style={styles.Header}>
-                <Text style={styles.HeaderText}>Daily Food Analytics</Text>
+                <Text style={styles.HeaderText}>DAILY FOOD ANALYTICS</Text>
+                <Image
+                    source={require("../assets/images/hero-section-line-vector.png")}
+                    style={styles.line}
+                    resizeMode="contain"
+                />
             </View>
             <ScrollView
                 showsVerticalScrollIndicator={false}
@@ -38,7 +45,7 @@ const FoodAnalystics: React.FC = () => {
                                         count: analysis?.Fat,
                                         color: 'rgb(255, 112, 112)',
                                         legendFontColor: 'white',
-                                        legendFontSize: 20,
+                                        legendFontSize: moderateScale(20),
                                     },
 
                                     {
@@ -46,7 +53,7 @@ const FoodAnalystics: React.FC = () => {
                                         count: analysis?.Carbs,
                                         color: 'rgb(163, 221, 163)',
                                         legendFontColor: 'white',
-                                        legendFontSize: 20,
+                                        legendFontSize: moderateScale(20),
                                     },
 
                                     {
@@ -54,11 +61,11 @@ const FoodAnalystics: React.FC = () => {
                                         count: analysis?.Protein,
                                         color: 'rgba(131, 167, 234, 1)',
                                         legendFontColor: 'white',
-                                        legendFontSize: 20
+                                        legendFontSize: moderateScale(20)
                                     }
                                 ]}
                                 width={Dimensions.get('window').width - 50}
-                                height={220}
+                                height={verticalScale(220)}
                                 chartConfig={{
                                     backgroundColor: '#1cc910',
                                     backgroundGradientFrom: '#eff3ff',
@@ -66,12 +73,12 @@ const FoodAnalystics: React.FC = () => {
                                     decimalPlaces: 2,
                                     color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
                                     style: {
-                                        borderRadius: 16,
+                                        borderRadius: moderateScale(16),
                                     }
                                 }}
                                 style={{
-                                    marginVertical: 8,
-                                    borderRadius: 16,
+                                    marginVertical: moderateScale(8),
+                                    borderRadius: moderateScale(16),
                                 }}
                                 accessor="count"
                                 backgroundColor="transparent"
@@ -79,23 +86,23 @@ const FoodAnalystics: React.FC = () => {
                             />
                         )
                     }
-                    <Text style={{ ...styles.ChartTitle, fontSize: 15 }}>Estimated % of Calories</Text>
+                    <Text style={{ ...styles.ChartTitle, fontSize: moderateScale(15) }}>Estimated % of Calories</Text>
                 </View>
 
                 <View style={styles.ChartContainer}>
                     <Text style={{ ...styles.ChartTitle, textAlign: 'center' }}>Daily Macronutrient Goals</Text>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginTop: 20 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginTop: moderateScale(20) }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <View style={{ width: 20, height: 20, backgroundColor: 'rgb(255, 112, 112)', borderRadius: 10, marginRight: 10 }}></View>
-                            <Text style={{ fontSize: 15, color: 'white' }}>Fats: {analysis?.FatsGoal}g</Text>
+                            <View style={{ width: moderateScale(20), height: moderateScale(20), backgroundColor: 'rgb(255, 112, 112)', borderRadius: moderateScale(10) }}></View>
+                            <Text style={{ fontSize: moderateScale(15), color: 'white' }}>Fats: {analysis?.FatsGoal}g</Text>
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <View style={{ width: 20, height: 20, backgroundColor: 'rgb(163, 221, 163)', borderRadius: 10, marginRight: 10 }}></View>
-                            <Text style={{ fontSize: 15, color: 'white' }}>Carbs: {analysis?.CarbsGoal}g</Text>
+                            <View style={{ width: moderateScale(20), height: moderateScale(20), backgroundColor: 'rgb(163, 221, 163)', borderRadius: moderateScale(10), marginLeft: moderateScale(5) }}></View>
+                            <Text style={{ fontSize: moderateScale(15), color: 'white' }}>Carbs: {analysis?.CarbsGoal}g</Text>
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <View style={{ width: 20, height: 20, backgroundColor: 'rgba(131, 167, 234, 1)', borderRadius: 10, marginRight: 10 }}></View>
-                            <Text style={{ fontSize: 15, color: 'white' }}>Protein: {analysis?.ProteinGoal}g</Text>
+                            <View style={{ width: moderateScale(20), height: moderateScale(20), backgroundColor: 'rgba(131, 167, 234, 1)', borderRadius: moderateScale(10), marginLeft: moderateScale(5) }}></View>
+                            <Text style={{ fontSize: moderateScale(15), color: 'white' }}>Protein: {analysis?.ProteinGoal}g</Text>
                         </View>
                     </View>
                     {
@@ -112,10 +119,10 @@ const FoodAnalystics: React.FC = () => {
                                     ],
                                     colors: ["rgb(255, 112, 112)", "rgb(163, 221, 163)", "rgba(131, 167, 234, 1)"]
                                 }}
-                                width={Dimensions.get('window').width - 150}
-                                height={200}
-                                strokeWidth={16}
-                                radius={30}
+                                width={(Dimensions.get('window').width - 150)}
+                                height={verticalScale(200)}
+                                strokeWidth={moderateScale(16)}
+                                radius={moderateScale(30)}
                                 chartConfig={{
                                     backgroundGradientFrom: '#01200e',
                                     backgroundGradientTo: 'rgba(0, 0, 0, 0)',
@@ -127,18 +134,26 @@ const FoodAnalystics: React.FC = () => {
                                     },
                                     labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                                     style: {
-                                        marginBottom: 50
+                                        marginBottom: moderateScale(50)
                                     }
                                 }}
                                 hideLegend={true}
-                                style={{ borderRadius: 50, padding: 20, marginLeft: 10, marginRight: 10, marginBottom: 20, position: 'relative', left: -10 }}
+                                style={{ 
+                                    borderRadius: moderateScale(50), 
+                                    padding: moderateScale(20), 
+                                    marginLeft: moderateScale(10),
+                                    marginRight: moderateScale(10), 
+                                    marginBottom: moderateScale(20), 
+                                    position: 'relative', 
+                                    left: moderateScale(-10) 
+                                }}
                             />
                         )
                     }
                 </View>
 
                 <View style={styles.FoodAteTodayView}>
-                    <Text style={{ ...styles.ChartTitle, textAlign: 'center', color: "black", fontSize: 25, }}>Food Ate Today</Text>
+                    <Text style={{ ...styles.ChartTitle, textAlign: 'center', color: "black", fontSize: moderateScale(25) }}>Food Ate Today</Text>
                     <View>
                         {
                             analysis?.Foods.map((food, index) => (
@@ -158,48 +173,50 @@ const FoodAnalystics: React.FC = () => {
 
 const styles = StyleSheet.create({
     Header: {
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: Dimensions.get('window').width,
-        borderBottomWidth: 1,
-        borderBottomColor: 'gainsboro',
-        padding: 10
+        padding: moderateScale(10)
     },
 
     HeaderText: {
-        fontSize: 20,
-        fontWeight: 'bold'
+        fontSize: moderateScale(25),
+        fontWeight: "bold",
+        color: "white",
+        textAlign: "center",
+        position: "relative",
+        top: moderateScale(20)
+    },
+
+    line: {
+        height: verticalScale(100),
+        width: scale(400),
+        zIndex: 1
     },
 
     ChartContainer: {
-        backgroundColor: "#01200e",
+        backgroundColor: "#222121",
         alignItems: 'center',
         justifyContent: 'center',
         width: "95%",
         marginRight: "auto",
         marginLeft: "auto",
-        marginTop: 10,
-        padding: 10,
-        borderRadius: 10
+        marginTop: moderateScale(10),
+        padding: moderateScale(10),
+        borderRadius: moderateScale(10)
     },
 
     ChartTitle: {
-        fontSize: 20,
+        fontSize: moderateScale(20),
         fontWeight: 'bold',
         color: 'white'
     },
 
     ChartText: {
-        fontSize: 15,
+        fontSize: moderateScale(15),
         color: 'white'
     },
 
     FoodAteTodayView: {
-        marginTop: 15,
-        borderWidth: 3,
-        borderTopRadius: 10,
-        borderColor: 'gainsboro'
+        marginTop: moderateScale(15),
+        marginBottom: moderateScale(95)
     }
 
 });

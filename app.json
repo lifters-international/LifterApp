@@ -4,12 +4,12 @@
     "slug": "Lifters",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "icon": "./assets/icons/Icons/lifters-icon-google-play.jpg",
+    "userInterfaceStyle": "black",
     "splash": {
-      "image": "./assets/LiftersLogo.png",
+      "image": "./assets/icons/Icons/lifters-icon-google-play.jpg",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "black"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -18,14 +18,15 @@
       "**/*"
     ],
     "ios": {
+      "icon": "./assets/icons/__MACOSX/._Icons",
       "supportsTablet": true,
       "bundleIdentifier": "com.lifters.international.lifters",
       "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "foregroundImage": "./assets/icons/Icons/lifters-icon-google-play.jpg",
+        "backgroundColor": "black"
       },
       "package": "com.lifters.international.lifters",
       "versionCode": 1,
@@ -35,7 +36,7 @@
     },
 
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icons/Icons/lifters-icon-google-play.jpg"
     },
 
     "plugins": [

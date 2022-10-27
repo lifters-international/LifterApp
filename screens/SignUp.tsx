@@ -1,11 +1,11 @@
 import { NavigationProp } from "@react-navigation/native";
 import React, { useState } from "react";
-import { View, StyleSheet, Text, TouchableOpacity, TextInput, Alert } from "react-native";
-import LottieView from 'lottie-react-native';
+import { View, StyleSheet, Text, TouchableOpacity, TextInput, Image, Alert } from "react-native";
+import { Ionicons, Entypo, Feather } from '@expo/vector-icons';
 import { Loading, AppLayout } from "../components";
 import { useAppDispatch } from "../redux";
 import { logIn, signUp, SignUpAsyncThunkResult, LoginAsyncThunkResult, setAuthState } from "../redux/features/auth";
-import { saveToStore } from "../utils";
+import { saveToStore, scale, verticalScale, moderateScale } from "../utils";
 
 interface Props {
     navigation: NavigationProp<any>;
@@ -42,7 +42,7 @@ const SignUp: React.FC<Props> = ({ navigation }) => {
                     password: passwordState
                 }));
             }
-            
+
         } else {
             if ((signUpResult.payload as SignUpAsyncThunkResult).errors[0].message === "Username Already exist") {
                 Alert.alert("Error", "Username already exist");
@@ -58,59 +58,100 @@ const SignUp: React.FC<Props> = ({ navigation }) => {
         navigation.navigate('Login');
     }
 
-    if ( loadingState ) return <AppLayout><Loading /></AppLayout>;
+    if (loadingState) return <AppLayout backgroundColor="black"><Loading /></AppLayout>;
 
     return (
-        <AppLayout>
+        <AppLayout backgroundColor="black">
             <View>
                 <View style={styles.content}>
-                    <View style={styles.animationFrame}>
-                        <LottieView
-                            source={require("../assets/LifterNavBar.json")}
-                            autoPlay
-                            loop
-                            speed={0.2}
-                        />
-                    </View>
-                    <View style={styles.footer}>
-                        <Text style={styles.accountTitle}>Create Account</Text>
-                        <View>
+                    <Image
+                        source={require("../assets/logo.png")}
+                        style={styles.logo}
+                        resizeMode="contain"
+                    />
+
+                    <Text style={styles.moto}>CREATE ACCOUNT</Text>
+
+                    <Image
+                        source={require("../assets/images/hero-section-line-vector.png")}
+                        style={styles.line}
+                        resizeMode="contain"
+                    />
+
+                    <View style={styles.form}>
+                        <View style={styles.inputContainer}>
+                            <Ionicons 
+                                name="person"
+                                size={moderateScale(24)} 
+                                color="white" 
+                                style={styles.inputIcon}
+                            />
                             <TextInput
                                 style={{ ...styles.input }}
-                                placeholder="Username:"
+                                placeholder="Username"
                                 onChangeText={text => setUserState(text)}
                                 value={userState}
+                                placeholderTextColor="#afadad"
                             />
+                        </View>
 
+                        <View style={styles.inputContainer}>
+                            <Ionicons 
+                                name="mail"
+                                size={moderateScale(24)} 
+                                color="white" 
+                                style={styles.inputIcon}
+                            />
                             <TextInput
                                 style={{ ...styles.input }}
-                                placeholder="Email:"
+                                placeholder="Email"
                                 onChangeText={text => setEmailState(text)}
                                 value={emailState}
+                                placeholderTextColor="#afadad"
                             />
+                        </View>
 
+                        <View style={styles.inputContainer}>
+                            <Entypo 
+                                name="lock"
+                                size={moderateScale(24)} 
+                                color="white" 
+                                style={styles.inputIcon}
+                            />
                             <TextInput
                                 style={{ ...styles.input }}
                                 placeholder="Password"
                                 onChangeText={text => setPasswordState(text)}
                                 value={passwordState}
+                                placeholderTextColor="#afadad"
                                 secureTextEntry={true}
                             />
                         </View>
-                        <View>
-                            <TouchableOpacity
-                                style={{ ...styles.button, backgroundColor: "green" }}
-                                onPress={handleSignUp}
-                            >
-                                <Text style={styles.buttonText}>Create Account</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={styles.button}
-                                onPress={toLoginPage}
-                            >
-                                <Text style={styles.buttonText}>Already have an Account? Login Now</Text>
-                            </TouchableOpacity>
-                        </View>
+
+                    </View>
+
+                    <View
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            position: "relative",
+                            bottom: verticalScale(-265),
+                            right: scale(-12),
+                            width: scale(280),
+                            zIndex: 1,
+                        }}
+                    >
+                        <TouchableOpacity onPress={handleSignUp} style={styles.button}>
+                            <Text style={{ color: "white", fontSize: moderateScale(30) }}>CREATE ACCOUNT</Text>
+                            <Feather name="arrow-up-right" size={moderateScale(40)} color="white" style={{ position: "absolute", left: scale(260), top: verticalScale(6) }}/>
+                        </TouchableOpacity>
+                    </View>
+
+                    <View style={styles.footer}>
+                        <Text style={styles.footerText}>Already have an Account?</Text>
+                        <TouchableOpacity onPress={toLoginPage}>
+                            <Text style={{ ...styles.footerText, color: "#FF3636" }}>Log in</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
@@ -119,69 +160,83 @@ const SignUp: React.FC<Props> = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
-    accountTitle: {
-        fontSize: 17,
-        fontWeight: "bold",
-        marginBottom: 20
+    logo: {
+        width: scale(80),
+        height: verticalScale(80)
     },
 
-    buttonText: {
+    moto: {
         color: "white",
-        textAlign: "center"
+        fontSize: moderateScale(55),
+        width: scale(255),
+        zIndex: 1
+    },
+
+    line: {
+        position: "absolute",
+        bottom: 0,
+    },
+
+    form: {
+        position: "absolute",
+        width: scale(300),
+        height: verticalScale(250),
+        top: verticalScale(270),
+        left: scale(20),
+    },
+
+    inputContainer: {
+        borderBottomWidth: 1,
+        borderColor: "white",
+        display: "flex",
+        flexDirection: "row",
+        height: verticalScale(50)
+    },
+
+    inputIcon: {
+        position: "relative",
+        left: scale(10),
+        top: verticalScale(13)
     },
 
     input: {
-        width: 300,
-        marginBottom: 10,
-        borderWidth: 1,
-        borderColor: "gainsboro",
-        borderRadius: 10,
-        padding: 10
+        width: scale(300),
+        fontSize: moderateScale(20),
+        color: "white",
+        marginLeft: scale(20)
     },
 
     button: {
-        textAlign: "center",
-        width: 300,
-        marginBottom: 10,
-        borderWidth: 1,
-        borderColor: "gainsboro",
-        borderRadius: 5,
+        width: scale(300),
         padding: 10,
-        fontSize: 20,
-        fontWeight: "bold",
-        backgroundColor: "#00bcd4",
-        color: "white"
+        borderColor: "black",
+        borderWidth: 1,
+        backgroundColor: "#FF3636",
+        display: "flex",
+        flexDirection: "row"
     },
 
     content: {
         padding: "5%",
     },
 
-    animationFrame: {
-        marginTop: "20%",
-        height: "30%",
-        alignContent: "center",
-        display: "flex",
-        alignItems: "center",
-        shadowRadius: 10,
-        shadowOpacity: 10,
-        shadowOffset: {
-            width: 20,
-            height: 10
-        }
-    },
-
-    header: {
-        fontSize: 17.8,
-    },
-
     footer: {
-        width: "100%",
+        position: "absolute",
+        bottom: verticalScale(-300),
+        right: scale(20),
         display: "flex",
-        marginTop: "0%",
-        justifyContent: "center",
+        flexDirection: "row",
         alignItems: "center",
+        justifyContent: "center",
+        width: scale(300),
     },
+
+    footerText: {
+        color: "#afadad",
+        fontSize: moderateScale(15),
+        marginRight: scale(5)
+    }
+
 });
 
 export default SignUp;

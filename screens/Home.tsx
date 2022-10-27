@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Logo, LifterMatch, Loading, AppLayout } from "../components";
+import { LifterMatch, Loading, AppLayout } from "../components";
 import { useSelector } from "react-redux";
 import { useGetUserMatches } from '../hooks';
 import { useAppDispatch } from "../redux";
@@ -29,10 +29,10 @@ const Home: React.FC = () => {
         }
     }
 
-    if (userMatches.loading) return <AppLayout><Loading /></AppLayout>;
+    if (userMatches.loading) return <AppLayout backgroundColor="black"><Loading /></AppLayout>;
 
     return (
-        <AppLayout>
+        <AppLayout backgroundColor="black">
             <View style={styles.container}>
                 <View>
                     <LifterMatch {...userMatches.users![currentMatch]} allowAction next={
@@ -53,7 +53,7 @@ const Home: React.FC = () => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "white",
+        backgroundColor: "black",
     }
 });
 

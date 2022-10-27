@@ -3,6 +3,8 @@ import Lottie from 'lottie-react-native';
 
 import { View, StyleSheet } from "react-native";
 
+import { moderateScale } from "../utils";
+
 const Logo: React.FC = () => {
     const animation = useRef<Lottie>(null);
 
@@ -32,10 +34,10 @@ const styles = StyleSheet.create({
         alignItems: "center",
         flexDirection: "row",
         justifyContent: "flex-start",
-        borderBottomWidth: 1,
+        borderBottomWidth: moderateScale(1),
         borderColor: "gainsboro",
-        padding: 10,
-        marginBottom: 14
+        padding: moderateScale(10),
+        marginBottom: moderateScale(14)
     },
 
     lottie: {

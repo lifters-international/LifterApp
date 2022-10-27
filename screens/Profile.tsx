@@ -5,8 +5,9 @@ import { NavigationProp } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
+import * as WebBrowser from 'expo-web-browser';
 
-import { saveToStore, userInformationToSave, getImageUploadApi, returnImageSource, getServerUrl } from "../utils";
+import { saveToStore, userInformationToSave, getImageUploadApi, returnImageSource, scale, verticalScale, moderateScale } from "../utils";
 import { useAppDispatch } from "../redux";
 import { setAuthState } from "../redux/features/auth";
 import { useSignedInUserData, useSaveUserProfileChanges } from "../hooks";
@@ -81,14 +82,14 @@ const Profile: React.FC<Props> = ({ navigation }) => {
         setLoading(false);
     }
 
-    if ( loading ) return <AppLayout><Loading /></AppLayout>;
+    if ( loading ) return <AppLayout backgroundColor="black"><Loading /></AppLayout>;
 
     return (
-        <AppLayout>
+        <AppLayout backgroundColor="black">
             <View>
                 <View style={styles.EditProfilePicture}>
                     <ImageBackground source={returnImageSource(profilePicture)} style={{ flex: 1, justifyContent: "center" }}>
-                        <Button title="Upload New Profile Picture" style={styles.EditProfilePictureButton} textStyle={{ color: "white", fontSize: 10 }} onPress={pickImage} />
+                        <Button title="Upload New Profile Picture" style={styles.EditProfilePictureButton} textStyle={{ color: "white", fontSize: moderateScale(10) }} onPress={pickImage} />
                     </ImageBackground>
                 </View>
 
@@ -109,7 +110,7 @@ const Profile: React.FC<Props> = ({ navigation }) => {
                             {
                                 title: "Subscription",
                                 onClick: () => {
-                                    navigation.navigate("Subscription");
+                                    WebBrowser.openBrowserAsync('https://www.lifters.app/changeSubscription/'+token)
                                 },
                             },
                             {
@@ -136,7 +137,7 @@ const Profile: React.FC<Props> = ({ navigation }) => {
                             }
                         ]}
                         renderItem={({ item }) => (
-                            <Button title={item.title} style={styles.EditProfileButton} textStyle={{ color: "white", fontSize: 10, textAlign: "center" }} onPress={item.onClick} />
+                            <Button title={item.title} style={styles.EditProfileButton} textStyle={{ color: "white", fontSize: moderateScale(10), textAlign: "center" }} onPress={item.onClick} />
                         )}
 
                     />
@@ -225,7 +226,13 @@ const Profile: React.FC<Props> = ({ navigation }) => {
                                 renderItem={({ item, index }) => (
                                     <View style={styles.EditProfileInput} key={`FlatList-ProfileInput-${rowIndex.toString()}-${index}`}>
                                         <Text style={styles.EditProfileInputTitle}>{item.title}</Text>
-                                        <TextInput style={styles.EditProfileInputField} value={item.value as string} keyboardType={`${item.title == "Age" ? "numeric" : "default"}`} onChangeText={item.onChange} />
+                                        <TextInput 
+                                            style={styles.EditProfileInputField} 
+                                            value={item.value as string} 
+                                            keyboardType={`${item.title == "Age" ? "numeric" : "default"}`} 
+                                            onChangeText={item.onChange} 
+                                            placeholderTextColor="white"
+                                        />
                                     </View>
                                 )}
                                 keyExtractor={(item, index) => `FlatList-ProfileInput-${rowIndex.toString()}-${index}`}
@@ -234,7 +241,7 @@ const Profile: React.FC<Props> = ({ navigation }) => {
                     }
                     <View style={styles.EditProfileBioView}>
                         <Text style={styles.EditProfileInputTitle}>Bio</Text>
-                        <TextInput placeholder="bio" style={styles.EditProfileInputBio} multiline onChangeText={
+                        <TextInput placeholder="bio" placeholderTextColor="white" style={styles.EditProfileInputBio} multiline onChangeText={
                             (text: string) => {
                                 setUserData({
                                     ...userData,
@@ -256,86 +263,88 @@ const styles = StyleSheet.create({
         marginRight: "auto",
         marginLeft: "auto",
         marginTop: "-3%",
-        borderWidth: 1,
-        borderColor: "gainsboro",
-        borderRadius: 10,
-        padding: 10
+        borderRadius: moderateScale(10),
+        padding: moderateScale(10)
     },
 
     EditProfilePictureButton: {
         alignSelf: "flex-end",
-        borderWidth: 2,
+        borderWidth: moderateScale(2),
         borderColor: "black",
-        borderRadius: 10,
-        padding: 10,
-        backgroundColor: "red",
+        borderRadius: moderateScale(10),
+        padding: moderateScale(10),
+        backgroundColor: "#FF3636",
         position: "relative",
-        top: -30
+        top: verticalScale(-30)
     },
 
     EditProfileTitle: {
-        fontSize: 20,
+        fontSize: moderateScale(20),
         fontWeight: "bold",
     },
 
     EditProfileButtons: {
         display: "flex",
         width: "100%",
-        height: 80,
+        height: verticalScale(80)
     },
 
     EditProfileButton: {
-        borderWidth: 2,
+        borderWidth: moderateScale(2),
         borderColor: "black",
-        borderRadius: 10,
-        padding: 10,
-        backgroundColor: "red",
-        marginRight: 1,
-        width: 94,
-        height: "50%",
+        borderRadius: moderateScale(10),
+        padding: moderateScale(10),
+        backgroundColor: "#FF3636",
+        marginRight: moderateScale(2),
+        width: scale(85),
+        height: moderateScale(40)
     },
 
     EditProfileInputJoin: {
         display: "flex",
         flexDirection: "column",
         width: "100%",
-        marginLeft: 5
+        marginLeft: moderateScale(3)
     },
 
     EditProfileInput: {
-        width: "50%"
+        width: "50%",
     },
 
     EditProfileInputTitle: {
-        fontSize: 10,
+        fontSize: moderateScale(15),
         fontWeight: "bold",
-        marginBottom: 10,
-        width: 200
+        marginBottom: moderateScale(10),
+        width: scale(200),
+        color: "white"
     },
 
     EditProfileInputField: {
-        width: 180,
-        borderWidth: 2,
-        borderColor: "gainsboro",
-        borderRadius: 10,
-        padding: 10,
-        marginBottom: 10,
-        fontSize: 10
+        width: scale(170),
+        borderWidth: moderateScale(2),
+        borderColor: "#222121",
+        borderRadius: moderateScale(10),
+        padding: moderateScale(10),
+        marginBottom: moderateScale(10),
+        fontSize: moderateScale(15), 
+        color: "white"
     },
 
     EditProfileBioView: {
-        marginLeft: 5
+        marginLeft: moderateScale(5)
     },
 
     EditProfileInputBio: {
         width: "97%",
-        height: 85,
+        height: verticalScale(85),
         overflow: "scroll",
-        borderWidth: 2,
-        borderColor: "gainsboro",
-        borderRadius: 10,
-        padding: 10,
-        marginBottom: 10
+        borderWidth: moderateScale(2),
+        borderColor: "#222121",
+        borderRadius: moderateScale(10),
+        padding: moderateScale(10),
+        marginBottom: moderateScale(10),
+        fontSize: moderateScale(15), 
+        color: "white"
     }
 });
 

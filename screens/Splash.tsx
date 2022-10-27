@@ -1,7 +1,11 @@
 import { NavigationProp } from "@react-navigation/native";
 import React from "react";
-import { View, StyleSheet, SafeAreaView, Text, Image, TouchableOpacity } from "react-native";
-import LottieView from 'lottie-react-native';
+import { View, StyleSheet, SafeAreaView, Text, TouchableOpacity, Image } from "react-native";
+
+import { LinearGradient } from 'expo-linear-gradient';
+import { Feather } from '@expo/vector-icons';
+
+import { scale, verticalScale, moderateScale } from "../utils";
 
 interface Props {
     navigation: NavigationProp<any>;
@@ -16,36 +20,57 @@ const Splash: React.FC<Props> = ({ navigation }) => {
         <View style={styles.container}>
             <SafeAreaView>
                 <View style={styles.content}>
-                    <View style={styles.animationFrame}>
-                        <LottieView
-                            source={require("../assets/LifterNavBar.json")}
-                            autoPlay
-                            loop
-                            speed={0.2}
+                    <Image
+                        source={require("../assets/logo.png")}
+                        style={styles.logo}
+                        resizeMode="contain"
+                    />
+
+                    <Text style={styles.logoText}>LIFTERS</Text>
+
+                    <Text style={styles.moto}>HOME FOR ALL THINGS GYM</Text>
+
+                    <View>
+                        <LinearGradient
+                            // Background Linear Gradient
+                            colors={['#050505', 'rgba(5, 5, 5, 0)']}
+                            locations={[0.0, 1.0]}
+                            style={styles.fadeOverlay}
+                        >
+                        </LinearGradient>
+
+                        <View style={styles.fadeOverlayView}>
+                            <Image
+                                source={require("../assets/images/landing-page-hero-section-man-image.png")}
+                                style={styles.image}
+                                resizeMode="contain"
+                            />
+
+                            <View style={styles.doorEffects}></View>
+                        </View>
+
+                        <Image
+                            source={require("../assets/images/hero-section-line-vector.png")}
+                            style={styles.line}
+                            resizeMode="contain"
                         />
                     </View>
-                    <View>
-                        <Text style={styles.Liftersheader}>LIFTERS</Text>
-                    </View>
-                    <View style={styles.footer}>
-                        <View>
-                            <Text style={styles.header}>#1</Text>
-                        </View>
-                        <View>
-                            <Text style={styles.header}>HOME FOR ALL THINGS GYM</Text>
-                        </View>
-                        <View
-                            style={{
-                                width: "100%",
-                                display: "flex",
-                                alignItems: "center",
-                                marginTop: 50,
-                            }}
-                        >
-                            <TouchableOpacity onPress={nextPage} style={styles.button}>
-                                <Text style={{color: "white"}}>Get Started</Text>
-                            </TouchableOpacity>
-                        </View>
+
+                    <View
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            position: "absolute",
+                            bottom: verticalScale(270),
+                            right: scale(41.5),
+                            width: scale(280),
+                            zIndex: 1,
+                        }}
+                    >
+                        <TouchableOpacity onPress={nextPage} style={styles.button}>
+                            <Text style={{ color: "white", fontSize: moderateScale(30) }}>GET STARTED</Text>
+                            <Feather name="arrow-up-right" size={moderateScale(40)} color="white" style={{ position: "absolute", left: scale(260), top: verticalScale(6) }}/>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </SafeAreaView>
@@ -55,58 +80,86 @@ const Splash: React.FC<Props> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     button: {
+        width: scale(300),
         padding: 10,
         borderColor: "black",
         borderWidth: 1,
-        borderRadius: 10,
-        backgroundColor: "red"
+        backgroundColor: "#FF3636",
+        display: "flex",
+        flexDirection: "row"
     },
 
     container: {
-        backgroundColor: "white",
+        backgroundColor: "black",
         flex: 1,
     },
 
     content: {
         padding: "5%",
+
     },
 
-    animationFrame: {
-        marginTop: "20%",
-        height: "55%",
-        alignContent: "center",
-        display: "flex",
-        alignItems: "center",
-        shadowRadius: 10,
-        shadowOpacity: 10,
-        shadowOffset: {
-            width: 20,
-            height: 10
-        }
+    logo: {
+        width: scale(80),
+        height: verticalScale(80)
     },
 
-    Liftersheader: {
-        fontSize: 40,
-        fontWeight: "bold",
-        textAlign: "center",
-        color: "red",
-        outlineColor: "black",
-        fontStyle: "italic"
+    logoText: {
+        color: "#FF3636",
+        fontSize: moderateScale(80),
+        zIndex: 1
     },
 
-    header: {
-        fontSize: 17.8,
-        fontWeight: "bold",
-        color: "red"
+    moto: {
+        color: "white",
+        fontSize: moderateScale(45),
+        zIndex: 1
     },
 
-    footer: {
-        width: "100%",
-        display: "flex",
-        marginTop: "0%",
-        justifyContent: "center",
-        alignItems: "center",
+    image: {
+        width: scale(300),
+        height: verticalScale(300),
+        zIndex: -1,
+        position: "relative",
+        top: verticalScale(50),
     },
+
+    fadeOverlay: {
+        position: "absolute",
+        top: verticalScale(30),
+        left: scale(-40),
+        width: scale(400),
+        height: verticalScale(350),
+        zIndex: 1,
+        transform: [{ rotate: "180deg" }],
+    },
+
+    fadeOverlayView: {
+        position: "relative",
+        top: verticalScale(0),
+        left: scale(0),
+        zIndex: -1,
+    },
+
+    doorEffects: {
+        width: scale(300),
+        height: verticalScale(300),
+        backgroundColor: "#FF3636",
+        position: "relative",
+        bottom: verticalScale(250),
+        borderTopLeftRadius: moderateScale(500),
+        borderTopRightRadius: moderateScale(500),
+        zIndex: -2
+    },
+
+    line: {
+        width: scale(300),
+        height: verticalScale(300),
+        position: "absolute",
+        bottom: verticalScale(360),
+        zIndex: 3
+    }
+
 });
 
 

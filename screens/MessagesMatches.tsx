@@ -23,10 +23,10 @@ const MessagesMatches : React.FC<Props> = ({ navigation, route }) => {
         return <AppLayout><View></View></AppLayout>
     }
 
-    if (matchedDetails.loading) return <AppLayout><Loading /></AppLayout>;
+    if (matchedDetails.loading) return <AppLayout backgroundColor="black"><Loading /></AppLayout>;
 
     return (
-        <AppLayout>
+        <AppLayout backgroundColor="black">
             <View>
                 <LifterMatch 
                     {...matchedDetails.user!}

@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 
-import { StyleSheet, View, ScrollView, Text } from "react-native";
+import { StyleSheet, View, ScrollView, Text, TouchableOpacity } from "react-native";
 
-import { Food } from "../utils";
+import { Food, verticalScale, moderateScale, scale } from "../utils";
 
 import { useAddFoodToLiftersDailyFood } from "../hooks";
 
-import Button from "./Button";
+import { AntDesign } from '@expo/vector-icons';
 
 export type Props = {
     action?: boolean
@@ -17,39 +17,115 @@ const FoodView: React.FC<Props> = ({ id, name, calories, servingSize, nutritionF
 
     return (
         <View style={styles.container} >
-            <Text style={styles.foodName}>{name}</Text>
-            <View style={styles.foodImportantInfor}>
-                <Text style={styles.foodTextImportant}>Serving Size: {servingSize.measurment}{servingSize.unit}</Text>
-                <Text style={styles.foodTextImportant}>Calories: {calories}</Text>
+            <View style={{ borderBottomWidth: moderateScale(0.8), borderColor: '#5e5c5c' }}>
+                <Text style={styles.foodName}>{name}</Text>
             </View>
 
-            <View>
-                <Text style={{ ...styles.foodTextImportant, textAlign: 'center' }}>Nutrition Facts</Text>
+            <View style={styles.foodImportantInfor}>
+                <View>
+                    <Text style={{...styles.foodTextImportant, color: "#5e5c5c" }}>Serving Size: </Text>
+                    <Text style={styles.foodTextImportant}>{servingSize.measurment}{servingSize.unit}</Text>
+                </View>
+                
+                <View>
+                    <Text style={{...styles.foodTextImportant, color: "#5e5c5c" }}>Calories: </Text>
+                    <Text style={styles.foodTextImportant}>{calories}</Text>
+                </View>
+            </View>
+
+            <View style={{ borderTopWidth: moderateScale(0.8), borderColor: '#5e5c5c' }}>
+                <Text style={{ ...styles.foodTextImportant, textAlign: 'center', marginTop: moderateScale(20) }}>NUTRITION FACTS</Text>
                 <ScrollView style={styles.nutritionFacts}>
-                    <Text style={styles.foodText}>Carbohydrates: {nutritionFacts.totalCarbohydrate.measurment}{nutritionFacts.totalCarbohydrate.unit}</Text>
-                    <Text style={styles.foodText}>Protein: {nutritionFacts.protein.measurment}{nutritionFacts.protein.unit}</Text>
-                    <Text style={styles.foodText}>Total Fat: {nutritionFacts.totalFat.measurment}{nutritionFacts.totalFat.unit}</Text>
-                    <Text style={styles.foodText}>Saturated Fat: {nutritionFacts.saturatedFat.measurment}{nutritionFacts.saturatedFat.unit}</Text>
-                    <Text style={styles.foodText}>Cholesterol: {nutritionFacts.cholesterol.measurment}{nutritionFacts.cholesterol.unit}</Text>
-                    <Text style={styles.foodText}>Sodium: {nutritionFacts.sodium.measurment}{nutritionFacts.sodium.unit}</Text>
-                    <Text style={styles.foodText}>Dietary Fiber: {nutritionFacts.dietaryFiber.measurment}{nutritionFacts.dietaryFiber.unit}</Text>
-                    <Text style={styles.foodText}>Total Sugars: {nutritionFacts.totalSugars.measurment}{nutritionFacts.totalSugars.unit}</Text>
-                    <Text style={styles.foodText}>Added Sugars: {nutritionFacts.addedSugars.measurment}{nutritionFacts.addedSugars.unit}</Text>
-                    <Text style={styles.foodText}>Vitamin D: {nutritionFacts.vitaminD.measurment}{nutritionFacts.vitaminD.unit}</Text>
-                    <Text style={styles.foodText}>Calcium: {nutritionFacts.calcium.measurment}{nutritionFacts.calcium.unit}</Text>
-                    <Text style={styles.foodText}>Iron: {nutritionFacts.iron.measurment}{nutritionFacts.iron.unit}</Text>
-                    <Text style={styles.foodText}>Potassium: {nutritionFacts.potassium.measurment}{nutritionFacts.potassium.unit}</Text>
+                    <View style={styles.foodImportantInfors}>
+                        <Text style={styles.foodText}>Carbohydrates: </Text>
+                        <Text style={{...styles.foodText, color: "white"}}>{nutritionFacts.totalCarbohydrate.measurment}{nutritionFacts.totalCarbohydrate.unit}</Text>
+                    </View>
+
+                    <View style={styles.foodImportantInfors}>
+                        <Text style={styles.foodText}>Protein: </Text>
+                        <Text style={{...styles.foodText, color: "white"}}>{nutritionFacts.protein.measurment}{nutritionFacts.protein.unit}</Text>
+                    </View>
+
+                    <View style={styles.foodImportantInfors}>
+                        <Text style={styles.foodText}>Total Fat: </Text>
+                        <Text style={{...styles.foodText, color: "white"}}>{nutritionFacts.totalFat.measurment}{nutritionFacts.totalFat.unit}</Text>
+                    </View>
+
+                    <View style={styles.foodImportantInfors}>
+                        <Text style={styles.foodText}>Total Fat: </Text>
+                        <Text style={{...styles.foodText, color: "white"}}>{nutritionFacts.totalFat.measurment}{nutritionFacts.totalFat.unit}</Text>
+                    </View>
+                    
+                    <View style={styles.foodImportantInfors}>
+                        <Text style={styles.foodText}>Saturated Fat: </Text>
+                        <Text style={{...styles.foodText, color: "white"}}>{nutritionFacts.saturatedFat.measurment}{nutritionFacts.saturatedFat.unit}</Text>
+                    </View>
+
+                    <View style={styles.foodImportantInfors}>
+                        <Text style={styles.foodText}>Cholesterol: </Text>
+                        <Text style={{...styles.foodText, color: "white"}}>{nutritionFacts.cholesterol.measurment}{nutritionFacts.cholesterol.unit}</Text>
+                    </View>
+
+                    <View style={styles.foodImportantInfors}>
+                        <Text style={styles.foodText}>Sodium: </Text>
+                        <Text style={{...styles.foodText, color: "white"}}>{nutritionFacts.sodium.measurment}{nutritionFacts.sodium.unit}</Text>
+                    </View>
+
+                    <View style={styles.foodImportantInfors}>
+                        <Text style={styles.foodText}>Dietary Fiber: </Text>
+                        <Text style={{...styles.foodText, color: "white"}}>{nutritionFacts.dietaryFiber.measurment}{nutritionFacts.dietaryFiber.unit}</Text>
+                    </View>
+
+                    <View style={styles.foodImportantInfors}>
+                        <Text style={styles.foodText}>Total Sugars: </Text>
+                        <Text style={{...styles.foodText, color: "white"}}>{nutritionFacts.totalSugars.measurment}{nutritionFacts.totalSugars.unit}</Text>
+                    </View>
+
+                    <View style={styles.foodImportantInfors}>
+                        <Text style={styles.foodText}>Added Sugars: </Text>
+                        <Text style={{...styles.foodText, color: "white"}}>{nutritionFacts.addedSugars.measurment}{nutritionFacts.addedSugars.unit}</Text>
+                    </View>
+
+                    <View style={styles.foodImportantInfors}>
+                        <Text style={styles.foodText}>Vitamin D: </Text>
+                        <Text style={{...styles.foodText, color: "white"}}>{nutritionFacts.vitaminD.measurment}{nutritionFacts.vitaminD.unit}</Text>
+                    </View>
+
+                    <View style={styles.foodImportantInfors}>
+                        <Text style={styles.foodText}>Calcium: </Text>
+                        <Text style={{...styles.foodText, color: "white"}}>{nutritionFacts.calcium.measurment}{nutritionFacts.calcium.unit}</Text>
+                    </View>
+
+                    <View style={styles.foodImportantInfors}>
+                        <Text style={styles.foodText}>Iron: </Text>
+                        <Text style={{...styles.foodText, color: "white"}}>{nutritionFacts.iron.measurment}{nutritionFacts.iron.unit}</Text>
+                    </View>
+
+                    <View style={styles.foodImportantInfors}>
+                        <Text style={styles.foodText}>Potassium: </Text>
+                        <Text style={{...styles.foodText, color: "white"}}>{nutritionFacts.potassium.measurment}{nutritionFacts.potassium.unit}</Text>
+                    </View>
                 </ScrollView>
             </View>
 
             {
                 action ? (
-                    <Button
-                        title={statement}
-                        onPress={() => addFoodToLiftersDailyFood(id)}
-                        style={styles.button}
-                        textStyle={{ textAlign: 'center', color: 'white', fontSize: 20 }}
-                    />
+                    <View
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            position: "relative",
+                            bottom: verticalScale(-35),
+                            right: scale(-40),
+                            width: scale(200),
+                            zIndex: 1,
+                        }}
+                    >
+                        <TouchableOpacity onPress={() => addFoodToLiftersDailyFood(id)} style={styles.button}>
+                            <Text style={{ color: "white", fontSize: moderateScale(25), textAlign: "center", position: "absolute", top: verticalScale(10), left: scale(10) }}>{statement}</Text>
+                            <AntDesign name="plus" size={moderateScale(40)} color="white" style={{ position: "absolute", left: scale(238), top: verticalScale(4) }}/>
+                        </TouchableOpacity>
+                    </View>
                 ) : null
             }
         </View>
@@ -62,60 +138,69 @@ FoodView.defaultProps = {
 
 const styles = StyleSheet.create({
     container: {
-        borderColor: 'gainsboro',
-        padding: 15,
+        padding: scale(15),
         marginRight: "auto",
         marginLeft: "auto",
-        marginBottom: 15,
-        marginTop: 10,
-        borderRadius: 10,
-        display: 'flex',
-        flexDirection: 'column',
         width: '90%',
-        borderWidth: 2,
+        height: verticalScale(465),
+        borderWidth: moderateScale(1),
+        backgroundColor: '#222121',
+        marginBottom: moderateScale(20),
     },
 
     foodName: {
-        fontSize: 20,
+        fontSize: moderateScale(30),
         fontWeight: 'bold',
         textAlign: 'center',
-        marginBottom: 10,
+        marginBottom: moderateScale(20),
         fontStyle: 'italic',
-        textDecorationLine: "underline"
+        color: "white"
     },
 
     foodImportantInfor: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'space-between', 
+        marginTop: moderateScale(20),
+        marginBottom: moderateScale(20)
+    },
+
+    foodImportantInfors: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between', 
+        marginBottom: moderateScale(5)
     },
 
     foodText: {
-        fontSize: 15
+        fontSize: moderateScale(20),
+        color: '#5e5c5c'
     },
 
     foodTextImportant: {
-        fontSize: 15,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: "white",
+        fontSize: moderateScale(20),
     },
 
     nutritionFacts: {
-        maxHeight: 100,
-        marginTop: 10,
-        marginBottom: 10,
-        borderWidth: 1,
-        borderColor: 'gainsboro',
-        borderRadius: 5,
-        padding: 5
+        maxHeight: verticalScale(100),
+        marginTop: moderateScale(10),
+        marginBottom: moderateScale(10),
+        borderRadius: moderateScale(5),
+        padding: moderateScale(5)
     },
 
     button: {
-        marginTop: 10,
-        marginBottom: 10,
-        backgroundColor: 'dodgerblue',
+        width: scale(280),
         padding: 10,
-        borderRadius: 10,
-        width: '100%'
+        borderColor: "black",
+        borderWidth: 1,
+        backgroundColor: "#FF3636",
+        display: "flex",
+        flexDirection: "row",
+        marginBottom: moderateScale(10),
+        height: verticalScale(50)
     }
 });
 

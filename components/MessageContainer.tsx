@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { AcceptedUserMatches, Message, MessageWhoSent, MessageMetaDataType, returnImageSource } from '../utils';
+import { AcceptedUserMatches, returnImageSource, scale, verticalScale, moderateScale } from '../utils';
 
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 
 import { Link } from "@react-navigation/native";
 
@@ -12,10 +12,14 @@ export type MessageContainerProps = {
 }
 
 const MessageContainer: React.FC<MessageContainerProps> = ({ token, matches }) => {
-    matches.sort( (a, b) => Number(b.date) - Number(a.date));
+    matches.sort((a, b) => Number(b.date) - Number(a.date));
 
     return (
         <View style={styles.MessageContainer}>
+            <View style={{ marginTop: verticalScale(20), marginBottom: verticalScale(20), padding: moderateScale(10) }}>
+                <Text style={{ fontSize: moderateScale(25), color: "white" }}>Chats</Text>
+            </View>
+
             <ScrollView style={styles.MessageHolderContext}>
                 {
                     matches.length === 0 ? (
@@ -23,25 +27,26 @@ const MessageContainer: React.FC<MessageContainerProps> = ({ token, matches }) =
                             <Text style={{ fontSize: 30 }}>No Messages</Text>
                         </View>
                     ) : (
-                        matches.map(( message : AcceptedUserMatches ) => {
+                        matches.map((message: AcceptedUserMatches) => {
                             let text = message.lastMessage?.message || "";
                             const shortenedText = text.slice(0, 33) + ((text.length!) >= 33 ? "..." : "");
 
                             return (
-                                <Link 
-                                    key={message.id} 
+                                <Link
+                                    key={message.id}
                                     style={styles.MessageMatches}
                                     to={{ screen: "MessageBox", params: { matchId: message.id, name: message.name, profilePicture: message.profilePicture } }}
-                                    >
-                                    <View style={{ flex: 1}}>
-                                        <Image 
-                                            source={ 
-                                                returnImageSource(message.profilePicture, { width: 40, height: 40, borderRadius: 30 })
-                                            } 
+                                >
+                                    <View style={{ flex: 1 }}>
+                                        <Image
+                                            source={
+                                                returnImageSource(message.profilePicture, { width: scale(40), height: verticalScale(40), borderRadius: moderateScale(30) })
+                                            }
                                             style={styles.MessageMatchesProfilePicture}
                                             resizeMode="contain"
                                         />
                                     </View>
+
                                     <View style={styles.MessageMatchesContext}>
                                         <View style={styles.MessageMatchesContextNameHeader}>
                                             <Text style={styles.MessageMatchesContextName}>{message.name}</Text>
@@ -67,67 +72,63 @@ const MessageContainer: React.FC<MessageContainerProps> = ({ token, matches }) =
 
 const styles = StyleSheet.create({
     MessageContainer: {
-        marginTop: 4
+        marginTop: moderateScale(4)
     },
 
     MessageHolderContext: {
         height: "78%",
-        borderTopWidth: 1,
-        borderTopColor: "gainsboro",
-        borderRadius: 5
-    }, 
+        borderRadius: moderateScale(5)
+    },
 
     MessageMatchesProfilePicture: {
-        width: 60,
-        height: 60,
-        padding: 5,
-        borderRadius: 30,
-        borderWidth: 1,
-        borderColor: "red"
+        width: scale(60),
+        height: verticalScale(60),
+        padding: moderateScale(5)
     },
 
     MessageMatches: {
-        borderBottomWidth: 1,
+        borderBottomWidth: moderateScale(1),
         borderBottomColor: "gainsboro",
-        borderRadius: 5,
-        padding: 5,
+        borderRadius: moderateScale(5),
+        padding: moderateScale(5),
         display: "flex",
         flexDirection: "row",
-        gap: 10,
-        marginTop: 10
+        gap: moderateScale(10),
+        marginTop: moderateScale(10)
     },
 
     MessageMatchesContext: {
-        flex: 3
+        flex: moderateScale(3),
+
     },
 
     MessageMatchesContextNameHeader: {
         display: "flex",
         flexDirection: "row",
-        marginTop: 4
+        marginTop: moderateScale(4)
     },
 
     MessageMatchesContextName: {
         fontWeight: "bold",
-        fontSize: 20,
-        color: "black"
+        fontSize: moderateScale(20),
+        color: "white"
     },
 
     circle: {
-        height: 25,
-        width: 25,
-        borderWidth: 1,
-        borderRadius: 50,
+        height: verticalScale(25),
+        width: scale(25),
+        borderWidth: moderateScale(1),
+        borderRadius: moderateScale(50),
         borderColor: "red",
-        padding: 10,
+        padding: moderateScale(10),
         textAlign: "center",
         backgroundColor: "red",
         color: "white",
         alignItems: "center",
         justifyContent: "center",
         position: "relative",
-        top: -4,
-        left: 5
+        top: verticalScale(-4),
+        left: scale(5)
     },
 
     circleText: {
@@ -135,15 +136,15 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
-        fontSize: 12,
-        padding: 10,
+        fontSize: moderateScale(12),
+        padding: moderateScale(10),
         position: "relative",
-        top: -6,
-        left: -3
+        top: verticalScale(-6),
+        left: scale(-3)
     },
 
     MessageMatchesContextMessage: {
-        fontSize: 17,
+        fontSize: moderateScale(17),
         color: "rgb(139, 139, 139)"
     },
 

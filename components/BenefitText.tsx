@@ -1,17 +1,18 @@
 import React from 'react';
 
 import { Text, View } from 'react-native';
+import { moderateScale } from "../utils";
 
 const BenefitText: React.FC<{ text: string }> = ( { text } ) => {
     return (
         <View style={{ 
-            borderWidth: 1,
+            borderWidth: moderateScale(1),
             borderColor: "gainsboro",
-            padding: 10,
-            borderRadius: 10,
-            marginBottom: 10
+            padding: moderateScale(10),
+            borderRadius: moderateScale(10),
+            marginBottom: moderateScale(10)
         }}>
-            <Text style={{ textAlign: 'center', fontSize: 15 }}>{text}</Text>
+            <Text style={{ textAlign: 'center', fontSize: moderateScale(15) }}>{text}</Text>
         </View>
     )
 }

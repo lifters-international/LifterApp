@@ -1,8 +1,7 @@
 import React from "react";
 import { IconFill } from "@ant-design/icons-react-native";
 import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
-import { BlurView } from 'expo-blur';
-import { returnImageSource } from "../utils";
+import { returnImageSource, scale, verticalScale, moderateScale } from "../utils";
 import { useAppDispatch } from "../redux";
 import { acceptDeclineMatchThunk } from "../redux/features/auth"; 
 
@@ -19,6 +18,7 @@ export type LifterMatchProps = {
 
 const LifterMatch: React.FC<LifterMatchProps> = ( { id, userToken, username, age, bio, profilePicture, allowAction, next } ) => {
     const dispatch = useAppDispatch();
+    bio = "Creator of lifters app, loves travelling and meeting new people."
     const shortenedBio = bio?.slice(0, 30) + ( (bio?.length!) >= 45 ? "..." : "" );
 
     const acceptMatch = async ( accept: boolean ) => {
@@ -30,33 +30,37 @@ const LifterMatch: React.FC<LifterMatchProps> = ( { id, userToken, username, age
     return (
         <View style={styles.container}>
             <View style={styles.lifterImageContainer}>
-                <Image source={ returnImageSource(profilePicture as string) } style={styles.lifterImages} resizeMode="contain"/>
-                <BlurView intensity={0} tint="light" style={styles.liftersDetails}>
+                <Image source={ returnImageSource(profilePicture as string) } style={styles.lifterImages} resizeMode="stretch"/>
+                
+                <View style={styles.liftersDetails}>
                     <Text style={{...styles.liftersDetailsText, ...styles.lifterDetailsName}}>{ username }, { age }</Text>
-                    <TouchableOpacity onPress={() => Alert.alert(`${username}'s Bio`, bio)}>
-                        <Text style={{...styles.liftersDetailsText, ...styles.lifterDetailsBio}}>{ shortenedBio }</Text>
+
+
+                    <TouchableOpacity onPress={() => Alert.alert(`${username}'s Bio`, bio)} style={{ borderBottomWidth: 0.5, borderColor: "#363434" }}>
+                        <Text style={{...styles.liftersDetailsText, ...styles.lifterDetailsBio, marginBottom: verticalScale(10) }}>{ shortenedBio }</Text>
                     </TouchableOpacity>
-                </BlurView>
-            </View>
 
-            <View style={styles.lifterMatchActionContainer}>
-                <TouchableOpacity style={{ ...styles.circle, ...styles.liftMatchX }} onPress={
-                    allowAction ? () => {
-                        acceptMatch(false); 
-                        if (next) next()
-                    }: undefined
-                }>
-                    <Text style={{color: "rgb(255, 155, 5)", textAlign: "center", fontSize: 20}}>X</Text>
-                </TouchableOpacity>
+                    <View style={styles.lifterMatchActionContainer}>
+                        <TouchableOpacity style={{ ...styles.circle, ...styles.liftMatchX }} onPress={
+                            allowAction ? () => {
+                                acceptMatch(false); 
+                                if (next) next()
+                            }: undefined
+                        }>
+                            <Text style={{color: "white", textAlign: "center", fontSize: moderateScale(20) }}>X</Text>
+                        </TouchableOpacity>
 
-                <TouchableOpacity style={{ ...styles.circle, ...styles.lifterMatchHeart }} onPress={
-                    allowAction ? () => {
-                        acceptMatch(true); 
-                        if (next) next()
-                    }: undefined
-                }>
-                    <IconFill name="heart" style={{color: "#fe005d", textAlign: "center", fontSize: 20}}/>
-                </TouchableOpacity>
+                        <TouchableOpacity style={{ ...styles.circle, ...styles.lifterMatchHeart }} onPress={
+                            allowAction ? () => {
+                                acceptMatch(true); 
+                                if (next) next()
+                            }: undefined
+                        }>
+                            <IconFill name="heart" style={{color: "white", textAlign: "center", fontSize: moderateScale(20) }}/>
+                        </TouchableOpacity>
+                    </View>
+
+                </View>
             </View>
         </View>
     );
@@ -73,8 +77,9 @@ LifterMatch.defaultProps = {
 
 const styles = StyleSheet.create({
     container: {
-        width: "70%",
-        marginTop: "20%",
+        width: scale(200),
+        height: verticalScale(500),
+        marginTop: verticalScale(60),
         marginLeft: "auto",
         marginRight: "auto"
     },
@@ -83,42 +88,36 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-around",
-        alignItems: "center",
-        marginLeft: "31.3%"
+        alignItems: "center"
     },
 
     lifterImages: {
-        marginLeft: 10,
-        borderWidth: 2,
-        borderColor: "gainsboro",
-        borderRadius: 20,
-        width: 270,
-        height: 420
+        width: scale(270),
+        height: verticalScale(300),
+        position: "absolute",
+        right: scale(-35),
+        top: verticalScale(20)
     },
 
     liftersDetails: {
-        position: "relative",
-        backgroundColor: "rgba(247, 112, 112, 0.562)",
-        top: 190,
-        left: -85,
-        width: 270,
-        height: 45,
-        borderRadius: 0,
-        borderBottomRightRadius: 20,
-        borderBottomLeftRadius: 20,
-        textAlign: "left"
+        position: "absolute",
+        backgroundColor: "hsl(0, 1%, 13%)",
+        top: verticalScale(312),
+        left: scale(-35),
+        width: scale(270),
+        height: verticalScale(150),
     },
 
     liftersDetailsText: {
-        marginLeft: "10%",
+        textAlign: "center",
         color: "white"
     },
 
     lifterDetailsName: {
-        fontSize: 20,
+        fontSize: moderateScale(25),
         fontWeight: "bold",
-        marginTop: 1,
-        marginLeft: 25,
+        marginTop: verticalScale(10),
+        marginBottom: verticalScale(10)
     },
 
     lifterDetailsBio: {
@@ -135,30 +134,31 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-around",
         alignItems: "center",
-        marginTop: 20,
+        marginTop: verticalScale(20),
         marginLeft: "auto",
         marginRight: "auto",
-        width: "100%"
+        width: "100%",
+        position: "absolute",
+        bottom: 0,
     },
 
     circle: {
-        height: 45,
-        width: 45,
-        borderRadius: 50,
-        padding: 10,
+        height: verticalScale(45),
+        width: scale(100),
+        padding: moderateScale(10),
         textAlign: "center",
-        marginLeft: 20,
-        marginBottom: 10
+        marginLeft: scale(10),
+        marginBottom: verticalScale(10)
     },
 
     liftMatchX: {
-        backgroundColor: "hsl(35, 86%, 86%)",
-        fontSize: 50,
+        backgroundColor: "#363434",
+        fontSize: moderateScale(50),
         textAlign: "center"
     },
 
     lifterMatchHeart: {
-        backgroundColor: "rgb(243, 210, 210)",
+        backgroundColor: "#FF3636",
         alignItems: "center",
         justifyContent: "center"
     }
