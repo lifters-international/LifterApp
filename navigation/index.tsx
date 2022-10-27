@@ -5,11 +5,9 @@ import {
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-
 import { useSelector } from "react-redux";
 
-import { Home, Profile, PasswordChange, FoodScreen, FoodAnalystics, Subscription, SubscriptionCheckOut, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
+import { Home, Profile, PasswordChange, FoodScreen, FoodAnalystics, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
 import { View } from "react-native";
 import { getFromStore, scale, verticalScale, moderateScale } from "../utils";
 import { useAppDispatch } from "../redux";
@@ -37,8 +35,6 @@ const ProfileStackScreen = () => {
         <ProfileStack.Navigator>
             <ProfileStack.Screen name="Profiles" component={Profile} options={{ headerShown: false }} />
             <ProfileStack.Screen name="Change Password" component={PasswordChange} options={{ headerShown: false }} />
-            <ProfileStack.Screen name="Subscription" component={Subscription} />
-            <ProfileStack.Screen name="Subscription CheckOut" component={SubscriptionCheckOut} options={{ headerShown: false }} />
         </ProfileStack.Navigator>
     );
 }
@@ -53,10 +49,7 @@ const FoodStackScreen = () => {
 }
 
 function TabNavigator() {
-    const { profilePicture, AppReady } = useSelector((state: any) => state.Auth);
-    const viewStyle = {
-
-    }
+    const { AppReady } = useSelector((state: any) => state.Auth);
 
     return (
         AppReady ? (

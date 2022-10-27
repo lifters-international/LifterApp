@@ -5,6 +5,7 @@ import { NavigationProp } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
+import * as WebBrowser from 'expo-web-browser';
 
 import { saveToStore, userInformationToSave, getImageUploadApi, returnImageSource, scale, verticalScale, moderateScale } from "../utils";
 import { useAppDispatch } from "../redux";
@@ -109,7 +110,7 @@ const Profile: React.FC<Props> = ({ navigation }) => {
                             {
                                 title: "Subscription",
                                 onClick: () => {
-                                    navigation.navigate("Subscription");
+                                    WebBrowser.openBrowserAsync('https://www.lifters.app/changeSubscription/'+token)
                                 },
                             },
                             {
