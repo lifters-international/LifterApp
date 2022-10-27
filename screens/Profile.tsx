@@ -81,10 +81,10 @@ const Profile: React.FC<Props> = ({ navigation }) => {
         setLoading(false);
     }
 
-    if ( loading ) return <AppLayout><Loading /></AppLayout>;
+    if ( loading ) return <AppLayout backgroundColor="black"><Loading /></AppLayout>;
 
     return (
-        <AppLayout>
+        <AppLayout backgroundColor="black">
             <View>
                 <View style={styles.EditProfilePicture}>
                     <ImageBackground source={returnImageSource(profilePicture)} style={{ flex: 1, justifyContent: "center" }}>
@@ -225,7 +225,13 @@ const Profile: React.FC<Props> = ({ navigation }) => {
                                 renderItem={({ item, index }) => (
                                     <View style={styles.EditProfileInput} key={`FlatList-ProfileInput-${rowIndex.toString()}-${index}`}>
                                         <Text style={styles.EditProfileInputTitle}>{item.title}</Text>
-                                        <TextInput style={styles.EditProfileInputField} value={item.value as string} keyboardType={`${item.title == "Age" ? "numeric" : "default"}`} onChangeText={item.onChange} />
+                                        <TextInput 
+                                            style={styles.EditProfileInputField} 
+                                            value={item.value as string} 
+                                            keyboardType={`${item.title == "Age" ? "numeric" : "default"}`} 
+                                            onChangeText={item.onChange} 
+                                            placeholderTextColor="white"
+                                        />
                                     </View>
                                 )}
                                 keyExtractor={(item, index) => `FlatList-ProfileInput-${rowIndex.toString()}-${index}`}
@@ -234,7 +240,7 @@ const Profile: React.FC<Props> = ({ navigation }) => {
                     }
                     <View style={styles.EditProfileBioView}>
                         <Text style={styles.EditProfileInputTitle}>Bio</Text>
-                        <TextInput placeholder="bio" style={styles.EditProfileInputBio} multiline onChangeText={
+                        <TextInput placeholder="bio" placeholderTextColor="white" style={styles.EditProfileInputBio} multiline onChangeText={
                             (text: string) => {
                                 setUserData({
                                     ...userData,
@@ -256,8 +262,6 @@ const styles = StyleSheet.create({
         marginRight: "auto",
         marginLeft: "auto",
         marginTop: "-3%",
-        borderWidth: moderateScale(1),
-        borderColor: "gainsboro",
         borderRadius: moderateScale(10),
         padding: moderateScale(10)
     },
@@ -268,7 +272,7 @@ const styles = StyleSheet.create({
         borderColor: "black",
         borderRadius: moderateScale(10),
         padding: moderateScale(10),
-        backgroundColor: "red",
+        backgroundColor: "#FF3636",
         position: "relative",
         top: verticalScale(-30)
     },
@@ -281,7 +285,7 @@ const styles = StyleSheet.create({
     EditProfileButtons: {
         display: "flex",
         width: "100%",
-        height: verticalScale(80),
+        height: verticalScale(80)
     },
 
     EditProfileButton: {
@@ -289,10 +293,10 @@ const styles = StyleSheet.create({
         borderColor: "black",
         borderRadius: moderateScale(10),
         padding: moderateScale(10),
-        backgroundColor: "red",
+        backgroundColor: "#FF3636",
         marginRight: moderateScale(2),
         width: scale(85),
-        height: moderateScale(40),
+        height: moderateScale(40)
     },
 
     EditProfileInputJoin: {
@@ -310,17 +314,19 @@ const styles = StyleSheet.create({
         fontSize: moderateScale(15),
         fontWeight: "bold",
         marginBottom: moderateScale(10),
-        width: scale(200)
+        width: scale(200),
+        color: "white"
     },
 
     EditProfileInputField: {
         width: scale(170),
         borderWidth: moderateScale(2),
-        borderColor: "gainsboro",
+        borderColor: "#222121",
         borderRadius: moderateScale(10),
         padding: moderateScale(10),
         marginBottom: moderateScale(10),
-        fontSize: moderateScale(15)
+        fontSize: moderateScale(15), 
+        color: "white"
     },
 
     EditProfileBioView: {
@@ -332,11 +338,12 @@ const styles = StyleSheet.create({
         height: verticalScale(85),
         overflow: "scroll",
         borderWidth: moderateScale(2),
-        borderColor: "gainsboro",
+        borderColor: "#222121",
         borderRadius: moderateScale(10),
         padding: moderateScale(10),
         marginBottom: moderateScale(10),
-        fontSize: moderateScale(15)
+        fontSize: moderateScale(15), 
+        color: "white"
     }
 });
 

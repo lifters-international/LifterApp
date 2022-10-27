@@ -36,7 +36,7 @@ const ProfileStackScreen = () => {
     return (
         <ProfileStack.Navigator>
             <ProfileStack.Screen name="Profiles" component={Profile} options={{ headerShown: false }} />
-            <ProfileStack.Screen name="Change Password" component={PasswordChange} />
+            <ProfileStack.Screen name="Change Password" component={PasswordChange} options={{ headerShown: false }} />
             <ProfileStack.Screen name="Subscription" component={Subscription} />
             <ProfileStack.Screen name="Subscription CheckOut" component={SubscriptionCheckOut} options={{ headerShown: false }} />
         </ProfileStack.Navigator>
