@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView, Dimensions, Text } from 'react-native';
+import { StyleSheet, View, ScrollView, Dimensions, Text, Image } from 'react-native';
 import {
     PieChart,
     ProgressChart
@@ -9,19 +9,24 @@ import { FoodView, Loading, AppLayout } from "../components";
 
 import { useGetDailyFoodAnalystics } from "../hooks";
 
-import { verticalScale, moderateScale } from "../utils";
+import { verticalScale, moderateScale, scale } from "../utils";
 
 const FoodAnalystics: React.FC = () => {
     const { loading, error, analysis } = useGetDailyFoodAnalystics();
 
-    if (loading) return <AppLayout><Loading /></AppLayout>
+    if (loading) return <AppLayout backgroundColor="black"><Loading /></AppLayout>
 
     if (error) return <AppLayout><Text>There was a problem loading your daily food analysis. Please try again.</Text></AppLayout>
 
     return (
-        <AppLayout>
+        <AppLayout backgroundColor="black">
             <View style={styles.Header}>
-                <Text style={styles.HeaderText}>Daily Food Analytics</Text>
+                <Text style={styles.HeaderText}>DAILY FOOD ANALYTICS</Text>
+                <Image
+                    source={require("../assets/images/hero-section-line-vector.png")}
+                    style={styles.line}
+                    resizeMode="contain"
+                />
             </View>
             <ScrollView
                 showsVerticalScrollIndicator={false}
@@ -88,15 +93,15 @@ const FoodAnalystics: React.FC = () => {
                     <Text style={{ ...styles.ChartTitle, textAlign: 'center' }}>Daily Macronutrient Goals</Text>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginTop: moderateScale(20) }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <View style={{ width: moderateScale(20), height: moderateScale(20), backgroundColor: 'rgb(255, 112, 112)', borderRadius: moderateScale(10), marginRight: moderateScale(10) }}></View>
+                            <View style={{ width: moderateScale(20), height: moderateScale(20), backgroundColor: 'rgb(255, 112, 112)', borderRadius: moderateScale(10) }}></View>
                             <Text style={{ fontSize: moderateScale(15), color: 'white' }}>Fats: {analysis?.FatsGoal}g</Text>
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <View style={{ width: moderateScale(20), height: moderateScale(20), backgroundColor: 'rgb(163, 221, 163)', borderRadius: moderateScale(10), marginRight: moderateScale(10) }}></View>
+                            <View style={{ width: moderateScale(20), height: moderateScale(20), backgroundColor: 'rgb(163, 221, 163)', borderRadius: moderateScale(10), marginLeft: moderateScale(5) }}></View>
                             <Text style={{ fontSize: moderateScale(15), color: 'white' }}>Carbs: {analysis?.CarbsGoal}g</Text>
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <View style={{ width: moderateScale(20), height: moderateScale(20), backgroundColor: 'rgba(131, 167, 234, 1)', borderRadius: moderateScale(10), marginRight: moderateScale(10) }}></View>
+                            <View style={{ width: moderateScale(20), height: moderateScale(20), backgroundColor: 'rgba(131, 167, 234, 1)', borderRadius: moderateScale(10), marginLeft: moderateScale(5) }}></View>
                             <Text style={{ fontSize: moderateScale(15), color: 'white' }}>Protein: {analysis?.ProteinGoal}g</Text>
                         </View>
                     </View>
@@ -168,22 +173,26 @@ const FoodAnalystics: React.FC = () => {
 
 const styles = StyleSheet.create({
     Header: {
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: Dimensions.get('window').width,
-        borderBottomWidth: moderateScale(1),
-        borderBottomColor: 'gainsboro',
         padding: moderateScale(10)
     },
 
     HeaderText: {
-        fontSize: moderateScale(20),
-        fontWeight: 'bold'
+        fontSize: moderateScale(25),
+        fontWeight: "bold",
+        color: "white",
+        textAlign: "center",
+        position: "relative",
+        top: moderateScale(20)
+    },
+
+    line: {
+        height: verticalScale(100),
+        width: scale(400),
+        zIndex: 1
     },
 
     ChartContainer: {
-        backgroundColor: "#01200e",
+        backgroundColor: "#222121",
         alignItems: 'center',
         justifyContent: 'center',
         width: "95%",
@@ -207,10 +216,7 @@ const styles = StyleSheet.create({
 
     FoodAteTodayView: {
         marginTop: moderateScale(15),
-        marginBottom: moderateScale(95),
-        borderWidth: moderateScale(3),
-        borderTopRadius: moderateScale(10),
-        borderColor: 'gainsboro'
+        marginBottom: moderateScale(95)
     }
 
 });

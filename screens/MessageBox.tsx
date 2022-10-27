@@ -20,7 +20,7 @@ const MessageBox: React.FC<Props> = ({ navigation, route }) => {
     const [messageState, setMessageState] = useState<string>("");
     const userMessages = useGetUserMessages(token, matchId);
 
-    if (userMessages.loading) return <AppLayout><Loading /></AppLayout>;
+    if (userMessages.loading) return <AppLayout backgroundColor="black"><Loading /></AppLayout>;
 
     return (
         <AppLayout backgroundColor="black">

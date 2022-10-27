@@ -58,7 +58,7 @@ const SignUp: React.FC<Props> = ({ navigation }) => {
         navigation.navigate('Login');
     }
 
-    if (loadingState) return <AppLayout><Loading /></AppLayout>;
+    if (loadingState) return <AppLayout backgroundColor="black"><Loading /></AppLayout>;
 
     return (
         <AppLayout backgroundColor="black">

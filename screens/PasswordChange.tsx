@@ -35,7 +35,7 @@ const PasswordChange: React.FC<Props> = ({ navigation }) => {
     }
 
     return (
-        <AppLayout>
+        <AppLayout backgroundColor="black">
             <View style={styles.container}>
                 <View style={styles.inputView}>
                     <TextInput

@@ -22,7 +22,7 @@ const Food: React.FC<Props> = ({ navigation }) => {
     const { foods, loading, error } = useGetFood();
     const { foods: searchFood, loading: searchLoading, error: searchError } = useSearchFood(search, token);
 
-    if (loading || searchLoading) return <AppLayout><Loading /></AppLayout>;
+    if (loading || searchLoading) return <AppLayout backgroundColor="black"><Loading /></AppLayout>;
 
     if (error || searchError) return <AppLayout><Text>There was a problem loading the app. Please try again later.</Text></AppLayout>;
 

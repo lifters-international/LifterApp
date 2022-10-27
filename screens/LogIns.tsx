@@ -49,7 +49,7 @@ const LogIn: React.FC<Props> = ({ navigation }) => {
         navigation.navigate("SignUp");
     }
 
-    if (loadingState) return <AppLayout><Loading /></AppLayout>;
+    if (loadingState) return <AppLayout backgroundColor="black"><Loading /></AppLayout>;
 
     return (
         <AppLayout backgroundColor="black">

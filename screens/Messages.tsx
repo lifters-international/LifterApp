@@ -40,7 +40,7 @@ const Messages: React.FC<Props> = ({ navigation }) => {
     }
 
     if (userMatchesSubscription.loading || userAcceptedMatchesSubscription.loading || !socketAuthenticated) {
-        return <AppLayout><Loading /></AppLayout>
+        return <AppLayout backgroundColor="black"><Loading /></AppLayout>
     }
 
     return (
