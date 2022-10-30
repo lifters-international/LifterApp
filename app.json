@@ -1,15 +1,15 @@
 {
   "expo": {
-    "name": "Lifters",
-    "slug": "Lifters",
+    "name": "LiftersHome",
+    "slug": "LiftersHome",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icons/Icons/lifters-icon-google-play.jpg",
-    "userInterfaceStyle": "black",
+    "icon": "./assets/icons/Icons/lifters-icon-google-play.png",
+    "userInterfaceStyle": "dark",
     "splash": {
-      "image": "./assets/icons/Icons/lifters-icon-google-play.jpg",
+      "image": "./assets/icons/Icons/lifters-icon-google-play.png",
       "resizeMode": "contain",
-      "backgroundColor": "black"
+      "backgroundColor": "#000000"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -18,27 +18,24 @@
       "**/*"
     ],
     "ios": {
-      "icon": "./assets/icons/__MACOSX/._Icons",
       "supportsTablet": true,
       "bundleIdentifier": "com.lifters.international.lifters",
-      "buildNumber": "1.0.0"
+      "buildNumber": "2.0.0"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icons/Icons/lifters-icon-google-play.jpg",
-        "backgroundColor": "black"
+        "foregroundImage": "./assets/icons/Icons/lifters-icon-google-play.png",
+        "backgroundColor": "#000000"
       },
-      "package": "com.lifters.international.lifters",
+      "package": "com.lifters.international.lifter",
       "versionCode": 1,
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ]
     },
-
     "web": {
       "favicon": "./assets/icons/Icons/lifters-icon-google-play.jpg"
     },
-
     "plugins": [
       [
         "expo-image-picker",
@@ -47,10 +44,9 @@
         }
       ]
     ],
-
     "extra": {
       "eas": {
-        "projectId": "14148554-5f7a-4231-8543-46149cfbc0e5"
+        "projectId": "582a0732-cf70-4195-8406-f6a504968a49"
       }
     }
   }

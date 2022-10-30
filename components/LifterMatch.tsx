@@ -18,7 +18,6 @@ export type LifterMatchProps = {
 
 const LifterMatch: React.FC<LifterMatchProps> = ( { id, userToken, username, age, bio, profilePicture, allowAction, next } ) => {
     const dispatch = useAppDispatch();
-    bio = "Creator of lifters app, loves travelling and meeting new people."
     const shortenedBio = bio?.slice(0, 30) + ( (bio?.length!) >= 45 ? "..." : "" );
 
     const acceptMatch = async ( accept: boolean ) => {
