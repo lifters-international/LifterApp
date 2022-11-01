@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     },
 
     Content: {
-        height: verticalScale(470)
+        height: verticalScale(530)
     },
 
     divideTheySentYouSent: {

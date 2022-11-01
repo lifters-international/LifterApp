@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { LifterMatch, Loading, AppLayout } from "../components";
 import { useSelector } from "react-redux";
-import { useGetUserMatches } from '../hooks';
+import { useGetUserMatches, useNotifications } from '../hooks';
 import { useAppDispatch } from "../redux";
 import { setAuthState } from "../redux/features/auth";
 import { saveToStore } from "../utils";
@@ -10,6 +10,7 @@ import { saveToStore } from "../utils";
 const Home: React.FC = () => {
     const dispatch = useAppDispatch();
     const { token } = useSelector((state: any) => state.Auth);
+    useNotifications(token);
     const [userMatches, setUserMatches] = useGetUserMatches(token);
     const [currentMatch, setCurrentMatch] = useState(0);
 

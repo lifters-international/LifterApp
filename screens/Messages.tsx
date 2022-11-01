@@ -4,8 +4,10 @@ import { NavigationProp } from "@react-navigation/native";
 import { AppLayout, Loading, MessageContainer } from "../components";
 import { useSelector } from "react-redux";
 
-import { socket, SubscriptionType, returnImageSource, scale, verticalScale, moderateScale } from "../utils"
+import { socket, SubscriptionType, NewMatchNotificationData, returnImageSource, scale, verticalScale, moderateScale } from "../utils"
 import { useUserMatchesSubscription, useUserAcceptedMatchesSubscription } from '../hooks';
+
+import { useTabBarContext } from "../navigation/Tab";
 
 interface Props {
     navigation: NavigationProp<any>;
@@ -86,8 +88,8 @@ const Messages: React.FC<Props> = ({ navigation }) => {
                 </View>
             </View>
             <MessageContainer
-                token={token}
                 matches={userAcceptedMatchesSubscription.data}
+                navigation={navigation}
             />
         </AppLayout>
     )

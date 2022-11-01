@@ -1,18 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { AcceptedUserMatches, returnImageSource, scale, verticalScale, moderateScale } from '../utils';
 
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 
-import { Link } from "@react-navigation/native";
+import { Link, NavigationProp } from "@react-navigation/native";
+
+import { useTabBarContext } from "../navigation/Tab";
 
 export type MessageContainerProps = {
-    token: string;
     matches: AcceptedUserMatches[];
+    navigation: NavigationProp<any>;
 }
 
-const MessageContainer: React.FC<MessageContainerProps> = ({ token, matches }) => {
+const MessageContainer: React.FC<MessageContainerProps> = ({ matches, navigation }) => {
+    const { getTabBarVisiblity, setTabBarVisiblity } = useTabBarContext();
+    const [ reload, setReload ] = useState(false);
+
     matches.sort((a, b) => Number(b.date) - Number(a.date));
+
+    useEffect(() => {
+        if (!reload) {
+            const unsubscribe = navigation.addListener('focus', () => {
+                setReload(true);
+            });
+
+            return unsubscribe;
+        }else {
+            if ( getTabBarVisiblity() === false ) setTabBarVisiblity(true);
+            setReload(false);
+        }
+    }, [navigation, reload]);
 
     return (
         <View style={styles.MessageContainer}>
@@ -36,6 +54,9 @@ const MessageContainer: React.FC<MessageContainerProps> = ({ token, matches }) =
                                     key={message.id}
                                     style={styles.MessageMatches}
                                     to={{ screen: "MessageBox", params: { matchId: message.id, name: message.name, profilePicture: message.profilePicture } }}
+                                    onPress={() => {
+                                        setTabBarVisiblity(false);
+                                    }}
                                 >
                                     <View style={{ flex: 1 }}>
                                         <Image

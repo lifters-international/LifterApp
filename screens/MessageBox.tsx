@@ -46,7 +46,7 @@ const MessageBox: React.FC<Props> = ({ navigation, route }) => {
                     <TextInput 
                         style={styles.MessageBoxInputText} 
                         placeholder="Type a message" 
-                        placeholderTextColor="hsl(0, 1%, 18%)"
+                        placeholderTextColor="white"
                         multiline value={messageState} 
                         onChangeText={text => setMessageState(text)} 
                     />
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: "white", 
         position: 'relative',
-        left: scale(120),
+        left: scale(46),
         top: verticalScale(15)
     },
 
@@ -110,7 +110,8 @@ const styles = StyleSheet.create({
         flex: moderateScale(3),
         fontSize: moderateScale(18),
         width: scale(330),
-        maxHeight: verticalScale(60)
+        maxHeight: verticalScale(60),
+        color: "white"
     },
 
     MessageBoxSendButton: {},
