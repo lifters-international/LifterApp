@@ -1655,10 +1655,10 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@lifters-international/lifters-utils@latest":
-  version "1.0.2"
-  resolved "https://npm.pkg.github.com/download/@lifters-international/lifters-utils/1.0.2/46fa8575eeaf017d333d34a062a8c235a6d2a1a4#46fa8575eeaf017d333d34a062a8c235a6d2a1a4"
-  integrity sha512-EKoqXXzOdRrvY98i3Dpt3Fo523YcckHdzoMk4woajphO0z+wBX87dgf7JHWhGU6+zYLomo9WJfohe89Ecml06w==
+"@lifters-international/lifters-utils@1.0.6":
+  version "1.0.6"
+  resolved "https://npm.pkg.github.com/download/@lifters-international/lifters-utils/1.0.6/59f387df852b566c4420c0cb8cb001ee553445a5#59f387df852b566c4420c0cb8cb001ee553445a5"
+  integrity sha512-uNJ1+cAaLQYz++H6u2tmDJ7/u3uZKuVluk8oragWiJ4yfPBV8dLuNAA5kbdDk9s4ny+T5NBOevoKwwFdg5k+wQ==
   dependencies:
     "@apollo/client" "^3.7.0"
     "@types/node" "^18.11.2"
