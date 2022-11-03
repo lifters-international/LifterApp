@@ -198,10 +198,10 @@ const styles = StyleSheet.create({
 
     NoLifters: {
         borderWidth: moderateScale(2),
-        borderColor: "gainsboro",
+        borderColor: "#5e5c5c",
         borderRadius: moderateScale(10),
         padding: moderateScale(10),
-        marginTop: "50%",
+        marginTop: "35%",
         width: "70%",
         marginLeft: "auto",
         marginRight: "auto"
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
     NoLiftersText: {
         fontSize: moderateScale(30),
         fontWeight: "bold",
-        color: "black",
+        color: "white",
         textAlign: "center",
     },
 
