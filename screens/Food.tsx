@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, ScrollView, Text, Image } from 'react-native';
+import { StyleSheet, View, TextInput, ScrollView, Text } from 'react-native';
 import { NavigationProp } from "@react-navigation/native";
 
 import { FoodView, Loading, AppLayout } from "../components";
@@ -8,7 +8,7 @@ import { useGetFood, useSearchFood } from "../hooks";
 
 import { useSelector } from "react-redux";
 
-import { MaterialIcons, Ionicons } from '@expo/vector-icons';
+import { MaterialIcons, Ionicons, AntDesign } from '@expo/vector-icons';
 
 import { scale, moderateScale, verticalScale } from "../utils";
 
@@ -46,13 +46,15 @@ const Food: React.FC<Props> = ({ navigation }) => {
                         <TextInput placeholder="Search Lifters Foods" style={styles.SearchInput} value={search} onChangeText={query => setSearch(query)} placeholderTextColor="#8f8d8d"/>
 
                     </View>
+
+                    <AntDesign name="pluscircle" size={moderateScale(40)} color="white" style={styles.barChart} onPress={ () => navigation.navigate("CreateFood") } />
                     <MaterialIcons name="insert-chart-outlined" size={moderateScale(40)} color="white" style={styles.barChart} onPress={() => navigation.navigate("FoodAnalystics")} />
                 </View>
 
                 <ScrollView style={styles.FoodContainer}
                     showsVerticalScrollIndicator={false}
                     showsHorizontalScrollIndicator={false}
-                    automaticallyAdjustContentInsets = {false}
+                    automaticallyAdjustContentInsets = {true}
                     contentContainerStyle={{
                         justifyContent: 'space-between'
                     }}
@@ -89,7 +91,7 @@ const styles = StyleSheet.create({
 
     SearchBar: {
         marginTop: moderateScale(5),
-        width: "85%",
+        width: "72%",
         height: verticalScale(48),
         display: "flex",
         flexDirection: "row",

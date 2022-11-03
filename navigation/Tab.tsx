@@ -54,6 +54,7 @@ export type TabBarSharableState = {
     useGetScreenNavProps: () => any;
     setScreenNavProps: (key: string, value: any) => void;
     navigate: ( to : string, props: { [ key: string ]: any } ) => void;
+    resetNavProps: () => void;
 }
 
 export const TabBarContext = createContext<TabBarSharableState>({
@@ -62,7 +63,8 @@ export const TabBarContext = createContext<TabBarSharableState>({
     getScreenNavProps: () => { },
     useGetScreenNavProps: () => { },
     setScreenNavProps: () => { },
-    navigate: () => { }
+    navigate: () => { },
+    resetNavProps: () => { }
 });
 
 const TabScreen: React.FC<TabScreen> = ({ name, component, tabBar, labeled }) => {
@@ -127,7 +129,6 @@ export const TabBar: React.FC<TabBarProps> = ({ tabs, initialTab, onChangeTab, b
             let [ lState, setLState ] = useState(navProps);
 
             useEffect(() => {
-                //console.log("useEffect");
                 setLState(navProps);
             }, [navProps]);
 
@@ -136,6 +137,10 @@ export const TabBar: React.FC<TabBarProps> = ({ tabs, initialTab, onChangeTab, b
 
         setScreenNavProps: (key: string, value: any) => { 
             setNavProp(key, value);
+        },
+
+        resetNavProps: () => {
+            setNavProps({});
         },
 
         navigate: (to: string, props?: { [key: string]: any }) => {

@@ -73,9 +73,7 @@ const MessageContainer: React.FC<MessageContainerProps> = ({ matches, navigation
                                             <Text style={styles.MessageMatchesContextName}>{message.name}</Text>
                                             {
                                                 message.unreadMessages > 0 ? (
-                                                    <View style={styles.circle}>
-                                                        <Text style={styles.circleText}>{message.unreadMessages}</Text>
-                                                    </View>
+                                                    <Text style={styles.circleText}>{message.unreadMessages}</Text>
                                                 ) : null
                                             }
                                         </View>
@@ -135,32 +133,15 @@ const styles = StyleSheet.create({
         color: "white"
     },
 
-    circle: {
-        height: verticalScale(25),
-        width: scale(25),
-        borderWidth: moderateScale(1),
-        borderRadius: moderateScale(50),
-        borderColor: "red",
-        padding: moderateScale(10),
-        textAlign: "center",
-        backgroundColor: "red",
-        color: "white",
-        alignItems: "center",
-        justifyContent: "center",
-        position: "relative",
-        top: verticalScale(-4),
-        left: scale(5)
-    },
-
     circleText: {
-        color: "white",
+        color: "red",
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
-        fontSize: moderateScale(12),
+        fontSize: moderateScale(18),
         padding: moderateScale(10),
         position: "relative",
-        top: verticalScale(-6),
+        top: verticalScale(-10),
         left: scale(-3)
     },
 

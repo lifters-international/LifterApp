@@ -82,8 +82,7 @@ export const useNotifications = ( userToken : string ) => {
                         navigate("Message", {} )
                         break;
                     case NotificationType.NEW_MESSAGE:
-                        console.log({ command: "newMessageSent", ...data })
-                        //navigate("Message", { command: "newMessageSent", ...data } )
+                        navigate("Message", { command: "newMessageSent", ...data } )
                         break;
                     default:
                         break;
@@ -92,7 +91,7 @@ export const useNotifications = ( userToken : string ) => {
         }
 
         run();
-    });
+    }, [userToken]);
 
 
     return {

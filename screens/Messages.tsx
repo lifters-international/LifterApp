@@ -19,7 +19,17 @@ const Messages: React.FC<Props> = ({ navigation }) => {
     const userMatchesSubscription = useUserMatchesSubscription(token, reload);
     const userAcceptedMatchesSubscription = useUserAcceptedMatchesSubscription(token, reload);
     const [socketAuthenticated, setSocketAuthenticated] = useState(false);
+    const { useGetScreenNavProps, resetNavProps, setTabBarVisiblity } = useTabBarContext();
+    const navProps = useGetScreenNavProps();
 
+    useEffect(() => {
+        if ( navProps.command === "newMessageSent" ) {
+            setTabBarVisiblity(false);
+            navigation.navigate("MessageBox", { matchId: navProps.matchId, name: navProps.name, profilePicture: navProps.profilePicture } );
+            resetNavProps();
+        }
+    }, [navProps]);
+    
     useEffect(() => {
         if (!reload) {
             const unsubscribe = navigation.addListener('focus', () => {

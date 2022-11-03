@@ -12,13 +12,20 @@ export type Props = {
     action?: boolean
 } & Food;
 
-const FoodView: React.FC<Props> = ({ id, name, calories, servingSize, nutritionFacts, action }) => {
+const FoodView: React.FC<Props> = ({ id, name, calories, servingSize, nutritionFacts, action, adminCreated }) => {
     const { addFoodToLiftersDailyFood, statement } = useAddFoodToLiftersDailyFood();
 
     return (
         <View style={styles.container} >
-            <View style={{ borderBottomWidth: moderateScale(0.8), borderColor: '#5e5c5c' }}>
+            <View style={{ borderBottomWidth: moderateScale(0.8), borderColor: '#5e5c5c', display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
                 <Text style={styles.foodName}>{name}</Text>
+                { 
+                    adminCreated && <AntDesign 
+                        name="checkcircleo" 
+                        size={moderateScale(25)} color="green" 
+                        style={{ position: "relative", left: scale(1.5), top: verticalScale(-6.5) }}
+                    />
+                }
             </View>
 
             <View style={styles.foodImportantInfor}>

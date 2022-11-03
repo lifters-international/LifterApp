@@ -7,7 +7,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { useSelector } from "react-redux";
 
-import { Home, Profile, PasswordChange, FoodScreen, FoodAnalystics, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
+import { Home, Profile, PasswordChange, FoodScreen, FoodCreate, FoodAnalystics, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
 import { View } from "react-native";
 import { getFromStore, scale, verticalScale, moderateScale } from "../utils";
 import { useAppDispatch } from "../redux";
@@ -43,6 +43,7 @@ const FoodStackScreen = () => {
     return (
         <FoodStack.Navigator>
             <FoodStack.Screen name="Food" component={FoodScreen} options={{ headerShown: false }} />
+            <FoodStack.Screen name="CreateFood" component={FoodCreate} options={{ headerShown: false }} />
             <FoodStack.Screen name="FoodAnalystics" component={FoodAnalystics} options={{ headerShown: false }} />
         </FoodStack.Navigator>
     );
@@ -197,7 +198,6 @@ export default function Navigation() {
     const dispatch = useAppDispatch();
 
     const { tokenVerified, AppReady } = useSelector((state: any) => state.Auth);
-
 
     useEffect(() => {
         const setUp = async () => {
