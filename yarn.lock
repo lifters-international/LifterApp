@@ -15,10 +15,29 @@
   resolved "https://registry.yarnpkg.com/@ant-design/icons-react-native/-/icons-react-native-2.3.2.tgz#86e412d1ce8d629534a5d9f45cd3d8f7ca6dae56"
   integrity sha512-ULCN3+elfAsvu71Xa5KODi97Y3P2aUkJm4s8mJaPoRjiU+BR+Y6ejv3vbc40yV62EOdlAOMKhvKbFlsXMjZ2ow==
 
-"@apollo/client@^3.6.9", "@apollo/client@^3.7.0":
+"@apollo/client@^3.6.9":
   version "3.7.0"
   resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.7.0.tgz#1c26a04488f45b3a4779fa2562e4b706402cb876"
   integrity sha512-hp4OvrH1ZIQACRYcIrh/C0WFnY7IM7G6nlTpC8DSTEWxfZQ2kvpvDY0I/hYmCs0oAVrg26g3ANEdOzGWTcYbPg==
+  dependencies:
+    "@graphql-typed-document-node/core" "^3.1.1"
+    "@wry/context" "^0.7.0"
+    "@wry/equality" "^0.5.0"
+    "@wry/trie" "^0.3.0"
+    graphql-tag "^2.12.6"
+    hoist-non-react-statics "^3.3.2"
+    optimism "^0.16.1"
+    prop-types "^15.7.2"
+    response-iterator "^0.2.6"
+    symbol-observable "^4.0.0"
+    ts-invariant "^0.10.3"
+    tslib "^2.3.0"
+    zen-observable-ts "^1.2.5"
+
+"@apollo/client@^3.7.0":
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.7.1.tgz#86ce47c18a0714e229231148b0306562550c2248"
+  integrity sha512-xu5M/l7p9gT9Fx7nF3AQivp0XukjB7TM7tOd5wifIpI8RskYveL4I+rpTijzWrnqCPZabkbzJKH7WEAKdctt9w==
   dependencies:
     "@graphql-typed-document-node/core" "^3.1.1"
     "@wry/context" "^0.7.0"
@@ -1655,10 +1674,10 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@lifters-international/lifters-utils@1.0.6":
-  version "1.0.6"
-  resolved "https://npm.pkg.github.com/download/@lifters-international/lifters-utils/1.0.6/59f387df852b566c4420c0cb8cb001ee553445a5#59f387df852b566c4420c0cb8cb001ee553445a5"
-  integrity sha512-uNJ1+cAaLQYz++H6u2tmDJ7/u3uZKuVluk8oragWiJ4yfPBV8dLuNAA5kbdDk9s4ny+T5NBOevoKwwFdg5k+wQ==
+"@lifters-international/lifters-utils@^1.0.7":
+  version "1.0.7"
+  resolved "https://npm.pkg.github.com/download/@lifters-international/lifters-utils/1.0.7/9ff1214a17f1a0bbea17942edfdd48bd0c5d0775#9ff1214a17f1a0bbea17942edfdd48bd0c5d0775"
+  integrity sha512-vuDbECK+sm5BPc2G/MSTZhW0vaV88KrHmWCXfngF/TLendrzKQyV/bdbQZelxmE5jwMnVZfejyC8cmrWeQj1Nw==
   dependencies:
     "@apollo/client" "^3.7.0"
     "@types/node" "^18.11.2"
@@ -2144,10 +2163,15 @@
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-5.1.2.tgz#07508b45797cb81ec3f273011b054cd0755eddca"
   integrity sha512-K0VQKziLUWkVKiRVrx4a40iPaxTUefQmjtkQofBkYRcoaaL/8rhwDWww9qWbrgicNOgnpIsMxyNIUM4+n6dUIA==
 
-"@types/node@*", "@types/node@^18.11.2":
+"@types/node@*":
   version "18.11.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.2.tgz#c59b7641832531264fda3f1ba610362dc9a7dfc8"
   integrity sha512-BWN3M23gLO2jVG8g/XHIRFWiiV4/GckeFIqbU/C4V3xpoBBWSMk4OZomouN0wCkfQFPqgZikyLr7DOYDysIkkw==
+
+"@types/node@^18.11.2":
+  version "18.11.9"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.9.tgz#02d013de7058cea16d36168ef2fc653464cfbad4"
+  integrity sha512-CRpX21/kGdzjOpFsZSkcrXMGIBWMGNIHXXBVFSH+ggkftxg+XYP20TESbh+zFvFj3EQOl5byk0HTRn1IL6hbqg==
 
 "@types/prop-types@*":
   version "15.7.5"
@@ -9497,11 +9521,6 @@ react-native-codegen@^0.69.2:
     flow-parser "^0.121.0"
     jscodeshift "^0.13.1"
     nullthrows "^1.1.1"
-
-react-native-dropdown-picker@^5.4.2:
-  version "5.4.2"
-  resolved "https://registry.yarnpkg.com/react-native-dropdown-picker/-/react-native-dropdown-picker-5.4.2.tgz#3d17de3d8a84cb8e74a2ffda6be417d287245b81"
-  integrity sha512-cZBPyN+k52jA9XguFnKoF5tLf31z6gjZ8GijO/pfVNSSEtPwZ14UTUrr87JiiOnMh5K/O2kRzZ/jZN8D0MmUMA==
 
 react-native-fetch-api@^3.0.0:
   version "3.0.0"

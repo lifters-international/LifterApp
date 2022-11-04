@@ -1,28 +1,30 @@
 Arguments: 
-  /usr/local/bin/node /Users/ctennajic87/.npm/_npx/c094c3349f8dd527/node_modules/.bin/yarn
+  C:\Program Files\nodejs\node.exe C:\Users\jnnaj\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add lifters-international/lifters-utils@latest
 
 PATH: 
-  /Users/ctennajic87/.npm/_npx/c094c3349f8dd527/node_modules/.bin:/Users/ctennajic87/Desktop/codingwithcn/LifterApp/node_modules/.bin:/Users/ctennajic87/Desktop/codingwithcn/node_modules/.bin:/Users/ctennajic87/Desktop/node_modules/.bin:/Users/ctennajic87/node_modules/.bin:/Users/node_modules/.bin:/node_modules/.bin:/usr/local/lib/node_modules/npm/node_modules/@npmcli/run-script/lib/node-gyp-bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin
+  C:\Program Files\Microsoft\jdk-11.0.12.7-hotspot\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\ProgramData\chocolatey\bin;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\nodejs\;C:\Program Files\CMake\bin;C:\Program Files\Git\cmd;C:\Users\jnnaj\AppData\Local\Microsoft\WindowsApps;C:\Users\jnnaj\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\jnnaj\AppData\Local\GitHubDesktop\bin;C:\Users\jnnaj\AppData\Roaming\npm;C:\Users\jnnaj\AppData\Local\Android\Sdk\platform-tools
 
 Yarn version: 
   1.22.19
 
 Node version: 
-  18.12.0
+  16.15.1
 
 Platform: 
-  darwin x64
+  win32 x64
 
 Trace: 
-  Error: Failed to replace env in config: ${NPM_TOKEN}
-      at /Users/ctennajic87/.npm/_npx/c094c3349f8dd527/node_modules/yarn/lib/cli.js:94933:13
-      at String.replace (<anonymous>)
-      at envReplace (/Users/ctennajic87/.npm/_npx/c094c3349f8dd527/node_modules/yarn/lib/cli.js:94928:16)
-      at Function.normalizeConfig (/Users/ctennajic87/.npm/_npx/c094c3349f8dd527/node_modules/yarn/lib/cli.js:31938:69)
-      at NpmRegistry.<anonymous> (/Users/ctennajic87/.npm/_npx/c094c3349f8dd527/node_modules/yarn/lib/cli.js:31968:34)
-      at Generator.next (<anonymous>)
-      at step (/Users/ctennajic87/.npm/_npx/c094c3349f8dd527/node_modules/yarn/lib/cli.js:310:30)
-      at /Users/ctennajic87/.npm/_npx/c094c3349f8dd527/node_modules/yarn/lib/cli.js:321:13
+  Error: https://registry.npmjs.org/lifters-international%2flifters-utils: Request "https://registry.npmjs.org/lifters-international%2flifters-utils" returned a 405
+      at Request.params.callback [as _callback] (C:\Users\jnnaj\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66154:18)
+      at Request.self.callback (C:\Users\jnnaj\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140890:22)
+      at Request.emit (node:events:527:28)
+      at Request.<anonymous> (C:\Users\jnnaj\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141862:10)
+      at Request.emit (node:events:527:28)
+      at IncomingMessage.<anonymous> (C:\Users\jnnaj\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141784:12)
+      at Object.onceWrapper (node:events:641:28)
+      at IncomingMessage.emit (node:events:539:35)
+      at endReadableNT (node:internal/streams/readable:1345:12)
+      at processTicksAndRejections (node:internal/process/task_queues:83:21)
 
 npm manifest: 
   {
@@ -40,7 +42,6 @@ npm manifest:
       "@ant-design/icons-react-native": "^2.3.2",
       "@apollo/client": "^3.6.9",
       "@expo/webpack-config": "^0.17.0",
-      "@lifters-international/lifters-utils": "latest",
       "@react-navigation/bottom-tabs": "^6.3.3",
       "@react-navigation/material-bottom-tabs": "^6.2.3",
       "@react-navigation/native": "^6.0.12",
@@ -113,7 +114,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@ant-design/icons-react-native/-/icons-react-native-2.3.2.tgz#86e412d1ce8d629534a5d9f45cd3d8f7ca6dae56"
     integrity sha512-ULCN3+elfAsvu71Xa5KODi97Y3P2aUkJm4s8mJaPoRjiU+BR+Y6ejv3vbc40yV62EOdlAOMKhvKbFlsXMjZ2ow==
   
-  "@apollo/client@^3.6.9", "@apollo/client@^3.7.0":
+  "@apollo/client@^3.6.9":
     version "3.7.0"
     resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.7.0.tgz#1c26a04488f45b3a4779fa2562e4b706402cb876"
     integrity sha512-hp4OvrH1ZIQACRYcIrh/C0WFnY7IM7G6nlTpC8DSTEWxfZQ2kvpvDY0I/hYmCs0oAVrg26g3ANEdOzGWTcYbPg==
@@ -1753,17 +1754,6 @@ Lockfile:
       "@jridgewell/resolve-uri" "3.1.0"
       "@jridgewell/sourcemap-codec" "1.4.14"
   
-  "@lifters-international/lifters-utils@latest":
-    version "1.0.2"
-    resolved "https://npm.pkg.github.com/download/@lifters-international/lifters-utils/1.0.2/46fa8575eeaf017d333d34a062a8c235a6d2a1a4#46fa8575eeaf017d333d34a062a8c235a6d2a1a4"
-    integrity sha512-EKoqXXzOdRrvY98i3Dpt3Fo523YcckHdzoMk4woajphO0z+wBX87dgf7JHWhGU6+zYLomo9WJfohe89Ecml06w==
-    dependencies:
-      "@apollo/client" "^3.7.0"
-      "@types/node" "^18.11.2"
-      apollo-link-http "^1.5.17"
-      socket.io-client "^4.5.3"
-      typescript "^4.8.4"
-  
   "@nodelib/fs.scandir@2.1.5":
     version "2.1.5"
     resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz#7619c2eb21b25483f6d167548b4cfd5a7488c3d5"
@@ -2242,7 +2232,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-5.1.2.tgz#07508b45797cb81ec3f273011b054cd0755eddca"
     integrity sha512-K0VQKziLUWkVKiRVrx4a40iPaxTUefQmjtkQofBkYRcoaaL/8rhwDWww9qWbrgicNOgnpIsMxyNIUM4+n6dUIA==
   
-  "@types/node@*", "@types/node@^18.11.2":
+  "@types/node@*":
     version "18.11.2"
     resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.2.tgz#c59b7641832531264fda3f1ba610362dc9a7dfc8"
     integrity sha512-BWN3M23gLO2jVG8g/XHIRFWiiV4/GckeFIqbU/C4V3xpoBBWSMk4OZomouN0wCkfQFPqgZikyLr7DOYDysIkkw==
@@ -10506,7 +10496,7 @@ Lockfile:
       source-map-resolve "^0.5.0"
       use "^3.1.0"
   
-  socket.io-client@^4.5.2, socket.io-client@^4.5.3:
+  socket.io-client@^4.5.2:
     version "4.5.3"
     resolved "https://registry.yarnpkg.com/socket.io-client/-/socket.io-client-4.5.3.tgz#bed69209d001465b2fea650d2e95c1e82768ab5e"
     integrity sha512-I/hqDYpQ6JKwtJOf5ikM+Qz+YujZPMEl6qBLhxiP0nX+TfXKhW4KZZG8lamrD6Y5ngjmYHreESVasVCgi5Kl3A==
@@ -11299,11 +11289,6 @@ Lockfile:
     version "0.0.6"
     resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
     integrity sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==
-  
-  typescript@^4.8.4:
-    version "4.8.4"
-    resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.8.4.tgz#c464abca159669597be5f96b8943500b238e60e6"
-    integrity sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==
   
   typescript@~4.3.5:
     version "4.3.5"

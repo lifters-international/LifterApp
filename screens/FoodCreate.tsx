@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, ScrollView, Text } from 'react-native';
+import { StyleSheet, View, TextInput, ScrollView, Text, Image } from 'react-native';
 import { NavigationProp } from "@react-navigation/native";
 
 import { FoodView, Loading, AppLayout, DropDown } from "../components";
@@ -7,8 +7,6 @@ import { FoodView, Loading, AppLayout, DropDown } from "../components";
 import { useGetFood, useSearchFood } from "../hooks";
 
 import { useSelector } from "react-redux";
-
-import { MaterialIcons, Ionicons, AntDesign } from '@expo/vector-icons';
 
 import { scale, moderateScale, verticalScale, NutritionUnits, NutritionFactsJson, NutritionFacts, fetchGraphQl } from "../utils";
 
@@ -18,7 +16,52 @@ interface Props {
     navigation: NavigationProp<any>;
 }
 
-const FoodCreate : React.FC<Props> = ({ navigation }) => {
+const styles = StyleSheet.create({
+    Header: {
+        padding: moderateScale(10)
+    },
+
+    HeaderText: {
+        fontSize: moderateScale(25),
+        fontWeight: "bold",
+        color: "white",
+        textAlign: "center",
+        position: "relative",
+        top: moderateScale(50)
+    },
+
+    line: {
+        height: verticalScale(80),
+        width: scale(400),
+        zIndex: 1
+    },
+
+    inputDropsContainer: {
+        flexDirection: "column"
+    },
+
+    inputDropsLabel: {
+        color: "#5e5c5c",
+        fontSize: moderateScale(20),
+    },
+
+    inputDrops: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        borderBottomWidth: 1,
+        borderColor: "#5e5c5c",
+    },
+
+    inputForDrops: {
+        width: scale(150),
+        height: verticalScale(40),
+        color: "#5e5c5c"
+
+    }
+})
+
+const FoodCreate: React.FC<Props> = ({ navigation }) => {
     const { token } = useSelector((state: any) => state.Auth);
     const units = Object.values(NutritionUnits).filter(unit => isNaN(Number(unit)));
     const [name, setName] = useState("");
@@ -130,474 +173,595 @@ const FoodCreate : React.FC<Props> = ({ navigation }) => {
         }
     }
 
-    return ( 
+    return (
         <AppLayout backgroundColor="black">
             <View>
-                <Text>Create Food</Text>
+                <View style={styles.Header}>
+                    <Text style={styles.HeaderText}>CREATE NEW FOOD</Text>
+                    <Image
+                        source={require("../assets/images/hero-section-line-vector.png")}
+                        style={styles.line}
+                        resizeMode="contain"
+                    />
+                </View>
 
                 <View>
-                    <TextInput 
-                        placeholder="Name Of Food"
-                        value={name}
-                        onChangeText={setName}
-                    />
-
-                    <View>
+                    <View style={styles.inputDropsContainer}>
+                        <Text style={styles.inputDropsLabel}>Name of food</Text>
                         <TextInput
-                            placeholder="Food Serving Size"
+                            value={name}
+                            onChangeText={setName}
+                        />
+                    </View>
+
+                    <View style={styles.inputDropsContainer}>
+                        <Text style={styles.inputDropsLabel}>Calories</Text>
+                        <TextInput
+                            placeholder='Calories'
                             keyboardType='numeric'
-                            value={foodServing.measurment.toString()}
-                            onChangeText={text => setFoodServing({
-                                ...foodServing,
-                                measurment: Number(text)
-                            })}
+                            placeholderTextColor="#5e5c5c"
+                            value={calories.toString()}
+                            onChangeText={(text) => setCalories(Number(text))}
                         />
+                    </View>
 
-                        <DropDown
-                            items={units.map( unit => (unit) )}
+                    <View style={styles.inputDropsContainer}>
+                        <Text style={styles.inputDropsLabel}>Food Serving Size</Text>
 
-                            onPress={
-                                value => {
-                                    setFoodServing({
-                                        ...foodServing,
-                                        unit: value as NutritionUnits
-                                    })
+                        <View style={styles.inputDrops}>
+                            <TextInput
+                                placeholder="Food Serving Size"
+                                keyboardType='numeric'
+                                placeholderTextColor="#5e5c5c"
+                                value={foodServing.measurment.toString()}
+                                onChangeText={text => setFoodServing({
+                                    ...foodServing,
+                                    measurment: Number(text)
+                                })}
+                                style={styles.inputForDrops}
+                            />
+
+                            <DropDown
+                                items={units.map(unit => (unit))}
+
+                                onPress={
+                                    value => {
+                                        setFoodServing({
+                                            ...foodServing,
+                                            unit: value as NutritionUnits
+                                        })
+                                    }
                                 }
-                            }
-                        />
+                            />
+                        </View>
 
                     </View>
 
-                    <TextInput
-                        placeholder='Calories'
-                        value={calories.toString()}
-                        onChangeText={(text) => setCalories(Number(text) ) }
-                    />
-
                     <Text>Nutrition Facts</Text>
 
-                    <ScrollView>
-                    <View>
-                            <TextInput
-                                placeholder="Total Fats"
-                                value={nutriftionFacts.totalFat.measurment.toString()}
-                                onChangeText={ 
-                                    text => setNutriftionFacts({
-                                        ...nutriftionFacts,
-                                        totalFat: {
-                                            ...nutriftionFacts.totalFat,
-                                            measurment: Number(text)
+                    <View style={{ flex: 1, height: verticalScale(100) }}>
+                        <ScrollView style={{ flex: 1 }}>
+                            <View style={styles.inputDropsContainer}>
+                                <Text style={styles.inputDropsLabel}>Total Fats</Text>
+
+                                <View style={styles.inputDrops}>
+                                    <TextInput
+                                        placeholder="Total Fats"
+                                        placeholderTextColor="#5e5c5c"
+                                        keyboardType='numeric'
+                                        value={nutriftionFacts.totalFat.measurment.toString()}
+                                        onChangeText={
+                                            text => setNutriftionFacts({
+                                                ...nutriftionFacts,
+                                                totalFat: {
+                                                    ...nutriftionFacts.totalFat,
+                                                    measurment: Number(text)
+                                                }
+                                            })
                                         }
-                                    })
-                                }
-                            />
+                                        style={styles.inputForDrops}
+                                    />
 
-                            <DropDown
-                                items={ units.map( unit => (unit) ) }
+                                    <DropDown
+                                        items={units.map(unit => (unit))}
 
-                                onPress={
-                                    text => setNutriftionFacts({
-                                        ...nutriftionFacts,
-                                        totalFat: {
-                                            ...nutriftionFacts.totalFat,
-                                            unit: text as NutritionUnits
+                                        onPress={
+                                            text => setNutriftionFacts({
+                                                ...nutriftionFacts,
+                                                totalFat: {
+                                                    ...nutriftionFacts.totalFat,
+                                                    unit: text as NutritionUnits
+                                                }
+                                            })
                                         }
-                                    })
-                                }
-                            />
-                        </View>
+                                    />
+                                </View>
+                            </View>
 
 
-                        <View>
-                            <TextInput
-                                placeholder="Saturated Fats"
-                                value={nutriftionFacts.saturatedFat.measurment.toString()}
-                                onChangeText={ 
-                                    text => setNutriftionFacts({
-                                        ...nutriftionFacts,
-                                        saturatedFat: {
-                                            ...nutriftionFacts.saturatedFat,
-                                            measurment: Number(text)
+                            <View style={styles.inputDropsContainer}>
+                                <Text style={styles.inputDropsLabel}>Saturated Fats</Text>
+
+                                <View style={styles.inputDrops}>
+                                    <TextInput
+                                        placeholder="Saturated Fats"
+                                        placeholderTextColor="#5e5c5c"
+                                        keyboardType='numeric'
+                                        value={nutriftionFacts.saturatedFat.measurment.toString()}
+                                        onChangeText={
+                                            text => setNutriftionFacts({
+                                                ...nutriftionFacts,
+                                                saturatedFat: {
+                                                    ...nutriftionFacts.saturatedFat,
+                                                    measurment: Number(text)
+                                                }
+                                            })
                                         }
-                                    })
-                                }
-                            />
+                                        style={styles.inputForDrops}
+                                    />
 
-                            <DropDown
-                                items={ units.map( unit => (unit) )}
+                                    <DropDown
+                                        items={units.map(unit => (unit))}
 
-                                onPress={
-                                    text => setNutriftionFacts({
-                                        ...nutriftionFacts,
-                                        saturatedFat: {
-                                            ...nutriftionFacts.saturatedFat,
-                                            unit: text as NutritionUnits
+                                        onPress={
+                                            text => setNutriftionFacts({
+                                                ...nutriftionFacts,
+                                                saturatedFat: {
+                                                    ...nutriftionFacts.saturatedFat,
+                                                    unit: text as NutritionUnits
+                                                }
+                                            })
                                         }
-                                    })
-                                }
-                            />
-                        </View>
+                                    />
+                                </View>
+                            </View>
 
-                        <View>
-                            <TextInput
-                                placeholder="Trans Fats"
-                                value={nutriftionFacts.transFat.measurment.toString()}
-                                onChangeText={ 
-                                    text => setNutriftionFacts({
-                                        ...nutriftionFacts,
-                                        transFat: {
-                                            ...nutriftionFacts.transFat,
-                                            measurment: Number(text)
-                                        }
-                                    })
-                                }
-                            />
+                            <View style={styles.inputDropsContainer}>
+                                <Text style={styles.inputDropsLabel}>Trans Fats</Text>
 
-                            <DropDown
-                                items={ units.map( unit => (unit) )}
-                                
-                                onPress={
-                                    text => setNutriftionFacts({
-                                        ...nutriftionFacts,
-                                        transFat: {
-                                            ...nutriftionFacts.transFat,
-                                            unit: text as NutritionUnits
+                                <View style={styles.inputDrops}>
+                                    <TextInput
+                                        placeholder="Trans Fats"
+                                        placeholderTextColor="#5e5c5c"
+                                        keyboardType='numeric'
+                                        value={nutriftionFacts.transFat.measurment.toString()}
+                                        onChangeText={
+                                            text => setNutriftionFacts({
+                                                ...nutriftionFacts,
+                                                transFat: {
+                                                    ...nutriftionFacts.transFat,
+                                                    measurment: Number(text)
+                                                }
+                                            })
                                         }
-                                    })
-                                }
-                            />
-                        </View>
+                                        style={styles.inputForDrops}
+                                    />
 
-                        <View>
-                            <TextInput
-                                placeholder="Cholesterol"
-                                value={nutriftionFacts.cholesterol.measurment.toString()}
-                                onChangeText={ 
-                                    text => setNutriftionFacts({
-                                        ...nutriftionFacts,
-                                        cholesterol: {
-                                            ...nutriftionFacts.cholesterol,
-                                            measurment: Number(text)
-                                        }
-                                    })
-                                }
-                            />
+                                    <DropDown
+                                        items={units.map(unit => (unit))}
 
-                            <DropDown
-                                items={ units.map( unit => (unit) )}
-                                
-                                onPress={
-                                    text => setNutriftionFacts({
-                                        ...nutriftionFacts,
-                                        cholesterol: {
-                                            ...nutriftionFacts.cholesterol,
-                                            unit: text as NutritionUnits
+                                        onPress={
+                                            text => setNutriftionFacts({
+                                                ...nutriftionFacts,
+                                                transFat: {
+                                                    ...nutriftionFacts.transFat,
+                                                    unit: text as NutritionUnits
+                                                }
+                                            })
                                         }
-                                    })
-                                }
-                            />
-                        </View>
+                                    />
+                                </View>
+                            </View>
 
-                        <View>
-                            <TextInput
-                                placeholder="Sodium"
-                                value={nutriftionFacts.sodium.measurment.toString()}
-                                onChangeText={ 
-                                    text => setNutriftionFacts({
-                                        ...nutriftionFacts,
-                                        sodium: {
-                                            ...nutriftionFacts.sodium,
-                                            measurment: Number(text)
-                                        }
-                                    })
-                                }
-                            />
+                            <View style={styles.inputDropsContainer}>
+                                <Text style={styles.inputDropsLabel}>Cholesterol</Text>
 
-                            <DropDown
-                                items={ units.map( unit => (unit) )}
-                                
-                                onPress={
-                                    text => setNutriftionFacts({
-                                        ...nutriftionFacts,
-                                        sodium: {
-                                            ...nutriftionFacts.sodium,
-                                            unit: text as NutritionUnits
+                                <View style={styles.inputDrops}>
+                                    <TextInput
+                                        placeholder="Cholesterol"
+                                        placeholderTextColor="#5e5c5c"
+                                        keyboardType='numeric'
+                                        value={nutriftionFacts.cholesterol.measurment.toString()}
+                                        onChangeText={
+                                            text => setNutriftionFacts({
+                                                ...nutriftionFacts,
+                                                cholesterol: {
+                                                    ...nutriftionFacts.cholesterol,
+                                                    measurment: Number(text)
+                                                }
+                                            })
                                         }
-                                    })
-                                }
-                            />
-                        </View>
+                                        style={styles.inputForDrops}
+                                    />
 
-                        <View>
-                            <TextInput
-                                placeholder="Total Carbohydrate"
-                                value={nutriftionFacts.totalCarbohydrate.measurment.toString()}
-                                onChangeText={ 
-                                    text => setNutriftionFacts({
-                                        ...nutriftionFacts,
-                                        totalCarbohydrate: {
-                                            ...nutriftionFacts.totalCarbohydrate,
-                                            measurment: Number(text)
-                                        }
-                                    })
-                                }
-                            />
+                                    <DropDown
+                                        items={units.map(unit => (unit))}
 
-                            <DropDown
-                                items={ units.map( unit => (unit) )}
-                                
-                                onPress={
-                                    text => setNutriftionFacts({
-                                        ...nutriftionFacts,
-                                        totalCarbohydrate: {
-                                            ...nutriftionFacts.totalCarbohydrate,
-                                            unit: text as NutritionUnits
+                                        onPress={
+                                            text => setNutriftionFacts({
+                                                ...nutriftionFacts,
+                                                cholesterol: {
+                                                    ...nutriftionFacts.cholesterol,
+                                                    unit: text as NutritionUnits
+                                                }
+                                            })
                                         }
-                                    })
-                                }
-                            />
-                        </View>
+                                    />
+                                </View>
+                            </View>
 
-                        <View>
-                            <TextInput
-                                placeholder="Dietary Fiber"
-                                value={nutriftionFacts.dietaryFiber.measurment.toString()}
-                                onChangeText={ 
-                                    text => setNutriftionFacts({
-                                        ...nutriftionFacts,
-                                        dietaryFiber: {
-                                            ...nutriftionFacts.dietaryFiber,
-                                            measurment: Number(text)
-                                        }
-                                    })
-                                }
-                            />
+                            <View style={styles.inputDropsContainer}>
+                                <Text style={styles.inputDropsLabel}>Sodium</Text>
 
-                            <DropDown
-                                items={ units.map( unit => (unit) )}
-                                
-                                onPress={
-                                    text => setNutriftionFacts({
-                                        ...nutriftionFacts,
-                                        dietaryFiber: {
-                                            ...nutriftionFacts.dietaryFiber,
-                                            unit: text as NutritionUnits
+                                <View style={styles.inputDrops}>
+                                    <TextInput
+                                        placeholder="Sodium"
+                                        placeholderTextColor="#5e5c5c"
+                                        keyboardType='numeric'
+                                        value={nutriftionFacts.sodium.measurment.toString()}
+                                        onChangeText={
+                                            text => setNutriftionFacts({
+                                                ...nutriftionFacts,
+                                                sodium: {
+                                                    ...nutriftionFacts.sodium,
+                                                    measurment: Number(text)
+                                                }
+                                            })
                                         }
-                                    })
-                                }
-                            />
-                        </View>
+                                        style={styles.inputForDrops}
+                                    />
 
-                        <View>
-                            <TextInput
-                                placeholder="Total Fats"
-                                value={nutriftionFacts.addedSugars.measurment.toString()}
-                                onChangeText={ 
-                                    text => setNutriftionFacts({
-                                        ...nutriftionFacts,
-                                        addedSugars: {
-                                            ...nutriftionFacts.addedSugars,
-                                            measurment: Number(text)
-                                        }
-                                    })
-                                }
-                            />
+                                    <DropDown
+                                        items={units.map(unit => (unit))}
 
-                            <DropDown
-                                items={ units.map( unit => (unit) )}
-                                
-                                onPress={
-                                    text => setNutriftionFacts({
-                                        ...nutriftionFacts,
-                                        addedSugars: {
-                                            ...nutriftionFacts.addedSugars,
-                                            unit: text as NutritionUnits
+                                        onPress={
+                                            text => setNutriftionFacts({
+                                                ...nutriftionFacts,
+                                                sodium: {
+                                                    ...nutriftionFacts.sodium,
+                                                    unit: text as NutritionUnits
+                                                }
+                                            })
                                         }
-                                    })
-                                }
-                            />
-                        </View>
+                                    />
+                                </View>
+                            </View>
 
-                        <View>
-                            <TextInput
-                                placeholder="Total Sugars"
-                                value={nutriftionFacts.totalSugars.measurment.toString()}
-                                onChangeText={ 
-                                    text => setNutriftionFacts({
-                                        ...nutriftionFacts,
-                                        totalSugars: {
-                                            ...nutriftionFacts.totalSugars,
-                                            measurment: Number(text)
-                                        }
-                                    })
-                                }
-                            />
+                            <View style={styles.inputDropsContainer}>
+                                <Text style={styles.inputDropsLabel}>Total Carbohydrate</Text>
 
-                            <DropDown
-                                items={ units.map( unit => (unit) )}
-                                
-                                onPress={
-                                    text => setNutriftionFacts({
-                                        ...nutriftionFacts,
-                                        totalSugars: {
-                                            ...nutriftionFacts.totalSugars,
-                                            unit: text as NutritionUnits
+                                <View style={styles.inputDrops}>
+                                    <TextInput
+                                        placeholder="Total Carbohydrate"
+                                        placeholderTextColor="#5e5c5c"
+                                        keyboardType='numeric'
+                                        value={nutriftionFacts.totalCarbohydrate.measurment.toString()}
+                                        onChangeText={
+                                            text => setNutriftionFacts({
+                                                ...nutriftionFacts,
+                                                totalCarbohydrate: {
+                                                    ...nutriftionFacts.totalCarbohydrate,
+                                                    measurment: Number(text)
+                                                }
+                                            })
                                         }
-                                    })
-                                }
-                            />
-                        </View>
+                                        style={styles.inputForDrops}
+                                    />
 
-                        <View>
-                            <TextInput
-                                placeholder="Vitamin D"
-                                value={nutriftionFacts.vitaminD.measurment.toString()}
-                                onChangeText={ 
-                                    text => setNutriftionFacts({
-                                        ...nutriftionFacts,
-                                        vitaminD: {
-                                            ...nutriftionFacts.vitaminD,
-                                            measurment: Number(text)
-                                        }
-                                    })
-                                }
-                            />
+                                    <DropDown
+                                        items={units.map(unit => (unit))}
 
-                            <DropDown
-                                items={ units.map( unit => (unit) )}
-                                
-                                onPress={
-                                    text => setNutriftionFacts({
-                                        ...nutriftionFacts,
-                                        vitaminD: {
-                                            ...nutriftionFacts.vitaminD,
-                                            unit: text as NutritionUnits
+                                        onPress={
+                                            text => setNutriftionFacts({
+                                                ...nutriftionFacts,
+                                                totalCarbohydrate: {
+                                                    ...nutriftionFacts.totalCarbohydrate,
+                                                    unit: text as NutritionUnits
+                                                }
+                                            })
                                         }
-                                    })
-                                }
-                            />
-                        </View>
+                                    />
+                                </View>
+                            </View>
 
-                        <View>
-                            <TextInput
-                                placeholder="Iron"
-                                value={nutriftionFacts.iron.measurment.toString()}
-                                onChangeText={ 
-                                    text => setNutriftionFacts({
-                                        ...nutriftionFacts,
-                                        iron: {
-                                            ...nutriftionFacts.iron,
-                                            measurment: Number(text)
-                                        }
-                                    })
-                                }
-                            />
+                            <View style={styles.inputDropsContainer}>
+                                <Text style={styles.inputDropsLabel}>Dietary Fiber</Text>
 
-                            <DropDown
-                                items={ units.map( unit => (unit) )}
-                                
-                                onPress={
-                                    text => setNutriftionFacts({
-                                        ...nutriftionFacts,
-                                        iron: {
-                                            ...nutriftionFacts.iron,
-                                            unit: text as NutritionUnits
+                                <View style={styles.inputDrops}>
+                                    <TextInput
+                                        placeholder="Dietary Fiber"
+                                        placeholderTextColor="#5e5c5c"
+                                        keyboardType='numeric'
+                                        value={nutriftionFacts.dietaryFiber.measurment.toString()}
+                                        onChangeText={
+                                            text => setNutriftionFacts({
+                                                ...nutriftionFacts,
+                                                dietaryFiber: {
+                                                    ...nutriftionFacts.dietaryFiber,
+                                                    measurment: Number(text)
+                                                }
+                                            })
                                         }
-                                    })
-                                }
-                            />
-                        </View>
+                                        style={styles.inputForDrops}
+                                    />
 
-                        <View>
-                            <TextInput
-                                placeholder="Calcium"
-                                value={nutriftionFacts.calcium.measurment.toString()}
-                                onChangeText={ 
-                                    text => setNutriftionFacts({
-                                        ...nutriftionFacts,
-                                        calcium: {
-                                            ...nutriftionFacts.calcium,
-                                            measurment: Number(text)
-                                        }
-                                    })
-                                }
-                            />
+                                    <DropDown
+                                        items={units.map(unit => (unit))}
 
-                            <DropDown
-                                items={ units.map( unit => (unit) )}
-                                
-                                onPress={
-                                    text => setNutriftionFacts({
-                                        ...nutriftionFacts,
-                                        calcium: {
-                                            ...nutriftionFacts.calcium,
-                                            unit: text as NutritionUnits
+                                        onPress={
+                                            text => setNutriftionFacts({
+                                                ...nutriftionFacts,
+                                                dietaryFiber: {
+                                                    ...nutriftionFacts.dietaryFiber,
+                                                    unit: text as NutritionUnits
+                                                }
+                                            })
                                         }
-                                    })
-                                }
-                            />
-                        </View>
+                                    />
+                                </View>
 
-                        <View>
-                            <TextInput
-                                placeholder="Potassium"
-                                value={nutriftionFacts.potassium.measurment.toString()}
-                                onChangeText={ 
-                                    text => setNutriftionFacts({
-                                        ...nutriftionFacts,
-                                        potassium: {
-                                            ...nutriftionFacts.potassium,
-                                            measurment: Number(text)
-                                        }
-                                    })
-                                }
-                            />
+                            </View>
 
-                            <DropDown
-                                items={ units.map( unit => (unit) )}
-                                
-                                onPress={
-                                    text => setNutriftionFacts({
-                                        ...nutriftionFacts,
-                                        potassium: {
-                                            ...nutriftionFacts.potassium,
-                                            unit: text as NutritionUnits
-                                        }
-                                    })
-                                }
-                            />
-                        </View>
+                            <View style={styles.inputDropsContainer}>
+                                <Text style={styles.inputDropsLabel}>Added Sugars</Text>
 
-                        <View>
-                            <TextInput
-                                placeholder="Protein"
-                                value={nutriftionFacts.protein.measurment.toString()}
-                                onChangeText={ 
-                                    text => setNutriftionFacts({
-                                        ...nutriftionFacts,
-                                        protein: {
-                                            ...nutriftionFacts.protein,
-                                            measurment: Number(text)
+                                <View style={styles.inputDrops}>
+                                    <TextInput
+                                        placeholder="Added Sugars"
+                                        placeholderTextColor="#5e5c5c"
+                                        keyboardType='numeric'
+                                        value={nutriftionFacts.addedSugars.measurment.toString()}
+                                        onChangeText={
+                                            text => setNutriftionFacts({
+                                                ...nutriftionFacts,
+                                                addedSugars: {
+                                                    ...nutriftionFacts.addedSugars,
+                                                    measurment: Number(text)
+                                                }
+                                            })
                                         }
-                                    })
-                                }
-                            />
+                                        style={styles.inputForDrops}
+                                    />
 
-                            <DropDown
-                                items={ units.map( unit => (unit) )}
-                                
-                                onPress={
-                                    text => setNutriftionFacts({
-                                        ...nutriftionFacts,
-                                        protein: {
-                                            ...nutriftionFacts.potassium,
-                                            unit: text as NutritionUnits
+                                    <DropDown
+                                        items={units.map(unit => (unit))}
+
+                                        onPress={
+                                            text => setNutriftionFacts({
+                                                ...nutriftionFacts,
+                                                addedSugars: {
+                                                    ...nutriftionFacts.addedSugars,
+                                                    unit: text as NutritionUnits
+                                                }
+                                            })
                                         }
-                                    })
-                                }
-                            />
-                        </View>
-                    </ScrollView>
+                                    />
+                                </View>
+                            </View>
+
+                            <View style={styles.inputDropsContainer}>
+                                <Text style={styles.inputDropsLabel}>Total Sugars</Text>
+
+                                <View style={styles.inputDrops}>
+                                    <TextInput
+                                        placeholder="Total Sugars"
+                                        placeholderTextColor="#5e5c5c"
+                                        keyboardType='numeric'
+                                        value={nutriftionFacts.totalSugars.measurment.toString()}
+                                        onChangeText={
+                                            text => setNutriftionFacts({
+                                                ...nutriftionFacts,
+                                                totalSugars: {
+                                                    ...nutriftionFacts.totalSugars,
+                                                    measurment: Number(text)
+                                                }
+                                            })
+                                        }
+                                        style={styles.inputForDrops}
+                                    />
+
+                                    <DropDown
+                                        items={units.map(unit => (unit))}
+
+                                        onPress={
+                                            text => setNutriftionFacts({
+                                                ...nutriftionFacts,
+                                                totalSugars: {
+                                                    ...nutriftionFacts.totalSugars,
+                                                    unit: text as NutritionUnits
+                                                }
+                                            })
+                                        }
+                                    />
+                                </View>
+                            </View>
+
+                            <View style={styles.inputDropsContainer}>
+                                <Text style={styles.inputDropsLabel}>Vitamin D</Text>
+
+                                <View style={styles.inputDrops}>
+                                    <TextInput
+                                        placeholder="Vitamin D"
+                                        placeholderTextColor="#5e5c5c"
+                                        keyboardType='numeric'
+                                        value={nutriftionFacts.vitaminD.measurment.toString()}
+                                        onChangeText={
+                                            text => setNutriftionFacts({
+                                                ...nutriftionFacts,
+                                                vitaminD: {
+                                                    ...nutriftionFacts.vitaminD,
+                                                    measurment: Number(text)
+                                                }
+                                            })
+                                        }
+                                        style={styles.inputForDrops}
+                                    />
+
+                                    <DropDown
+                                        items={units.map(unit => (unit))}
+
+                                        onPress={
+                                            text => setNutriftionFacts({
+                                                ...nutriftionFacts,
+                                                vitaminD: {
+                                                    ...nutriftionFacts.vitaminD,
+                                                    unit: text as NutritionUnits
+                                                }
+                                            })
+                                        }
+                                    />
+                                </View>
+                            </View>
+
+                            <View style={styles.inputDropsContainer}>
+                                <Text style={styles.inputDropsLabel}>Iron</Text>
+
+                                <View style={styles.inputDrops}>
+                                    <TextInput
+                                        placeholder="Iron"
+                                        placeholderTextColor="#5e5c5c"
+                                        keyboardType='numeric'
+                                        value={nutriftionFacts.iron.measurment.toString()}
+                                        onChangeText={
+                                            text => setNutriftionFacts({
+                                                ...nutriftionFacts,
+                                                iron: {
+                                                    ...nutriftionFacts.iron,
+                                                    measurment: Number(text)
+                                                }
+                                            })
+                                        }
+                                        style={styles.inputForDrops}
+                                    />
+
+                                    <DropDown
+                                        items={units.map(unit => (unit))}
+
+                                        onPress={
+                                            text => setNutriftionFacts({
+                                                ...nutriftionFacts,
+                                                iron: {
+                                                    ...nutriftionFacts.iron,
+                                                    unit: text as NutritionUnits
+                                                }
+                                            })
+                                        }
+                                    />
+                                </View>
+                            </View>
+
+                            <View style={styles.inputDropsContainer}>
+                                <Text style={styles.inputDropsLabel}>Calcium</Text>
+
+                                <View style={styles.inputDrops}>
+                                    <TextInput
+                                        placeholder="Calcium"
+                                        placeholderTextColor="#5e5c5c"
+                                        keyboardType='numeric'
+                                        value={nutriftionFacts.calcium.measurment.toString()}
+                                        onChangeText={
+                                            text => setNutriftionFacts({
+                                                ...nutriftionFacts,
+                                                calcium: {
+                                                    ...nutriftionFacts.calcium,
+                                                    measurment: Number(text)
+                                                }
+                                            })
+                                        }
+                                        style={styles.inputForDrops}
+                                    />
+
+                                    <DropDown
+                                        items={units.map(unit => (unit))}
+
+                                        onPress={
+                                            text => setNutriftionFacts({
+                                                ...nutriftionFacts,
+                                                calcium: {
+                                                    ...nutriftionFacts.calcium,
+                                                    unit: text as NutritionUnits
+                                                }
+                                            })
+                                        }
+                                    />
+                                </View>
+                            </View>
+
+                            <View style={styles.inputDropsContainer}>
+                                <Text style={styles.inputDropsLabel}>Potassium</Text>
+
+                                <View style={styles.inputDrops}>
+                                    <TextInput
+                                        placeholder="Potassium"
+                                        placeholderTextColor="#5e5c5c"
+                                        keyboardType='numeric'
+                                        value={nutriftionFacts.potassium.measurment.toString()}
+                                        onChangeText={
+                                            text => setNutriftionFacts({
+                                                ...nutriftionFacts,
+                                                potassium: {
+                                                    ...nutriftionFacts.potassium,
+                                                    measurment: Number(text)
+                                                }
+                                            })
+                                        }
+                                        style={styles.inputForDrops}
+                                    />
+
+                                    <DropDown
+                                        items={units.map(unit => (unit))}
+
+                                        onPress={
+                                            text => setNutriftionFacts({
+                                                ...nutriftionFacts,
+                                                potassium: {
+                                                    ...nutriftionFacts.potassium,
+                                                    unit: text as NutritionUnits
+                                                }
+                                            })
+                                        }
+                                    />
+                                </View>
+                            </View>
+
+                            <View style={styles.inputDropsContainer}>
+                                <Text style={styles.inputDropsLabel}>Protein</Text>
+
+                                <View style={styles.inputDrops}>
+                                    <TextInput
+                                        placeholder="Protein"
+                                        placeholderTextColor="#5e5c5c"
+                                        keyboardType='numeric'
+                                        value={nutriftionFacts.protein.measurment.toString()}
+                                        onChangeText={
+                                            text => setNutriftionFacts({
+                                                ...nutriftionFacts,
+                                                protein: {
+                                                    ...nutriftionFacts.protein,
+                                                    measurment: Number(text)
+                                                }
+                                            })
+                                        }
+                                        style={styles.inputForDrops}
+                                    />
+
+                                    <DropDown
+                                        items={units.map(unit => (unit))}
+
+                                        onPress={
+                                            text => setNutriftionFacts({
+                                                ...nutriftionFacts,
+                                                protein: {
+                                                    ...nutriftionFacts.potassium,
+                                                    unit: text as NutritionUnits
+                                                }
+                                            })
+                                        }
+                                    />
+                                </View>
+                            </View>
+                        </ScrollView>
+                    </View>
 
                     <Text>Create Food</Text>
                 </View>
@@ -605,9 +769,5 @@ const FoodCreate : React.FC<Props> = ({ navigation }) => {
         </AppLayout>
     )
 }
-
-const styles = StyleSheet.create({
-
-})
 
 export default FoodCreate;
