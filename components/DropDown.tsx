@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-nati
 
 import { Entypo } from '@expo/vector-icons';
 
-import { moderateScale } from "../utils";
+import { moderateScale, scale, verticalScale } from "../utils";
 
 export type ValueType = string | number;
 
@@ -24,7 +24,7 @@ const DropDown: React.FC<DropDownProps> = ({ items, onPress }) => {
     });
 
     return (
-        <View style={styles.container}>
+        <View style={{...styles.container, height: state.open ? verticalScale(300) : undefined}}>
             <TouchableOpacity 
                 style={styles.selectedContainer}
                 onPress={
@@ -40,7 +40,7 @@ const DropDown: React.FC<DropDownProps> = ({ items, onPress }) => {
 
             {
                 state.open && (
-                    <ScrollView style={styles.scrollView} contentContainerStyle={{ alignItems: "center" }}>
+                    <ScrollView style={styles.scrollView} >
                         {
                             items.map((item, index) => (
                                 state.selected !== item && 
@@ -90,25 +90,33 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontSize: moderateScale(18),
         fontWeight: "bold",
-        width: "93%"
+        width: "50%"
     },
 
     scrollView: {
         flex: 1,
-        flexDirection: "column"
+        flexDirection: "column",
+        position: "relative",
+        top: verticalScale(10),
+        backgroundColor: "black",
+        zIndex: 10,
+        borderWidth: 1,
+        borderColor: "#5e5c5c",
     },
 
     dropDownContent: {
-        width: "100%",
+        width: scale(200),
+        height: verticalScale(28),
         borderBottomWidth: 1,
         borderColor: "#5e5c5c",
-        marginBottom: moderateScale(2)
+        marginBottom: moderateScale(2),
+        backgroundColor: "black"
     },
 
     dropDownText: {
         color: "#5e5c5c",
         textAlign: "center",
-        fontSize: moderateScale(18),
+        fontSize: moderateScale(20),
         fontWeight: "bold"
     }
 })
