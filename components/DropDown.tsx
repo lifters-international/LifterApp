@@ -12,6 +12,8 @@ export type DropDownProps = {
     onPress?: (item: ValueType) => void,
 }
 
+// onStartShouldSetResponder={() => true}
+
 export type DropDownState<T> = {
     selected: T;
     open: boolean;
@@ -24,8 +26,8 @@ const DropDown: React.FC<DropDownProps> = ({ items, onPress }) => {
     });
 
     return (
-        <View style={{...styles.container, height: state.open ? verticalScale(300) : undefined}}>
-            <TouchableOpacity 
+        <View style={{ ...styles.container, height: "auto" }} >
+            <TouchableOpacity
                 style={styles.selectedContainer}
                 onPress={
                     () => setState({
@@ -38,35 +40,33 @@ const DropDown: React.FC<DropDownProps> = ({ items, onPress }) => {
                 <Entypo name="arrow-bold-down" size={moderateScale(24)} color="#5e5c5c" />
             </TouchableOpacity>
 
-            {
-                state.open && (
-                    <ScrollView style={styles.scrollView} >
-                        {
-                            items.map((item, index) => (
-                                state.selected !== item && 
-                                <TouchableOpacity
-                                    key={index}
-                                    onPress={() => {
-                                        setState({
-                                            ...state,
-                                            selected: item,
-                                            open: false,
-                                        })
 
-                                        if (typeof onPress === 'function') {
-                                            onPress(item);
-                                        }
+            <ScrollView>
+                {
+                    items.map((item, index) => (
+                        state.selected !== item &&
+                        <TouchableOpacity
+                            key={index}
+                            onPress={() => {
+                                setState({
+                                    ...state,
+                                    selected: item,
+                                    open: false,
+                                })
 
-                                    }}
-                                    style={styles.dropDownContent}
-                                >
-                                    <Text style={styles.dropDownText}>{item}</Text>
-                                </TouchableOpacity>
-                            ))
-                        }
-                    </ScrollView>
-                )
-            }
+                                if (typeof onPress === 'function') {
+                                    onPress(item);
+                                }
+
+                            }}
+                            style={styles.dropDownContent}
+                        >
+                            <Text style={styles.dropDownText}>{item}</Text>
+                        </TouchableOpacity>
+                    ))
+                }
+            </ScrollView>
+
         </View>
     )
 
@@ -95,21 +95,17 @@ const styles = StyleSheet.create({
 
     scrollView: {
         flex: 1,
-        flexDirection: "column",
         position: "relative",
         top: verticalScale(10),
         backgroundColor: "black",
-        zIndex: 10,
         borderWidth: 1,
         borderColor: "#5e5c5c",
     },
 
     dropDownContent: {
         width: scale(200),
-        height: verticalScale(28),
         borderBottomWidth: 1,
         borderColor: "#5e5c5c",
-        marginBottom: moderateScale(2),
         backgroundColor: "black"
     },
 
