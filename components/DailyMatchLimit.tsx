@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
         marginLeft: "auto",
         marginRight: "auto",
         position: "relative",
-        top: verticalScale(100),
+        top: verticalScale(50),
     },
 
     logo: {
