@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { LifterMatch, Loading, AppLayout, DailyMatchLimit } from "../components";
 import { useSelector } from "react-redux";
 import { useGetUserMatches, useNotifications } from '../hooks';
@@ -37,42 +37,39 @@ const Home: React.FC = () => {
 
     if (userMatches.loading) return <AppLayout backgroundColor="black"><Loading /></AppLayout>;
 
-    if (dailyMatchLimit) {
-        return (
-            <AppLayout backgroundColor="black">
-                <View style={styles.container}>
-                    <DailyMatchLimit />
-                </View>
-            </AppLayout>
-        )
-    }
-
     return (
         <AppLayout backgroundColor="black">
             <View style={styles.container}>
                 <View>
-                    <LifterMatch
-                        {...userMatches.users![currentMatch]}
-                        allowAction
-                        next={
-                            () => {
-                                if (currentMatch + 1 < userMatches.users!.length) setCurrentMatch(currentMatch + 1);
+                    {
+                        !dailyMatchLimit ? (
+                            <LifterMatch
+                                {...userMatches.users[currentMatch]}
+                                allowAction
+                                next={
+                                    () => {
+                                        if (currentMatch + 1 < userMatches.users.length) setCurrentMatch(currentMatch + 1);
 
-                                else {
-                                    setUserMatches({ ...userMatches, refreshTimes: userMatches.refreshTimes + 1 });
-                                    setCurrentMatch(0);
+                                        else {
+                                            setUserMatches({ ...userMatches, refreshTimes: userMatches.refreshTimes + 1 });
+                                            setCurrentMatch(0);
+                                        }
+                                    }
                                 }
-                            }
-                        }
-                        userToken={token}
+                                userToken={token}
 
-                        err={
-                            (error) => {
-                                if (error[0].message === "You have reached your daily limit on matches.") setDailyMatchLimit(true);
-                            }
-                        }
+                                err={
+                                    (error) => {
+                                        if (error[0].message === "You have reached your daily limit on matches.") setDailyMatchLimit(true);
+                                    }
+                                }
 
-                    />
+                            />
+                        ) : (
+                            <DailyMatchLimit />
+                        )
+
+                    }
                 </View>
             </View>
         </AppLayout>
