@@ -1,4 +1,4 @@
-{
+export default {
   "expo": {
     "name": "LiftersHome",
     "slug": "LiftersHome",
@@ -32,7 +32,7 @@
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ],
-      "googleServicesFile": "google_services_json"
+      "googleServicesFile": process.env.google_services_json
     },
     "web": {
       "favicon": "./assets/icons/Icons/lifters-icon-google-play.jpg"
