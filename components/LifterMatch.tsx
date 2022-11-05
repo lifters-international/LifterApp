@@ -1,7 +1,7 @@
 import React from "react";
 import { IconFill } from "@ant-design/icons-react-native";
 import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
-import { returnImageSource, scale, verticalScale, moderateScale } from "../utils";
+import { returnImageSource, scale, verticalScale, moderateScale, GraphqlError } from "../utils";
 import { useAppDispatch } from "../redux";
 import { acceptDeclineMatchThunk } from "../redux/features/auth"; 
 
@@ -14,15 +14,16 @@ export type LifterMatchProps = {
     profilePicture?: string;
     allowAction?: boolean;
     next?: () => void;
+    err?: ( error: GraphqlError[]) => void
 }
 
-const LifterMatch: React.FC<LifterMatchProps> = ( { id, userToken, username, age, bio, profilePicture, allowAction, next } ) => {
+const LifterMatch: React.FC<LifterMatchProps> = ( { id, userToken, username, age, bio, profilePicture, allowAction, next, err } ) => {
     const dispatch = useAppDispatch();
     const shortenedBio = bio?.slice(0, 30) + ( (bio?.length!) >= 45 ? "..." : "" );
 
     const acceptMatch = async ( accept: boolean ) => {
         dispatch(acceptDeclineMatchThunk({
-            token: userToken!, matchId: id!, accept
+            token: userToken!, matchId: id!, accept, err
         }));
     }
 
