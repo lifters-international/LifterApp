@@ -32,7 +32,7 @@
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ],
-      "googleServicesFile": "./google_services.json"
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/icons/Icons/lifters-icon-google-play.jpg"
