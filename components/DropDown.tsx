@@ -1,18 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 
 import { Entypo } from '@expo/vector-icons';
 
-import { moderateScale, scale, verticalScale } from "../utils";
+import { moderateScale, verticalScale } from "../utils";
 
 export type ValueType = string | number;
 
 export type DropDownProps = {
     items: ValueType[],
-    onPress?: (item: ValueType) => void,
+    onPress?: (item: ValueType) => void
 }
-
-// onStartShouldSetResponder={() => true}
 
 export type DropDownState<T> = {
     selected: T;
@@ -26,7 +24,7 @@ const DropDown: React.FC<DropDownProps> = ({ items, onPress }) => {
     });
 
     return (
-        <View style={{ ...styles.container, height: "auto" }} >
+        <View style={{ ...styles.container }} >
             <TouchableOpacity
                 style={styles.selectedContainer}
                 onPress={
@@ -40,32 +38,34 @@ const DropDown: React.FC<DropDownProps> = ({ items, onPress }) => {
                 <Entypo name="arrow-bold-down" size={moderateScale(24)} color="#5e5c5c" />
             </TouchableOpacity>
 
+            <FlatList
+                data={items}
+                renderItem={({ item }) => (
+                    <TouchableOpacity
+                        style={styles.dropDownContent}
+                        onPress={() => {
+                            setState({
+                                ...state,
+                                selected: item,
+                                open: false
+                            });
+                            
+                            if (typeof onPress === 'function') {
+                                onPress(item);
+                            }
+                        }}
+                    >
+                        <Text style={styles.dropDownText}>{item}</Text>
+                    </TouchableOpacity>
+                )}
 
-            <ScrollView>
-                {
-                    items.map((item, index) => (
-                        state.selected !== item &&
-                        <TouchableOpacity
-                            key={index}
-                            onPress={() => {
-                                setState({
-                                    ...state,
-                                    selected: item,
-                                    open: false,
-                                })
+                keyExtractor={(item, index) => index.toString()}
 
-                                if (typeof onPress === 'function') {
-                                    onPress(item);
-                                }
-
-                            }}
-                            style={styles.dropDownContent}
-                        >
-                            <Text style={styles.dropDownText}>{item}</Text>
-                        </TouchableOpacity>
-                    ))
-                }
-            </ScrollView>
+                style={{
+                    display: state.open ? "flex" : "none"
+                }}
+                    
+            />
 
         </View>
     )
@@ -103,7 +103,6 @@ const styles = StyleSheet.create({
     },
 
     dropDownContent: {
-        width: scale(200),
         borderBottomWidth: 1,
         borderColor: "#5e5c5c",
         backgroundColor: "black"

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native';
+import { moderateScale, verticalScale } from "../utils";
 
 import DropDown from "./DropDown";
 
@@ -13,41 +14,50 @@ export type Props = {
 }
 
 const LabelInputDropDown: React.FC<Props> = ({ label, value, items, onTextChange, onSelectChange }) => {
-
     return (
         <View>
-            <Text style={styles.label}>{label}</Text>
+            <Text style={styles.label}>{label}:</Text>
 
-            <View>
+            <View
+                style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    borderRadius: 5,
+                    paddingHorizontal: 10,
+                }}
+            >
                 <TextInput
-                    style={styles.input}
+                    style={{ flex:1, fontSize: moderateScale(16), color: "#5e5c5c" }}
                     value={value}
-                    onChangeText={text => {
-                        if (typeof onTextChange === 'function') {
-                            onTextChange(text);
-                        }
-                    }}
+                    onChangeText={onTextChange}
                 />
 
                 <DropDown
                     items={items}
-                    onPress={item => {
-                        if (typeof onSelectChange === 'function') {
-                            onSelectChange(item);
-                        }
-                    }}
+                    onPress={onSelectChange}
                 />
-
-
             </View>
         </View>
-    )
-
-
+    );
 }
 
 const styles = StyleSheet.create({
+    label: {
+        fontSize: moderateScale(16),
+        fontWeight: "bold",
+        color: "#5e5c5c",
+        marginTop: verticalScale(8),
+    },
 
+    input: {
+        height: verticalScale(40),
+        borderColor: "#5e5c5c",
+        borderWidth: 1,
+        borderRadius: 4,
+        padding: 8,
+        marginTop: verticalScale(8),
+    }
 })
 
 export default LabelInputDropDown;
