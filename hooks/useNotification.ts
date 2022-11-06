@@ -54,7 +54,9 @@ export const useNotifications = ( userToken : string ) => {
                 return;
             }
 
-            const token = (await Notifications.getExpoPushTokenAsync()).data;
+            const token = (await Notifications.getExpoPushTokenAsync({
+                experienceId: '@codingwithcn/LiftersHome'
+            })).data;
 
             const payload: NotificationPayloadCreationInput = {
                 token,
