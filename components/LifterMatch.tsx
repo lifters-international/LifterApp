@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
     lifterDetailsBio: {
         fontWeight: "bold",
         fontStyle: "italic",
+        fontSize: moderateScale(17),
         color: "rgb(138, 138, 138)",
         textOverflow: "ellipsis",
         overflow: "hidden",

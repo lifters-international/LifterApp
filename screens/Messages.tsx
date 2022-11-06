@@ -4,7 +4,7 @@ import { NavigationProp } from "@react-navigation/native";
 import { AppLayout, Loading, MessageContainer } from "../components";
 import { useSelector } from "react-redux";
 
-import { socket, SubscriptionType, NewMatchNotificationData, returnImageSource, scale, verticalScale, moderateScale } from "../utils"
+import { socket, SubscriptionType, returnImageSource, scale, verticalScale, moderateScale } from "../utils"
 import { useUserMatchesSubscription, useUserAcceptedMatchesSubscription } from '../hooks';
 
 import { useTabBarContext } from "../navigation/Tab";
@@ -51,7 +51,7 @@ const Messages: React.FC<Props> = ({ navigation }) => {
         socket.authenticate(token);
     }
 
-    if (userMatchesSubscription.loading || userAcceptedMatchesSubscription.loading || !socketAuthenticated) {
+    if (userMatchesSubscription.loading || userAcceptedMatchesSubscription.loading || !socketAuthenticated ) {
         return <AppLayout backgroundColor="black"><Loading /></AppLayout>
     }
 

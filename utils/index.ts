@@ -1,7 +1,45 @@
 import * as SecureStore from 'expo-secure-store';
 import * as Device from 'expo-device';
 export * from "@lifters-international/lifters-utils";
+import { GraphqlFetchResult } from '@lifters-international/lifters-utils';
 import { Dimensions } from 'react-native';
+
+/*
+export const fetchGraphQl = async ( query: string, variables: any ): Promise<GraphqlFetchResult> => {
+    const response = await fetch(
+        "https://server.lifters.app/graphql",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                query,
+                variables,
+            })
+        }
+    );
+
+    const data = await response.json();
+
+    return data;
+} 
+
+export const getApiUrl = () => {
+    return `${getServerUrl()}graphql`;
+}
+
+export const getWSApiUrl = () => {
+    return  "server.lifters.app";
+}
+
+export const getImageUploadApi = () => {
+    return `${getServerUrl()}upload/image`;
+}
+
+export const getServerUrl = () => {
+    return "https://server.lifters.app/";
+}*/
 
 export const saveToStore =  async (key: string, value: string) => {
     await SecureStore.setItemAsync(key, value);
@@ -54,46 +92,3 @@ export const deviceWidth = width;
 export const deviceHeight = height;
 
 export const getDiviceId = () => `${Device.deviceName} ${Device.modelName!}`.replace(/ /g, "-");
-
-// AUTO TODO  DELETE THIS LATER
-
-export type NotificationPayloadCreationInput = {
-    deviceID: string;
-
-    tokenType: NotificationTokenType;
-
-    token: string;
-}
-
-export enum NotificationsPayloadCreationError {
-    UserAlreadyHasNotification = "UserAlreadyHasNotification",
-
-    NotificationCreatedSuccess = "NotificationCreatedSuccess"
-}
-
-export enum NotificationTokenType {
-    IOS = "IOS",
-    ANDROID = "ANDROID",
-    WEB = "WEB"
-}
-
-export enum NotificationType {
-    NEW_MATCH = "NEW_MATCH",
-    NEW_MESSAGE = "NEW_MESSAGE"
-}
-
-export type Notification = {
-    type: NotificationType;
-    data: NewMatchNotificationData | NewMessageNotificationData;
-}
-
-export type NewMatchNotificationData = {
-    
-}
-
-export type NewMessageNotificationData = {
-    matchId: string;
-    message: string;
-    name: string;
-    profilePicture: string;
-}

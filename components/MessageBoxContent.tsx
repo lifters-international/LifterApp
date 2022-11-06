@@ -25,8 +25,7 @@ const MessageBoxContent : React.FC<MessageBoxContentProps> = ({ messages, whoSen
     return (
         <ScrollView style={{ ...styles.MessageBoxContent, ...styles.Content }} ref={contentRef} horizontal={false} onContentSizeChange={() => contentRef.current?.scrollToEnd({ animated: true })}>
             {
-                messages.map((message, index) => {
-
+                messages.slice().sort((a, b) =>  a.createdAt - b.createdAt ).map((message, index) => {
                     if ( index == 0) return (
                         <MessageView 
                             key={`MessageViewDiv-${index}`}
@@ -74,7 +73,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: moderateScale(30),
         position: 'relative',
-        top: verticalScale(200)
+        top: verticalScale(200),
+        color: "white"
     },
 
     Content: {

@@ -29,7 +29,7 @@ const MessageBox: React.FC<Props> = ({ navigation, route }) => {
                     <Ionicons name="arrow-back" size={moderateScale(30)} color="white" style={styles.HeaderIcon} />
                 </TouchableOpacity>
                 <View style={styles.HeaderDetailsContainer}>
-                    <Text style={styles.HeaderDetailsText}>{name}</Text>
+                    <Text style={{ ...styles.HeaderDetailsText, fontSize: scale(20 + ( name.length / 10 ) ) }}>{`${name.slice(0, 10)}${name.length > 10 ? "..." : ""}`}</Text>
                     <Image source={returnImageSource(profilePicture, { width: scale(65), height: verticalScale(65), borderRadius: moderateScale(30) })} resizeMode="contain" style={styles.HeaderDetailsImage} />
                 </View>
             </View>
@@ -66,7 +66,8 @@ const MessageBox: React.FC<Props> = ({ navigation, route }) => {
 const styles = StyleSheet.create({
     HeaderContainer: {
         display: 'flex',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        height: verticalScale(70)
     },
 
     HeaderIconContainer: {
@@ -86,8 +87,12 @@ const styles = StyleSheet.create({
 
     HeaderDetailsImage: {
         padding: moderateScale(5),
-        position: 'relative',
-        left: scale(190)
+        position: 'absolute',
+        right: scale(10),
+        top: verticalScale(0), 
+        width: scale(65), 
+        height: verticalScale(65), 
+        borderRadius: moderateScale(30)
     },
 
     HeaderDetailsText: {
@@ -95,8 +100,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
         color: "white", 
-        position: 'relative',
-        left: scale(46),
+        position: 'absolute',
+        right: scale(120),
         top: verticalScale(15)
     },
 

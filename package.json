@@ -1,6 +1,6 @@
 {
   "name": "lifterapp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
@@ -13,7 +13,7 @@
     "@ant-design/icons-react-native": "^2.3.2",
     "@apollo/client": "^3.6.9",
     "@expo/webpack-config": "^0.17.0",
-    "@lifters-international/lifters-utils": "^1.0.7",
+    "@lifters-international/lifters-utils": "^1.1.0",
     "@react-navigation/bottom-tabs": "^6.3.3",
     "@react-navigation/material-bottom-tabs": "^6.2.3",
     "@react-navigation/native": "^6.0.12",

@@ -17,8 +17,6 @@ const MessageContainer: React.FC<MessageContainerProps> = ({ matches, navigation
     const { getTabBarVisiblity, setTabBarVisiblity } = useTabBarContext();
     const [ reload, setReload ] = useState(false);
 
-    matches.sort((a, b) => Number(b.date) - Number(a.date));
-
     useEffect(() => {
         if (!reload) {
             const unsubscribe = navigation.addListener('focus', () => {
@@ -38,11 +36,11 @@ const MessageContainer: React.FC<MessageContainerProps> = ({ matches, navigation
                 <Text style={{ fontSize: moderateScale(25), color: "white" }}>Chats</Text>
             </View>
 
-            <ScrollView style={styles.MessageHolderContext}>
+            <ScrollView style={styles.MessageHolderContext} contentContainerStyle={{flexGrow: 1}}>
                 {
                     matches.length === 0 ? (
                         <View style={styles.NoMessages}>
-                            <Text style={{ fontSize: 30 }}>No Messages</Text>
+                            <Text style={{ fontSize: moderateScale(30) }}>No Messages</Text>
                         </View>
                     ) : (
                         matches.map((message: AcceptedUserMatches) => {
@@ -106,14 +104,12 @@ const styles = StyleSheet.create({
     },
 
     MessageMatches: {
-        borderBottomWidth: moderateScale(1),
-        borderBottomColor: "gainsboro",
         borderRadius: moderateScale(5),
         padding: moderateScale(5),
         display: "flex",
         flexDirection: "row",
-        gap: moderateScale(10),
-        marginTop: moderateScale(10)
+        height: verticalScale(60),
+        marginBottom: verticalScale(10),
     },
 
     MessageMatchesContext: {
