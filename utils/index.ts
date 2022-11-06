@@ -1,45 +1,7 @@
 import * as SecureStore from 'expo-secure-store';
 import * as Device from 'expo-device';
 export * from "@lifters-international/lifters-utils";
-import { GraphqlFetchResult } from '@lifters-international/lifters-utils';
 import { Dimensions } from 'react-native';
-
-/*
-export const fetchGraphQl = async ( query: string, variables: any ): Promise<GraphqlFetchResult> => {
-    const response = await fetch(
-        "https://server.lifters.app/graphql",
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                query,
-                variables,
-            })
-        }
-    );
-
-    const data = await response.json();
-
-    return data;
-} 
-
-export const getApiUrl = () => {
-    return `${getServerUrl()}graphql`;
-}
-
-export const getWSApiUrl = () => {
-    return  "server.lifters.app";
-}
-
-export const getImageUploadApi = () => {
-    return `${getServerUrl()}upload/image`;
-}
-
-export const getServerUrl = () => {
-    return "https://server.lifters.app/";
-}*/
 
 export const saveToStore =  async (key: string, value: string) => {
     await SecureStore.setItemAsync(key, value);
