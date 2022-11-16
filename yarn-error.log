@@ -1,35 +1,33 @@
 Arguments: 
-  /opt/nodejs/14.20.1/bin/node /usr/share/yarn/bin/yarn.js add expo-Constants
+  C:\Program Files\nodejs\node.exe C:\Users\jnnaj\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js
 
 PATH: 
-  /usr/local/rvm/gems/ruby-3.1.2/bin:/usr/local/rvm/gems/ruby-3.1.2@global/bin:/usr/local/rvm/rubies/ruby-3.1.2/bin:/vscode/bin/linux-x64/6261075646f055b99068d3688932416f2346dd3b/bin/remote-cli:/home/codespace/.local/bin:/home/codespace/.dotnet:/home/codespace/.nodejs/current/bin:/home/codespace/.php/current/bin:/home/codespace/.python/current/bin:/home/codespace/.java/current/bin:/home/codespace/.ruby/current/bin:/home/codespace/.local/bin:/usr/local/oryx:/usr/local/go/bin:/go/bin:/usr/local/sdkman/bin:/usr/local/sdkman/candidates/java/current/bin:/usr/local/sdkman/candidates/gradle/current/bin:/usr/local/sdkman/candidates/maven/current/bin:/usr/local/rvm/gems/default/bin:/usr/local/rvm/gems/default@global/bin:/usr/local/rvm/rubies/default/bin:/usr/local/share/rbenv/bin:/opt/conda/bin:/usr/local/php/current/bin:/usr/local/python/current/bin:/usr/local/py-utils/bin:/usr/local/nvs:/usr/local/share/nvm/versions/node/v16.18.0/bin:/usr/local/hugo/bin:/usr/local/dotnet/current:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/rvm/bin
+  C:\Users\jnnaj\AppData\Roaming\npm;C:\Users\jnnaj\codingwithcn\LifterApp\node_modules\.bin;C:\Users\jnnaj\codingwithcn\node_modules\.bin;C:\Users\jnnaj\node_modules\.bin;C:\Users\node_modules\.bin;C:\node_modules\.bin;C:\Users\jnnaj\AppData\Roaming\npm\node_modules\npm\node_modules\@npmcli\run-script\lib\node-gyp-bin;C:\Python311\Scripts\;C:\Python311\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\ProgramData\chocolatey\bin;C:\Program Files\nodejs\;C:\Users\jnnaj\AppData\Local\Programs\Python\Python310\Scripts\;C:\Users\jnnaj\AppData\Local\Programs\Python\Python310\;C:\Users\jnnaj\AppData\Local\Microsoft\WindowsApps;C:\Users\jnnaj\AppData\Local\GitHubDesktop\bin;C:\Users\jnnaj\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\jnnaj\AppData\Local\Android\Sdk\platform-tools;C:\Users\jnnaj\AppData\Roaming\npm
 
 Yarn version: 
   1.22.19
 
 Node version: 
-  14.20.1
+  18.12.1
 
 Platform: 
-  linux x64
+  win32 x64
 
 Trace: 
-  Error: https://registry.npmjs.org/expo-Constants: Not found
-      at Request.params.callback [as _callback] (/usr/share/yarn/lib/cli.js:66145:18)
-      at Request.self.callback (/usr/share/yarn/lib/cli.js:140890:22)
-      at Request.emit (events.js:400:28)
-      at Request.<anonymous> (/usr/share/yarn/lib/cli.js:141862:10)
-      at Request.emit (events.js:400:28)
-      at IncomingMessage.<anonymous> (/usr/share/yarn/lib/cli.js:141784:12)
-      at Object.onceWrapper (events.js:519:28)
-      at IncomingMessage.emit (events.js:412:35)
-      at endReadableNT (internal/streams/readable.js:1333:12)
-      at processTicksAndRejections (internal/process/task_queues.js:82:21)
+  Error: Failed to replace env in config: ${NPM_TOKEN}
+      at C:\Users\jnnaj\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:94933:13
+      at String.replace (<anonymous>)
+      at envReplace (C:\Users\jnnaj\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:94928:16)
+      at Function.normalizeConfig (C:\Users\jnnaj\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:31938:69)
+      at NpmRegistry.<anonymous> (C:\Users\jnnaj\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:31968:34)
+      at Generator.next (<anonymous>)
+      at step (C:\Users\jnnaj\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:310:30)
+      at C:\Users\jnnaj\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:321:13
 
 npm manifest: 
   {
     "name": "lifterapp",
-    "version": "1.0.3",
+    "version": "2.0.0",
     "main": "node_modules/expo/AppEntry.js",
     "scripts": {
       "start": "expo start",
@@ -58,7 +56,6 @@ npm manifest:
       "expo-image-picker": "^13.3.1",
       "expo-linear-gradient": "^11.4.0",
       "expo-notifications": "^0.16.1",
-      "expo-permissions": "^14.0.0",
       "expo-secure-store": "~11.3.0",
       "expo-status-bar": "~1.4.0",
       "expo-updates": "~0.14.6",
@@ -5790,11 +5787,6 @@ Lockfile:
       expo-constants "~13.2.0"
       fs-extra "^9.1.0"
       uuid "^3.4.0"
-  
-  expo-permissions@^14.0.0:
-    version "14.0.0"
-    resolved "https://registry.yarnpkg.com/expo-permissions/-/expo-permissions-14.0.0.tgz#7644e84e5a59a1c612a39a2602df927478e80c3c"
-    integrity sha512-z/1u4Kt5AhzFEB/4LjJxNE+pDX8YijjhGaokNchPNwjjn3W1f+o4JQVdZBPS2TwRpFEXbrBSTUSalxijlJKGmw==
   
   expo-pwa@0.0.123:
     version "0.0.123"
