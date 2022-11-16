@@ -23,6 +23,7 @@ const Profile: React.FC<Props> = ({ navigation }) => {
     const signedInUser = useSignedInUserData(token);
     const saveUserData = useSaveUserProfileChanges();
     const [userData, setUserData] = useState<userInformationToSave>();
+    const [ ImagePermissionStatus, requestImagePermission] = ImagePicker.useMediaLibraryPermissions();
 
     useEffect(() => {
         if (signedInUser.getUserDataSuccess) {
@@ -40,6 +41,12 @@ const Profile: React.FC<Props> = ({ navigation }) => {
     }, [signedInUser]);
 
     const pickImage = async () => {
+        await requestImagePermission();
+
+        if ( ImagePermissionStatus?.status !== "granted" ) {
+            return alert("Upload Profile Picture Failed. We need access to your camera roll.")
+        } 
+
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
