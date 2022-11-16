@@ -241,14 +241,21 @@ const Profile: React.FC<Props> = ({ navigation }) => {
                     }
                     <View style={styles.EditProfileBioView}>
                         <Text style={styles.EditProfileInputTitle}>Bio</Text>
-                        <TextInput placeholder="bio" placeholderTextColor="white" style={styles.EditProfileInputBio} multiline onChangeText={
-                            (text: string) => {
-                                setUserData({
-                                    ...userData,
-                                    bio: text
-                                });
-                            }
-                        } />
+                        <TextInput 
+                            placeholder="bio" 
+                            value={userData?.bio}
+                            placeholderTextColor="white" 
+                            style={styles.EditProfileInputBio} 
+                            multiline 
+                            onChangeText={
+                                (text: string) => {
+                                    setUserData({
+                                        ...userData,
+                                        bio: text
+                                    });
+                                }
+                            } 
+                        />
                     </View>
                 </ScrollView>
             </View>
