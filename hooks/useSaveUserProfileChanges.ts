@@ -21,7 +21,7 @@ export type SaveUserInformationState = {
 
 export const useSaveUserProfileChanges = (): SaveUserInformationState => {
     const dispatch = useAppDispatch();
-    const { token, profilePicture, username, password } = useSelector((state: any) => state.Auth);
+    const { profilePicture, username, password } = useSelector((state: any) => state.Auth);
     
     const [ state, setState ] = useState<SaveUserInformationState>({
         isSaving: false,

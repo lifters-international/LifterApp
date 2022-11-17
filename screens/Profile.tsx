@@ -41,9 +41,9 @@ const Profile: React.FC<Props> = ({ navigation }) => {
     }, [signedInUser]);
 
     const pickImage = async () => {
-        await requestImagePermission();
+        const { status } = await requestImagePermission();
 
-        if ( ImagePermissionStatus?.status !== "granted" ) {
+        if ( status !== "granted" ) {
             return alert("Upload Profile Picture Failed. We need access to your camera roll.")
         } 
 
@@ -80,10 +80,12 @@ const Profile: React.FC<Props> = ({ navigation }) => {
             await saveUserData.saveAsync({
                 token,
                 userInfor: {
+                    ...( userData || {} ),
                     profilePicture: jsonRes.imageURL
                 }
             });
-
+        }else {
+            alert("Upload Profile Picture Failed. Please try again.")
         }
 
         setLoading(false);
