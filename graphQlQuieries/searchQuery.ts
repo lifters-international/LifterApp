@@ -1,7 +1,6 @@
 export const searchQuery = `
     query SearchUsers($search: String!, $token: String!) {
         searchUsers(search: $search, token: $token) {
-            userSubscription
             results {
                 id
                 username

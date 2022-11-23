@@ -7,7 +7,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { useSelector } from "react-redux";
 
-import { Home, Profile, PasswordChange, FoodScreen, FoodCreate, FoodAnalystics, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
+import { Home, Profile, PasswordChange, DeleteAccount, FoodScreen, FoodCreate, FoodAnalystics, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
 import { View } from "react-native";
 import { getFromStore, scale, verticalScale, moderateScale } from "../utils";
 import { useAppDispatch } from "../redux";
@@ -35,6 +35,7 @@ const ProfileStackScreen = () => {
         <ProfileStack.Navigator>
             <ProfileStack.Screen name="Profiles" component={Profile} options={{ headerShown: false }} />
             <ProfileStack.Screen name="Change Password" component={PasswordChange} options={{ headerShown: false }} />
+            <ProfileStack.Screen name="Delete Account" component={DeleteAccount} options={{ headerShown: false }} />
         </ProfileStack.Navigator>
     );
 }

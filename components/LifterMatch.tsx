@@ -19,7 +19,7 @@ export type LifterMatchProps = {
 
 const LifterMatch: React.FC<LifterMatchProps> = ( { id, userToken, username, age, bio, profilePicture, allowAction, next, err } ) => {
     const dispatch = useAppDispatch();
-    const shortenedBio = bio?.slice(0, 30) + ( (bio?.length!) >= 45 ? "..." : "" );
+    const shortenedBio = bio?.slice(0, 30) + ( (bio?.length!) >= 30 ? "..." : "" );
 
     const acceptMatch = async ( accept: boolean ) => {
         dispatch(acceptDeclineMatchThunk({

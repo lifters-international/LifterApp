@@ -43,3 +43,5 @@ export * from "./getLiftersDailyFoodAnalytics";
 export * from "./createNotificationPayload";
 
 export * from  "./UserCreateFood";
+
+export * from "./deleteUserAccount";

@@ -19,10 +19,10 @@ const FoodView: React.FC<Props> = ({ id, name, calories, servingSize, nutritionF
         <View style={styles.container} >
             <View style={{ borderBottomWidth: moderateScale(0.8), borderColor: '#5e5c5c', display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
                 <Text style={styles.foodName}>{name}</Text>
-                { 
-                    adminCreated && <AntDesign 
-                        name="checkcircleo" 
-                        size={moderateScale(25)} color="green" 
+                {
+                    adminCreated && <AntDesign
+                        name="checkcircleo"
+                        size={moderateScale(25)} color="green"
                         style={{ position: "relative", left: scale(1.5), top: verticalScale(-6.5) }}
                     />
                 }
@@ -30,12 +30,12 @@ const FoodView: React.FC<Props> = ({ id, name, calories, servingSize, nutritionF
 
             <View style={styles.foodImportantInfor}>
                 <View>
-                    <Text style={{...styles.foodTextImportant, color: "#5e5c5c" }}>Serving Size: </Text>
+                    <Text style={{ ...styles.foodTextImportant, color: "#5e5c5c" }}>Serving Size: </Text>
                     <Text style={styles.foodTextImportant}>{servingSize.measurment}{servingSize.unit}</Text>
                 </View>
-                
+
                 <View>
-                    <Text style={{...styles.foodTextImportant, color: "#5e5c5c" }}>Calories: </Text>
+                    <Text style={{ ...styles.foodTextImportant, color: "#5e5c5c" }}>Calories: </Text>
                     <Text style={styles.foodTextImportant}>{calories}</Text>
                 </View>
             </View>
@@ -45,96 +45,95 @@ const FoodView: React.FC<Props> = ({ id, name, calories, servingSize, nutritionF
                 <ScrollView style={styles.nutritionFacts}>
                     <View style={styles.foodImportantInfors}>
                         <Text style={styles.foodText}>Carbohydrates: </Text>
-                        <Text style={{...styles.foodText, color: "white"}}>{nutritionFacts.totalCarbohydrate.measurment}{nutritionFacts.totalCarbohydrate.unit}</Text>
+                        <Text style={{ ...styles.foodText, color: "white" }}>{nutritionFacts.totalCarbohydrate.measurment}{nutritionFacts.totalCarbohydrate.unit}</Text>
                     </View>
 
                     <View style={styles.foodImportantInfors}>
                         <Text style={styles.foodText}>Protein: </Text>
-                        <Text style={{...styles.foodText, color: "white"}}>{nutritionFacts.protein.measurment}{nutritionFacts.protein.unit}</Text>
+                        <Text style={{ ...styles.foodText, color: "white" }}>{nutritionFacts.protein.measurment}{nutritionFacts.protein.unit}</Text>
                     </View>
 
                     <View style={styles.foodImportantInfors}>
                         <Text style={styles.foodText}>Total Fat: </Text>
-                        <Text style={{...styles.foodText, color: "white"}}>{nutritionFacts.totalFat.measurment}{nutritionFacts.totalFat.unit}</Text>
+                        <Text style={{ ...styles.foodText, color: "white" }}>{nutritionFacts.totalFat.measurment}{nutritionFacts.totalFat.unit}</Text>
                     </View>
 
                     <View style={styles.foodImportantInfors}>
                         <Text style={styles.foodText}>Total Fat: </Text>
-                        <Text style={{...styles.foodText, color: "white"}}>{nutritionFacts.totalFat.measurment}{nutritionFacts.totalFat.unit}</Text>
+                        <Text style={{ ...styles.foodText, color: "white" }}>{nutritionFacts.totalFat.measurment}{nutritionFacts.totalFat.unit}</Text>
                     </View>
-                    
+
                     <View style={styles.foodImportantInfors}>
                         <Text style={styles.foodText}>Saturated Fat: </Text>
-                        <Text style={{...styles.foodText, color: "white"}}>{nutritionFacts.saturatedFat.measurment}{nutritionFacts.saturatedFat.unit}</Text>
+                        <Text style={{ ...styles.foodText, color: "white" }}>{nutritionFacts.saturatedFat.measurment}{nutritionFacts.saturatedFat.unit}</Text>
                     </View>
 
                     <View style={styles.foodImportantInfors}>
                         <Text style={styles.foodText}>Cholesterol: </Text>
-                        <Text style={{...styles.foodText, color: "white"}}>{nutritionFacts.cholesterol.measurment}{nutritionFacts.cholesterol.unit}</Text>
+                        <Text style={{ ...styles.foodText, color: "white" }}>{nutritionFacts.cholesterol.measurment}{nutritionFacts.cholesterol.unit}</Text>
                     </View>
 
                     <View style={styles.foodImportantInfors}>
                         <Text style={styles.foodText}>Sodium: </Text>
-                        <Text style={{...styles.foodText, color: "white"}}>{nutritionFacts.sodium.measurment}{nutritionFacts.sodium.unit}</Text>
+                        <Text style={{ ...styles.foodText, color: "white" }}>{nutritionFacts.sodium.measurment}{nutritionFacts.sodium.unit}</Text>
                     </View>
 
                     <View style={styles.foodImportantInfors}>
                         <Text style={styles.foodText}>Dietary Fiber: </Text>
-                        <Text style={{...styles.foodText, color: "white"}}>{nutritionFacts.dietaryFiber.measurment}{nutritionFacts.dietaryFiber.unit}</Text>
+                        <Text style={{ ...styles.foodText, color: "white" }}>{nutritionFacts.dietaryFiber.measurment}{nutritionFacts.dietaryFiber.unit}</Text>
                     </View>
 
                     <View style={styles.foodImportantInfors}>
                         <Text style={styles.foodText}>Total Sugars: </Text>
-                        <Text style={{...styles.foodText, color: "white"}}>{nutritionFacts.totalSugars.measurment}{nutritionFacts.totalSugars.unit}</Text>
+                        <Text style={{ ...styles.foodText, color: "white" }}>{nutritionFacts.totalSugars.measurment}{nutritionFacts.totalSugars.unit}</Text>
                     </View>
 
                     <View style={styles.foodImportantInfors}>
                         <Text style={styles.foodText}>Added Sugars: </Text>
-                        <Text style={{...styles.foodText, color: "white"}}>{nutritionFacts.addedSugars.measurment}{nutritionFacts.addedSugars.unit}</Text>
+                        <Text style={{ ...styles.foodText, color: "white" }}>{nutritionFacts.addedSugars.measurment}{nutritionFacts.addedSugars.unit}</Text>
                     </View>
 
                     <View style={styles.foodImportantInfors}>
                         <Text style={styles.foodText}>Vitamin D: </Text>
-                        <Text style={{...styles.foodText, color: "white"}}>{nutritionFacts.vitaminD.measurment}{nutritionFacts.vitaminD.unit}</Text>
+                        <Text style={{ ...styles.foodText, color: "white" }}>{nutritionFacts.vitaminD.measurment}{nutritionFacts.vitaminD.unit}</Text>
                     </View>
 
                     <View style={styles.foodImportantInfors}>
                         <Text style={styles.foodText}>Calcium: </Text>
-                        <Text style={{...styles.foodText, color: "white"}}>{nutritionFacts.calcium.measurment}{nutritionFacts.calcium.unit}</Text>
+                        <Text style={{ ...styles.foodText, color: "white" }}>{nutritionFacts.calcium.measurment}{nutritionFacts.calcium.unit}</Text>
                     </View>
 
                     <View style={styles.foodImportantInfors}>
                         <Text style={styles.foodText}>Iron: </Text>
-                        <Text style={{...styles.foodText, color: "white"}}>{nutritionFacts.iron.measurment}{nutritionFacts.iron.unit}</Text>
+                        <Text style={{ ...styles.foodText, color: "white" }}>{nutritionFacts.iron.measurment}{nutritionFacts.iron.unit}</Text>
                     </View>
 
                     <View style={styles.foodImportantInfors}>
                         <Text style={styles.foodText}>Potassium: </Text>
-                        <Text style={{...styles.foodText, color: "white"}}>{nutritionFacts.potassium.measurment}{nutritionFacts.potassium.unit}</Text>
+                        <Text style={{ ...styles.foodText, color: "white" }}>{nutritionFacts.potassium.measurment}{nutritionFacts.potassium.unit}</Text>
                     </View>
                 </ScrollView>
-            </View>
 
-            {
-                action ? (
-                    <View
-                        style={{
-                            display: "flex",
-                            alignItems: "center",
-                            position: "relative",
-                            bottom: verticalScale(-35),
-                            right: scale(-40),
-                            width: scale(200),
-                            zIndex: 1,
-                        }}
-                    >
-                        <TouchableOpacity onPress={() => addFoodToLiftersDailyFood(id)} style={styles.button}>
-                            <Text style={{ color: "white", fontSize: moderateScale(25), textAlign: "center", position: "absolute", top: verticalScale(10), left: scale(10) }}>{statement}</Text>
-                            <AntDesign name="plus" size={moderateScale(40)} color="white" style={{ position: "absolute", left: scale(238), top: verticalScale(4) }}/>
-                        </TouchableOpacity>
-                    </View>
-                ) : null
-            }
+                {
+                    action ? (
+                        <View
+                            style={{
+                                alignItems: "center",
+                                position: "relative",
+                                bottom: verticalScale(2),
+                                right: scale(-40),
+                                width: scale(200),
+                                backgroundColor: "red"
+                            }}
+                        >
+                            <TouchableOpacity onPress={() => addFoodToLiftersDailyFood(id)} style={styles.button}>
+                                <Text style={{ color: "white", fontSize: moderateScale(25), textAlign: "center", position: "absolute", top: verticalScale(10), left: scale(10) }}>{statement}</Text>
+                                <AntDesign name="plus" size={moderateScale(40)} color="white" style={{ position: "absolute", left: scale(238), top: verticalScale(4) }} />
+                            </TouchableOpacity>
+                        </View>
+                    ) : null
+                }
+            </View>
         </View>
     )
 }
@@ -149,7 +148,7 @@ const styles = StyleSheet.create({
         marginRight: "auto",
         marginLeft: "auto",
         width: '90%',
-        height: verticalScale(465),
+        height: verticalScale(500),
         borderWidth: moderateScale(1),
         backgroundColor: '#222121',
         marginBottom: moderateScale(20),
@@ -167,7 +166,7 @@ const styles = StyleSheet.create({
     foodImportantInfor: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-between', 
+        justifyContent: 'space-between',
         marginTop: moderateScale(20),
         marginBottom: moderateScale(20)
     },
@@ -175,7 +174,7 @@ const styles = StyleSheet.create({
     foodImportantInfors: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-between', 
+        justifyContent: 'space-between',
         marginBottom: moderateScale(5)
     },
 
@@ -206,7 +205,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#FF3636",
         display: "flex",
         flexDirection: "row",
-        marginBottom: moderateScale(10),
         height: verticalScale(50)
     }
 });

@@ -85,16 +85,6 @@ const Messages: React.FC<Props> = ({ navigation }) => {
                             )
                         })
                     }
-
-                    {
-                        userMatchesSubscription.data?.userSubscription === SubscriptionType.BASIC && userMatchesSubscription.data?.matches.length > 0 ? (
-                            <View style={styles.UnMatchedPeersBlured}>
-                                <View style={styles.UnMatchedPeersBluredContextLink}>
-                                    <Text style={{ color: "black", fontSize: moderateScale(20) }}>Upgrade To Pro</Text>
-                                </View>
-                            </View>
-                        ) : null
-                    }
                 </View>
             </View>
             <MessageContainer

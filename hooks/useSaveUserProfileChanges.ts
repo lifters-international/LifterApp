@@ -5,6 +5,8 @@ import { setAuthState, setProfilePicture } from "../redux/features/auth";
 import { fetchGraphQl, GraphqlError, RequestResult, delay, userInformationToSave, saveToStore, getServerUrl } from '../utils';
 import { updateUserInformationMutation } from "../graphQlQuieries";
 
+import { Alert } from 'react-native';
+
 export type userSaveUserProfileChangesProps = {
     token: string;
     userInfor: userInformationToSave;
@@ -94,6 +96,15 @@ export const useSaveUserProfileChanges = (): SaveUserInformationState => {
                     );
                  
                 }
+            } else if ( data.updateUserInformation.type == "failed" ) {
+                setState(prevState => {
+                    return {
+                        ...prevState,
+                        isSaving: false,
+                    }
+                });
+
+                return Alert.alert("Failed to save", data.updateUserInformation.value);
             }
         }
     });

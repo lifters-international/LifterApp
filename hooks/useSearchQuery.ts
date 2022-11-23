@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 
 import { searchQuery } from "../graphQlQuieries";
 
-import { SearchQueryResult, fetchGraphQl, UserData, SubscriptionType } from "../utils";
+import { SearchQueryResult, fetchGraphQl, UserData } from "../utils";
 
 export type SearchQueryState = {
-    userSubscription?: SubscriptionType;
     result?: UserData[] | null;
     loading: boolean;
     error: any;

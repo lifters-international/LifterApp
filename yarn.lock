@@ -1583,10 +1583,10 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@lifters-international/lifters-utils@^1.1.0":
-  version "1.1.0"
-  resolved "https://npm.pkg.github.com/download/@lifters-international/lifters-utils/1.1.0/94c10aa1a9b1f000d45342f2b0778dfcfe43e108#94c10aa1a9b1f000d45342f2b0778dfcfe43e108"
-  integrity sha512-MFO4YUvbhb0YPAqwfUbGnx/+lFbMvkX24FBbkpKLvdv9V8/lzfQcL1x4Tw/3fJE8w1lvmUeZH7o0odeMZNWZzA==
+"@lifters-international/lifters-utils@^2.0.0":
+  version "2.0.0"
+  resolved "https://npm.pkg.github.com/download/@lifters-international/lifters-utils/2.0.0/bfb97648790c5a52686b618101657a7cfcdaa8f0#bfb97648790c5a52686b618101657a7cfcdaa8f0"
+  integrity sha512-2sc1AFNdaH2mKAnsqsAbVd8BmQ8INq5M13ORkGj9mNyj3eAphXIhX7oJRA37p9vymLQJ/0TIfEtzxP065UBndQ==
   dependencies:
     "@apollo/client" "^3.7.0"
     "@types/node" "^18.11.2"
@@ -4665,6 +4665,11 @@ expand-brackets@^2.1.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
+expo-application@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/expo-application/-/expo-application-5.0.1.tgz#628aeee74697d7aa39d0c0173dbf9383e06e53e9"
+  integrity sha512-bThxK5zH/Lc2tkCvEXGjfM7ayvOVmPWYcWzXsMIU1RtG73TyXo4cq+73FvfDNIWn6gKS0WyMcmoPB3WXEV/jsw==
+
 expo-application@~4.2.0, expo-application@~4.2.2:
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/expo-application/-/expo-application-4.2.2.tgz#c9500819723c59eaee5ca9832bf17d1fd4139f74"
@@ -4743,6 +4748,11 @@ expo-image-picker@^13.3.1:
     "@expo/config-plugins" "~5.0.0"
     expo-image-loader "~3.2.0"
     uuid "7.0.2"
+
+expo-intent-launcher@^10.3.1:
+  version "10.3.1"
+  resolved "https://registry.yarnpkg.com/expo-intent-launcher/-/expo-intent-launcher-10.3.1.tgz#1479400f5f63096f73361f506bb4f7e067b050e6"
+  integrity sha512-T48ENkhcAkOkzKs3edGjNaCljfoEs/cyDQzAryjQdR8Wy5/BZwAPBd+ihf2Hzx1NhExatKFcWuKbwXvKDS+xkA==
 
 expo-json-utils@~0.3.0:
   version "0.3.0"

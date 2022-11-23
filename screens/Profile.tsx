@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, ScrollView, TextInput, ImageBackground, FlatList } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TextInput, ImageBackground, FlatList, Platform, Linking, Alert } from 'react-native';
+import * as Application from 'expo-application';
+import * as IntentLauncher from 'expo-intent-launcher'
 import { AppLayout, Button, Loading } from "../components";
 import { NavigationProp } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
-import * as WebBrowser from 'expo-web-browser';
 
 import { saveToStore, userInformationToSave, getImageUploadApi, returnImageSource, scale, verticalScale, moderateScale } from "../utils";
 import { useAppDispatch } from "../redux";
@@ -41,9 +42,28 @@ const Profile: React.FC<Props> = ({ navigation }) => {
     }, [signedInUser]);
 
     const pickImage = async () => {
-        const { status } = await requestImagePermission();
+        const { status, canAskAgain, granted } = await requestImagePermission();
 
-        if ( status !== "granted" ) {
+        if ( !canAskAgain && !granted ) {
+            return Alert.alert(
+                "Photo permision denied", 
+                "Please go to Settings > Privacy > Photos and allow access to Photos",
+                [
+                    {
+                        text: "Okay",
+                        onPress: () => {
+                            console.log(Platform.OS)
+                            if ( Platform.OS == "ios" ) Linking.openURL("app-settings:");
+                            else if (Platform.OS == "android") IntentLauncher.startActivityAsync('android.settings.APPLICATION_DETAILS_SETTINGS', {
+                                data: "package:"+Application.applicationId
+                            })
+                        }
+                    }
+                ]
+            );
+        }
+
+        else if ( status !== "granted" ) {
             return alert("Upload Profile Picture Failed. We need access to your camera roll.")
         } 
 
@@ -117,12 +137,6 @@ const Profile: React.FC<Props> = ({ navigation }) => {
                                 },
                             },
                             {
-                                title: "Subscription",
-                                onClick: () => {
-                                    WebBrowser.openBrowserAsync('https://www.lifters.app/changeSubscription/'+token)
-                                },
-                            },
-                            {
                                 title: "Password",
                                 onClick: () => {
                                     navigation.navigate("Change Password");
@@ -143,6 +157,12 @@ const Profile: React.FC<Props> = ({ navigation }) => {
                                         password: ""
                                     }));
                                 },
+                            },
+                            {
+                                title: "Delete Account",
+                                onClick: () => {
+                                    navigation.navigate("Delete Account");
+                                }
                             }
                         ]}
                         renderItem={({ item }) => (
@@ -312,7 +332,7 @@ const styles = StyleSheet.create({
         padding: moderateScale(10),
         backgroundColor: "#FF3636",
         marginRight: moderateScale(2),
-        width: scale(85),
+        width: scale(100),
         height: moderateScale(40)
     },
 
