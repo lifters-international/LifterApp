@@ -8,12 +8,13 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useSelector } from "react-redux";
 
 import { Home, Profile, PasswordChange, DeleteAccount, FoodScreen, FoodCreate, FoodAnalystics, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
-import { View } from "react-native";
+import { View, ImageBackground, Text, ActivityIndicator } from "react-native";
 import { getFromStore, scale, verticalScale, moderateScale } from "../utils";
 import { useAppDispatch } from "../redux";
 import { VerifyToken, setToken, logIn, LoginAsyncThunkResult, setAppReady, setProfilePicture, setAuthState, getSignedInUser, GetSignedUserAsyncThunkResult } from "../redux/features/auth";
 import { Ionicons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
 import { TabBar } from './Tab';
+import { disableExperimentalFragmentVariables } from "@apollo/client";
 
 const Stack = createNativeStackNavigator();
 const MessagesStack = createNativeStackNavigator();
@@ -191,7 +192,19 @@ function AuthNavigationStack() {
             <Stack.Screen name="Splash" component={Splash} options={{ headerShown: false }} />
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
             <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
-        </Stack.Navigator>) : null
+        </Stack.Navigator>) : <LoadingScreen />
+    )
+}
+
+function LoadingScreen() {
+    return (
+        <View>
+            <ImageBackground source={require('../assets/icons/Icons/lifters-icon-google-play.png')} style={{ width: '100%', height: '100%' }}>
+                <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center' }}>
+                    <ActivityIndicator size="large" color="#FF3636" />
+                </View>
+            </ImageBackground>
+        </View>
     )
 }
 
@@ -206,26 +219,10 @@ export default function Navigation() {
             let username = await getFromStore("username");
             let password = await getFromStore("password");
 
-            const profPicSetUp = async (token: string) => {
-                if (token) {
-                    let resp = await dispatch(getSignedInUser(token));
-                    let payload = resp.payload as GetSignedUserAsyncThunkResult;
-
-                    if (payload.data && payload.getUserDataSuccess) {
-                        if (payload.data.profilePicture !== "/defaultPicture.png") {
-                            dispatch(setProfilePicture(payload.data.profilePicture));
-                        }
-                    }
-                }
-
-                dispatch(setAppReady(true));
-            }
-
             let tokenVerified = await dispatch(VerifyToken(token_saved || ""));
 
             if (tokenVerified.payload) {
                 dispatch(setToken(token_saved!));
-                await profPicSetUp(token_saved!);
             } else if (username && password) {
                 let logged = await dispatch(logIn({ username, password }));
 
@@ -236,9 +233,10 @@ export default function Navigation() {
                         username,
                         password
                     }));
-                    await profPicSetUp(((logged.payload as LoginAsyncThunkResult).data as string));
                 }
             }
+            
+            dispatch(setAppReady(true))
         }
         setUp().then(() => { });
     }, []);
@@ -248,7 +246,7 @@ export default function Navigation() {
             {
                 AppReady ? (
                     tokenVerified ? <TabNavigator /> : <AuthNavigationStack />
-                ) : null
+                ) : <LoadingScreen />
             }
         </NavigationContainer>
     )

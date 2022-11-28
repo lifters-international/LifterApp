@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../redux";
 import { setAuthState, setProfilePicture } from "../redux/features/auth";
-import { fetchGraphQl, GraphqlError, RequestResult, delay, userInformationToSave, saveToStore, getServerUrl } from '../utils';
+import { fetchGraphQl, GraphqlError, RequestResult, delay, userInformationToSave, saveToStore } from '../utils';
 import { updateUserInformationMutation } from "../graphQlQuieries";
 
 import { Alert } from 'react-native';
@@ -91,7 +91,7 @@ export const useSaveUserProfileChanges = (): SaveUserInformationState => {
 
                     if ( params.userInfor.profilePicture != profilePicture && params.userInfor.profilePicture ) dispatch( 
                         setProfilePicture(
-                            getServerUrl() + "image/" + params.userInfor.profilePicture!
+                            params.userInfor.profilePicture!
                         ) 
                     );
                  
