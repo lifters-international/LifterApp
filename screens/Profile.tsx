@@ -96,12 +96,12 @@ const Profile: React.FC<Props> = ({ navigation }) => {
 
         const jsonRes = JSON.parse(upRes.body);
 
-        if (jsonRes.imageURL) {
+        if (jsonRes.url) {
             await saveUserData.saveAsync({
                 token,
                 userInfor: {
                     ...( userData || {} ),
-                    profilePicture: jsonRes.imageURL
+                    profilePicture: jsonRes.url
                 }
             });
         }else {
