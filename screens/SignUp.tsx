@@ -28,9 +28,8 @@ const SignUp: React.FC<Props> = ({ navigation }) => {
         const signUpResult = await dispatch(signUp({ email: emailState, password: passwordState, username: userState }));
 
         if ((signUpResult.payload as SignUpAsyncThunkResult).successfull) {
-            Alert.alert("Accounted Created", "Loggining you in.");
             const loginResult = await dispatch(logIn({ username: userState, password: passwordState }));
-
+     
             if ((loginResult.payload as LoginAsyncThunkResult).successfull) {
                 await saveToStore("token", ((loginResult.payload as LoginAsyncThunkResult).data as string));
                 await saveToStore("username", userState);

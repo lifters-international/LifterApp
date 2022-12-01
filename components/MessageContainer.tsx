@@ -1,18 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { AcceptedUserMatches, returnImageSource, scale, verticalScale, moderateScale } from '../utils';
 
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 
-import { Link } from "@react-navigation/native";
+import { Link, NavigationProp } from "@react-navigation/native";
+
+import { useTabBarContext } from "../navigation/Tab";
 
 export type MessageContainerProps = {
-    token: string;
     matches: AcceptedUserMatches[];
+    navigation: NavigationProp<any>;
 }
 
-const MessageContainer: React.FC<MessageContainerProps> = ({ token, matches }) => {
-    matches.sort((a, b) => Number(b.date) - Number(a.date));
+const MessageContainer: React.FC<MessageContainerProps> = ({ matches, navigation }) => {
+    const { getTabBarVisiblity, setTabBarVisiblity } = useTabBarContext();
+    const [ reload, setReload ] = useState(false);
+
+    useEffect(() => {
+        if (!reload) {
+            const unsubscribe = navigation.addListener('focus', () => {
+                setReload(true);
+            });
+
+            return unsubscribe;
+        }else {
+            if ( getTabBarVisiblity() === false ) setTabBarVisiblity(true);
+            setReload(false);
+        }
+    }, [navigation, reload]);
 
     return (
         <View style={styles.MessageContainer}>
@@ -20,11 +36,11 @@ const MessageContainer: React.FC<MessageContainerProps> = ({ token, matches }) =
                 <Text style={{ fontSize: moderateScale(25), color: "white" }}>Chats</Text>
             </View>
 
-            <ScrollView style={styles.MessageHolderContext}>
+            <ScrollView style={styles.MessageHolderContext} contentContainerStyle={{flexGrow: 1}}>
                 {
                     matches.length === 0 ? (
                         <View style={styles.NoMessages}>
-                            <Text style={{ fontSize: 30 }}>No Messages</Text>
+                            <Text style={{ fontSize: moderateScale(30) }}>No Messages</Text>
                         </View>
                     ) : (
                         matches.map((message: AcceptedUserMatches) => {
@@ -36,6 +52,9 @@ const MessageContainer: React.FC<MessageContainerProps> = ({ token, matches }) =
                                     key={message.id}
                                     style={styles.MessageMatches}
                                     to={{ screen: "MessageBox", params: { matchId: message.id, name: message.name, profilePicture: message.profilePicture } }}
+                                    onPress={() => {
+                                        setTabBarVisiblity(false);
+                                    }}
                                 >
                                     <View style={{ flex: 1 }}>
                                         <Image
@@ -52,9 +71,7 @@ const MessageContainer: React.FC<MessageContainerProps> = ({ token, matches }) =
                                             <Text style={styles.MessageMatchesContextName}>{message.name}</Text>
                                             {
                                                 message.unreadMessages > 0 ? (
-                                                    <View style={styles.circle}>
-                                                        <Text style={styles.circleText}>{message.unreadMessages}</Text>
-                                                    </View>
+                                                    <Text style={styles.circleText}>{message.unreadMessages}</Text>
                                                 ) : null
                                             }
                                         </View>
@@ -87,14 +104,12 @@ const styles = StyleSheet.create({
     },
 
     MessageMatches: {
-        borderBottomWidth: moderateScale(1),
-        borderBottomColor: "gainsboro",
         borderRadius: moderateScale(5),
         padding: moderateScale(5),
         display: "flex",
         flexDirection: "row",
-        gap: moderateScale(10),
-        marginTop: moderateScale(10)
+        height: verticalScale(60),
+        marginBottom: verticalScale(10),
     },
 
     MessageMatchesContext: {
@@ -114,32 +129,15 @@ const styles = StyleSheet.create({
         color: "white"
     },
 
-    circle: {
-        height: verticalScale(25),
-        width: scale(25),
-        borderWidth: moderateScale(1),
-        borderRadius: moderateScale(50),
-        borderColor: "red",
-        padding: moderateScale(10),
-        textAlign: "center",
-        backgroundColor: "red",
-        color: "white",
-        alignItems: "center",
-        justifyContent: "center",
-        position: "relative",
-        top: verticalScale(-4),
-        left: scale(5)
-    },
-
     circleText: {
-        color: "white",
+        color: "red",
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
-        fontSize: moderateScale(12),
+        fontSize: moderateScale(18),
         padding: moderateScale(10),
         position: "relative",
-        top: verticalScale(-6),
+        top: verticalScale(-10),
         left: scale(-3)
     },
 

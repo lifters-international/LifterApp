@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { Video, ResizeMode } from 'expo-av';
 
-import { Message, MessageWhoSent, MessageMetaDataType, returnImageSource, UserMessageStatus, scale, verticalScale, moderateScale } from '../utils';
+import { Message, MessageWhoSent, MessageMetaDataType, returnImageSource, UserMessageStatus, scale, moderateScale } from '../utils';
 
 export type MessageProps = {
     CurrentWhoSent: MessageWhoSent;
@@ -11,10 +11,12 @@ export type MessageProps = {
     sendReadMessage: ( messageId : string ) => void;
 } & Message;
 
-const Messages: React.FC<MessageProps> = ({ id, status, metaDataType, message, createdAt, whoSent, CurrentWhoSent, lastMessage, timeRead, sendReadMessage }) => {
-    if ( whoSent !== CurrentWhoSent && status === UserMessageStatus.DELIVERED ) {
-        sendReadMessage(id);
-    }
+const Messages: React.FC<MessageProps> = ({ id, status, metaDataType, message, whoSent, CurrentWhoSent, sendReadMessage }) => {
+    useEffect(() => {
+        if ( whoSent !== CurrentWhoSent && status === UserMessageStatus.DELIVERED ) {
+            sendReadMessage(id);
+        }
+    }, [ ])
     
     return (
         <View style={styles.MessageContainer} data-id={id}>

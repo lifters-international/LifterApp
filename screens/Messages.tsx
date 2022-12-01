@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import { socket, SubscriptionType, returnImageSource, scale, verticalScale, moderateScale } from "../utils"
 import { useUserMatchesSubscription, useUserAcceptedMatchesSubscription } from '../hooks';
 
+import { useTabBarContext } from "../navigation/Tab";
+
 interface Props {
     navigation: NavigationProp<any>;
 }
@@ -17,7 +19,17 @@ const Messages: React.FC<Props> = ({ navigation }) => {
     const userMatchesSubscription = useUserMatchesSubscription(token, reload);
     const userAcceptedMatchesSubscription = useUserAcceptedMatchesSubscription(token, reload);
     const [socketAuthenticated, setSocketAuthenticated] = useState(false);
+    const { useGetScreenNavProps, resetNavProps, setTabBarVisiblity } = useTabBarContext();
+    const navProps = useGetScreenNavProps();
 
+    useEffect(() => {
+        if ( navProps.command === "newMessageSent" ) {
+            setTabBarVisiblity(false);
+            navigation.navigate("MessageBox", { matchId: navProps.matchId, name: navProps.name, profilePicture: navProps.profilePicture } );
+            resetNavProps();
+        }
+    }, [navProps]);
+    
     useEffect(() => {
         if (!reload) {
             const unsubscribe = navigation.addListener('focus', () => {
@@ -39,7 +51,7 @@ const Messages: React.FC<Props> = ({ navigation }) => {
         socket.authenticate(token);
     }
 
-    if (userMatchesSubscription.loading || userAcceptedMatchesSubscription.loading || !socketAuthenticated) {
+    if (userMatchesSubscription.loading || userAcceptedMatchesSubscription.loading || !socketAuthenticated ) {
         return <AppLayout backgroundColor="black"><Loading /></AppLayout>
     }
 
@@ -73,21 +85,11 @@ const Messages: React.FC<Props> = ({ navigation }) => {
                             )
                         })
                     }
-
-                    {
-                        userMatchesSubscription.data?.userSubscription === SubscriptionType.BASIC && userMatchesSubscription.data?.matches.length > 0 ? (
-                            <View style={styles.UnMatchedPeersBlured}>
-                                <View style={styles.UnMatchedPeersBluredContextLink}>
-                                    <Text style={{ color: "black", fontSize: moderateScale(20) }}>Upgrade To Pro</Text>
-                                </View>
-                            </View>
-                        ) : null
-                    }
                 </View>
             </View>
             <MessageContainer
-                token={token}
                 matches={userAcceptedMatchesSubscription.data}
+                navigation={navigation}
             />
         </AppLayout>
     )

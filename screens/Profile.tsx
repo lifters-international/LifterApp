@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, ScrollView, TextInput, ImageBackground, FlatList } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TextInput, ImageBackground, FlatList, Platform, Linking, Alert } from 'react-native';
+import * as Application from 'expo-application';
+import * as IntentLauncher from 'expo-intent-launcher'
 import { AppLayout, Button, Loading } from "../components";
 import { NavigationProp } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
-import * as WebBrowser from 'expo-web-browser';
 
 import { saveToStore, userInformationToSave, getImageUploadApi, returnImageSource, scale, verticalScale, moderateScale } from "../utils";
 import { useAppDispatch } from "../redux";
@@ -23,6 +24,7 @@ const Profile: React.FC<Props> = ({ navigation }) => {
     const signedInUser = useSignedInUserData(token);
     const saveUserData = useSaveUserProfileChanges();
     const [userData, setUserData] = useState<userInformationToSave>();
+    const [ ImagePermissionStatus, requestImagePermission] = ImagePicker.useMediaLibraryPermissions();
 
     useEffect(() => {
         if (signedInUser.getUserDataSuccess) {
@@ -40,6 +42,31 @@ const Profile: React.FC<Props> = ({ navigation }) => {
     }, [signedInUser]);
 
     const pickImage = async () => {
+        const { status, canAskAgain, granted } = await requestImagePermission();
+
+        if ( !canAskAgain && !granted ) {
+            return Alert.alert(
+                "Photo permision denied", 
+                "Please go to Settings > Privacy > Photos and allow access to Photos",
+                [
+                    {
+                        text: "Okay",
+                        onPress: () => {
+                            console.log(Platform.OS)
+                            if ( Platform.OS == "ios" ) Linking.openURL("app-settings:");
+                            else if (Platform.OS == "android") IntentLauncher.startActivityAsync('android.settings.APPLICATION_DETAILS_SETTINGS', {
+                                data: "package:"+Application.applicationId
+                            })
+                        }
+                    }
+                ]
+            );
+        }
+
+        else if ( status !== "granted" ) {
+            return alert("Upload Profile Picture Failed. We need access to your camera roll.")
+        } 
+
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
@@ -69,14 +96,16 @@ const Profile: React.FC<Props> = ({ navigation }) => {
 
         const jsonRes = JSON.parse(upRes.body);
 
-        if (jsonRes.imageURL) {
+        if (jsonRes.url) {
             await saveUserData.saveAsync({
                 token,
                 userInfor: {
-                    profilePicture: jsonRes.imageURL
+                    ...( userData || {} ),
+                    profilePicture: jsonRes.url
                 }
             });
-
+        }else {
+            alert("Upload Profile Picture Failed. Please try again.")
         }
 
         setLoading(false);
@@ -108,12 +137,6 @@ const Profile: React.FC<Props> = ({ navigation }) => {
                                 },
                             },
                             {
-                                title: "Subscription",
-                                onClick: () => {
-                                    WebBrowser.openBrowserAsync('https://www.lifters.app/changeSubscription/'+token)
-                                },
-                            },
-                            {
                                 title: "Password",
                                 onClick: () => {
                                     navigation.navigate("Change Password");
@@ -134,6 +157,12 @@ const Profile: React.FC<Props> = ({ navigation }) => {
                                         password: ""
                                     }));
                                 },
+                            },
+                            {
+                                title: "Delete Account",
+                                onClick: () => {
+                                    navigation.navigate("Delete Account");
+                                }
                             }
                         ]}
                         renderItem={({ item }) => (
@@ -241,14 +270,21 @@ const Profile: React.FC<Props> = ({ navigation }) => {
                     }
                     <View style={styles.EditProfileBioView}>
                         <Text style={styles.EditProfileInputTitle}>Bio</Text>
-                        <TextInput placeholder="bio" placeholderTextColor="white" style={styles.EditProfileInputBio} multiline onChangeText={
-                            (text: string) => {
-                                setUserData({
-                                    ...userData,
-                                    bio: text
-                                });
-                            }
-                        } />
+                        <TextInput 
+                            placeholder="bio" 
+                            value={userData?.bio}
+                            placeholderTextColor="white" 
+                            style={styles.EditProfileInputBio} 
+                            multiline 
+                            onChangeText={
+                                (text: string) => {
+                                    setUserData({
+                                        ...userData,
+                                        bio: text
+                                    });
+                                }
+                            } 
+                        />
                     </View>
                 </ScrollView>
             </View>
@@ -296,7 +332,7 @@ const styles = StyleSheet.create({
         padding: moderateScale(10),
         backgroundColor: "#FF3636",
         marginRight: moderateScale(2),
-        width: scale(85),
+        width: scale(100),
         height: moderateScale(40)
     },
 

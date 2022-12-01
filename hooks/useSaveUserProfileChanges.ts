@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../redux";
 import { setAuthState, setProfilePicture } from "../redux/features/auth";
-import { fetchGraphQl, GraphqlError, RequestResult, delay, userInformationToSave, saveToStore, getServerUrl } from '../utils';
+import { fetchGraphQl, GraphqlError, RequestResult, delay, userInformationToSave, saveToStore } from '../utils';
 import { updateUserInformationMutation } from "../graphQlQuieries";
+
+import { Alert } from 'react-native';
 
 export type userSaveUserProfileChangesProps = {
     token: string;
@@ -21,7 +23,7 @@ export type SaveUserInformationState = {
 
 export const useSaveUserProfileChanges = (): SaveUserInformationState => {
     const dispatch = useAppDispatch();
-    const { token, profilePicture, username, password } = useSelector((state: any) => state.Auth);
+    const { profilePicture, username, password } = useSelector((state: any) => state.Auth);
     
     const [ state, setState ] = useState<SaveUserInformationState>({
         isSaving: false,
@@ -89,11 +91,20 @@ export const useSaveUserProfileChanges = (): SaveUserInformationState => {
 
                     if ( params.userInfor.profilePicture != profilePicture && params.userInfor.profilePicture ) dispatch( 
                         setProfilePicture(
-                            getServerUrl() + "image/" + params.userInfor.profilePicture!
+                            params.userInfor.profilePicture!
                         ) 
                     );
                  
                 }
+            } else if ( data.updateUserInformation.type == "failed" ) {
+                setState(prevState => {
+                    return {
+                        ...prevState,
+                        isSaving: false,
+                    }
+                });
+
+                return Alert.alert("Failed to save", data.updateUserInformation.value);
             }
         }
     });

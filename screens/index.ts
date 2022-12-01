@@ -4,6 +4,8 @@ export { default as Profile } from "./Profile";
 
 export { default as PasswordChange } from "./PasswordChange";
 
+export { default as DeleteAccount } from "./DeleteAccount";
+
 export { default as Messages } from "./Messages";
 
 export { default as Splash } from "./Splash";
@@ -21,3 +23,5 @@ export { default as Search } from "./Search";
 export { default as FoodScreen } from "./Food";
 
 export { default as FoodAnalystics } from "./FoodAnalystics";
+
+export { default as FoodCreate } from "./FoodCreate";

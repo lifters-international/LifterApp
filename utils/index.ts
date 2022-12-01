@@ -1,4 +1,5 @@
 import * as SecureStore from 'expo-secure-store';
+import * as Device from 'expo-device';
 export * from "@lifters-international/lifters-utils";
 import { Dimensions } from 'react-native';
 
@@ -51,3 +52,5 @@ export const verticalScale = ( size : number ) => height / guidelineBaseHeight *
 export const moderateScale = ( size : number, factor = 0.5) => size + ( scale(size) - size ) * factor;
 export const deviceWidth = width;
 export const deviceHeight = height;
+
+export const getDiviceId = () => `${Device.deviceName} ${Device.modelName!}`.replace(/ /g, "-");

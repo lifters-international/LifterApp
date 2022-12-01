@@ -90,6 +90,43 @@ const FoodAnalystics: React.FC = () => {
                 </View>
 
                 <View style={styles.ChartContainer}>
+                    <Text style={styles.ChartTitle}>Calories Goal</Text>
+
+                    <View 
+                        style={{
+                            height: verticalScale(20), 
+                            width: "95%",
+                            backgroundColor: "#e0e0de",
+                            borderRadius: moderateScale(50),
+                            margin: moderateScale(50)
+                        }}
+                    >
+                        <View
+                            style={{ 
+                                height: "100%",
+                                width: `${ ( ( analysis?.Calories || 0 ) / ( analysis?.CalorieGoal || 0 ) ) * 100}%`,
+                                backgroundColor: "#1cc910",
+                                borderRadius: moderateScale(50),
+                            }}
+                        > 
+                            <Text
+                                style={{
+                                    padding: 5,
+                                    color: "black",
+                                    fontWeight: "bold",
+                                    textAlign: "right"
+                                }}
+                            >
+                                {`${ ( ( analysis?.Calories || 0 ) / ( analysis?.CalorieGoal || 0 ) ) * 100}%`}
+                            </Text>
+                        </View>
+                    </View>
+
+                    <Text style={{ ...styles.ChartTitle, fontSize: moderateScale(15) }}>{analysis?.Calories}/{analysis?.CalorieGoal}</Text>
+                    <Text style={{ ...styles.ChartTitle, fontSize: moderateScale(15) }}>Estimated % of Calories</Text>
+                </View>
+
+                <View style={styles.ChartContainer}>
                     <Text style={{ ...styles.ChartTitle, textAlign: 'center' }}>Daily Macronutrient Goals</Text>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginTop: moderateScale(20) }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -150,6 +187,7 @@ const FoodAnalystics: React.FC = () => {
                             />
                         )
                     }
+
                 </View>
 
                 <View style={styles.FoodAteTodayView}>

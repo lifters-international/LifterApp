@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
-import { newUserMatchesSubscription, getUserUnAcceptedMatches } from '../graphQlQuieries';
-import { useSubscription } from '@apollo/client';
-import { newUserSubscriptionMatches, /*client,*/ fetchGraphQl, SubscriptionType, newUserMatches, socket } from "../utils";
+import { getUserUnAcceptedMatches } from '../graphQlQuieries';
+import { newUserSubscriptionMatches, fetchGraphQl, newUserMatches, socket } from "../utils";
 
 export type UserMatchesSubscription = {
     loading: boolean;

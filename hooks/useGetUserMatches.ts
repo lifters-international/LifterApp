@@ -5,7 +5,7 @@ import { getUserMatches } from '../graphQlQuieries';
 export type GetUserMatchesState = {
     loading: boolean;
     error: GraphqlError[];
-    users?: UserData[];
+    users: UserData[];
     refreshTimes: number;
 }
 
@@ -13,7 +13,8 @@ export const useGetUserMatches = (token: string): [GetUserMatchesState, React.Di
     const [state, setState] = React.useState<GetUserMatchesState>({
         loading: true,
         error: [],
-        refreshTimes: 1
+        refreshTimes: 1,
+        users: [],
     });
 
     React.useCallback(() => {

@@ -65,7 +65,9 @@ const Search: React.FC = () => {
                                                         source={returnImageSource(lifter.profilePicture)}
                                                         resizeMode="contain"
                                                     />
-                                                    <Text style={styles.name}>{lifter.username}</Text>
+                                                    <TouchableOpacity onPress={ () => alert(`Username: ${lifter.username}`) } >
+                                                        <Text style={styles.name}>{lifter.username.slice(0, 5) + ( lifter.username.length > 5 ? "..." : "" )}</Text>
+                                                    </TouchableOpacity>
                                                     <View style={{ display: "flex", flexDirection: "row", alignSelf: "stretch", position: "relative", left: scale(120) }}>
                                                         <TouchableOpacity style={styles.liftMatchX} onPress={() => acceptMatch(false, lifter.id)}>
                                                             <Text style={{ color: "white", textAlign: "center", fontSize: moderateScale(25) }}>X</Text>
@@ -81,15 +83,6 @@ const Search: React.FC = () => {
                                         )
                                     }
                                 </ScrollView>
-                                {
-                                    queryResult.userSubscription === SubscriptionType.BASIC ? (
-                                        <View style={styles.SubscriptionView}>
-                                            <View style={styles.SubscriptionText}>
-                                                <Text style={{ textAlign: "center", fontSize: moderateScale(20) }}>Upgrade to Pro. To See Lifters</Text>
-                                            </View>
-                                        </View>
-                                    ) : null
-                                }
                             </View>
                         ) :
                         (
@@ -185,11 +178,12 @@ const styles = StyleSheet.create({
         marginTop: "2%",
         height: verticalScale(25),
         width: scale(50),
-        marginLeft: "1.5%"
+        position: "absolute",
+        right: scale(10),
     },
 
     lifterMatchHeart: {
-        position: "relative",
+        position: "absolute",
         top: verticalScale(6),
         height: verticalScale(25),
         width: scale(50),
@@ -198,10 +192,10 @@ const styles = StyleSheet.create({
 
     NoLifters: {
         borderWidth: moderateScale(2),
-        borderColor: "gainsboro",
+        borderColor: "#5e5c5c",
         borderRadius: moderateScale(10),
         padding: moderateScale(10),
-        marginTop: "50%",
+        marginTop: "35%",
         width: "70%",
         marginLeft: "auto",
         marginRight: "auto"
@@ -210,7 +204,7 @@ const styles = StyleSheet.create({
     NoLiftersText: {
         fontSize: moderateScale(30),
         fontWeight: "bold",
-        color: "black",
+        color: "white",
         textAlign: "center",
     },
 
