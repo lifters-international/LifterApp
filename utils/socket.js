@@ -1,7 +1,7 @@
 const { io } = require("socket.io-client");
 
 const getServerUrl = () => {
-    return process.env.NODE_ENV === "production" ? "https://server.lifters.app/" : "http://10.0.0.152:5000/";
+    return process.env.NODE_ENV === "production" ? "https://server.lifters.app/" : "http://localhost:5000/";
 }
 
 const socketMessagesEvent = {

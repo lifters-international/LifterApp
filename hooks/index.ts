@@ -37,3 +37,7 @@ export * from "./useUserIsClient";
 export * from "./useWatchTrainerVideo";
 
 export * from "./useSignInUserData";
+
+export * from "./usePendingTrainers";
+
+export * from "./useAcceptedTrainers";

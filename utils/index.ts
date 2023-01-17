@@ -4,14 +4,14 @@ export * from "@lifters-international/lifters-utils";
 export { default as socket } from "./socket";
 import { Dimensions } from 'react-native';
 
-import { GraphqlFetchResult, TrainerVideoSummary } from "@lifters-international/lifters-utils";
+import { GraphqlFetchResult } from "@lifters-international/lifters-utils";
 
 export const getApiUrl = () => {
     return `${getServerUrl()}graphql`;
 }
 
 export const getWSApiUrl = () => {
-    return  `wss://${process.env.NODE_ENV === "production" ? "server.lifters.app" : "10.0.0.152:5000"}/graphql`;
+    return  `wss://${process.env.NODE_ENV === "production" ? "server.lifters.app" : "localhost:5000"}/graphql`;
 }
 
 export const getImageUploadApi = () => {
@@ -19,7 +19,7 @@ export const getImageUploadApi = () => {
 }
 
 export const getServerUrl = () => {
-    return process.env.NODE_ENV === "production" ? "https://server.lifters.app/" : "http://10.0.0.152:5000/";
+    return process.env.NODE_ENV === "production" ? "https://server.lifters.app/" : "http://localhost:5000/";
 }
 
 export const fetchGraphQl = async (query: string, variables: any): Promise<GraphqlFetchResult> => {

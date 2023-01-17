@@ -55,3 +55,7 @@ export * from "./createTrainerClient";
 export * from "./becomeClientSubSecrets";
 
 export * from "./watchTrainerVideo";
+
+export * from "./getPendingClientTrainers";
+
+export * from "./getAcceptedClientTrainers";

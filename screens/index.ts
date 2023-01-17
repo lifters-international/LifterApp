@@ -31,3 +31,5 @@ export { default as Home } from "./Home";
 export { default as BecomeClient } from "./BecomeClient";
 
 export { default as WatchTrainerVideo } from "./WatchTrainerVideo";
+
+export { default as UserTrainers } from "./UserTrainers";

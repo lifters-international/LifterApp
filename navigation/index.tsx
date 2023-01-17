@@ -7,7 +7,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { useSelector } from "react-redux";
 
-import { Home, Heart, WatchTrainerVideo, BecomeClient, Profile, PasswordChange, DeleteAccount, FoodScreen, FoodCreate, FoodAnalystics, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
+import { Home, Heart, UserTrainers, WatchTrainerVideo, BecomeClient, Profile, PasswordChange, DeleteAccount, FoodScreen, FoodCreate, FoodAnalystics, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
 import { View, ImageBackground, Text, ActivityIndicator } from "react-native";
 import { getFromStore, scale, verticalScale, moderateScale } from "../utils";
 import { useAppDispatch } from "../redux";
@@ -25,18 +25,10 @@ const HomeStack = createNativeStackNavigator();
 const MessagesStack = createNativeStackNavigator();
 const TrainersStack = createNativeStackNavigator();
 
-const TestScreen = () => {
-    return (
-        <View>
-            <Text>HELLO</Text>
-        </View>
-    )
-}
-
 const TrainersStackScreen = () => {
     return (
         <TrainersStack.Navigator>
-            <TrainersStack.Screen name="Videos" component={TestScreen} options={{ headerShown: false }} />
+            <TrainersStack.Screen name="Trainer" component={UserTrainers} options={{ headerShown: false }} />
         </TrainersStack.Navigator>
     )
 }

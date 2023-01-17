@@ -6,11 +6,11 @@ import { Video, AVPlaybackStatus, AVPlaybackStatusSuccess, ResizeMode } from 'ex
 
 import { useSelector } from "react-redux";
 
-import { Loading, AppLayout, Button, VideoSummary } from "../../components";
+import { Loading, AppLayout, Button, VideoSummary } from "../components";
 
-import { useWatchTrainerVideo, useSignInUserData } from "../../hooks";
+import { useWatchTrainerVideo, useSignInUserData } from "../hooks";
 
-import { getDiff, shortenNumber, returnImageSource, scale, moderateScale, verticalScale } from "../../utils";
+import { getDiff, shortenNumber, returnImageSource, scale, moderateScale, verticalScale } from "../utils";
 
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { NavigationProp, RouteProp } from "@react-navigation/native";
@@ -61,7 +61,7 @@ const WatchTrainerVideo: React.FC<Props> = ({ route, navigation }) => {
     const [showAllComment, setShowAllComment] = useState(false);
 
     useEffect(() => {
-        if ( ( videoStatus as AVPlaybackStatusSuccess ).isPlaying ) {
+        if ( videoStatus !== undefined ) if ( ( videoStatus as AVPlaybackStatusSuccess ).isPlaying ) {
             watchVideo.updateTime( ( videoStatus as AVPlaybackStatusSuccess ).positionMillis )
         }
     }, [videoStatus]);
@@ -122,15 +122,13 @@ const WatchTrainerVideo: React.FC<Props> = ({ route, navigation }) => {
                                                 title="Become Client"
                                                 onPress={() => navigation.navigate("BecomeClient", { trainer: watchVideo.videoData?.video.trainerId })}
                                                 style={styles.sub}
-
-                                                textStyle={{ color: "hsl(0, 0, 22%)", fontSize: moderateScale(10) }}
+                                                textStyle={styles.subText}
                                             />
                                             :
                                             <Button
                                                 title="UnSubscribe"
                                                 onPress={() => navigation.navigate("BecomeClient", { trainer: watchVideo.videoData?.video.trainerId })}
                                                 style={styles.sub}
-
                                                 textStyle={styles.subText}
                                             />
                                     }
@@ -222,6 +220,8 @@ const WatchTrainerVideo: React.FC<Props> = ({ route, navigation }) => {
                                             <Image source={returnImageSource(signedUser.data?.profilePicture!)} style={{ borderRadius: moderateScale(50) }} resizeMode="stretch" />
                                             <TextInput
                                                 placeholder="Add a comment"
+                                                style={{ color: "rgb(100, 99, 99)" }}
+                                                value={comment}
                                                 onChangeText={
                                                     (text) => {
                                                         setComment(text)
