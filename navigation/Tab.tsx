@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext, useEffect } from 'react';
+import React, { useState, createContext, useContext } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, StyleProp, ViewStyle } from "react-native";
 import { scale, verticalScale, moderateScale } from "../utils";
 
@@ -126,13 +126,7 @@ export const TabBar: React.FC<TabBarProps> = ({ tabs, initialTab, onChangeTab, b
         },
 
         useGetScreenNavProps: () => {
-            let [ lState, setLState ] = useState(navProps);
-
-            useEffect(() => {
-                setLState(navProps);
-            }, [navProps]);
-
-            return lState;
+            return navProps
         },
 
         setScreenNavProps: (key: string, value: any) => { 

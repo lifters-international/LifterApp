@@ -121,7 +121,7 @@ const LogIn: React.FC<Props> = ({ navigation }) => {
                             zIndex: 1,
                         }}
                     >
-                        <TouchableOpacity onPress={handleLogIn} style={styles.button}>
+                        <TouchableOpacity onPress={handleLogIn} style={styles.button} disabled={loadingState}>
                             <Text style={{ color: "white", fontSize: moderateScale(30) }}>LOG IN</Text>
                             <Feather name="arrow-up-right" size={moderateScale(40)} color="white" style={{ position: "absolute", left: scale(260), top: verticalScale(6) }}/>
                         </TouchableOpacity>

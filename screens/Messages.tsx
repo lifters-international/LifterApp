@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, RouteProp } from "@react-navigation/native";
 import { AppLayout, Loading, MessageContainer } from "../components";
 import { useSelector } from "react-redux";
 
@@ -11,24 +11,29 @@ import { useTabBarContext } from "../navigation/Tab";
 
 interface Props {
     navigation: NavigationProp<any>;
+    route: RouteProp<any>;
 }
 
-const Messages: React.FC<Props> = ({ navigation }) => {
+const Messages: React.FC<Props> = ({ route, navigation }) => {
     const { token } = useSelector((state: any) => state.Auth);
     const [reload, setReload] = useState(false);
     const userMatchesSubscription = useUserMatchesSubscription(token, reload);
     const userAcceptedMatchesSubscription = useUserAcceptedMatchesSubscription(token, reload);
     const [socketAuthenticated, setSocketAuthenticated] = useState(false);
-    const { useGetScreenNavProps, resetNavProps, setTabBarVisiblity } = useTabBarContext();
-    const navProps = useGetScreenNavProps();
+    const { setTabBarVisiblity } = useTabBarContext();
+
 
     useEffect(() => {
-        if ( navProps.command === "newMessageSent" ) {
+        if ( route.params === undefined ) return;
+
+        let { command, matchId, name, profilePicture } = route.params;
+
+        if ( command === "newMessageSent" ) {
             setTabBarVisiblity(false);
-            navigation.navigate("MessageBox", { matchId: navProps.matchId, name: navProps.name, profilePicture: navProps.profilePicture } );
-            resetNavProps();
+            navigation.navigate("MessageBox", { matchId, name, profilePicture } );
         }
-    }, [navProps]);
+        
+    }, [ route ])
     
     useEffect(() => {
         if (!reload) {
@@ -43,14 +48,14 @@ const Messages: React.FC<Props> = ({ navigation }) => {
     }, [navigation, reload]);
 
 
-    socket.on("authenticated", () => {
+    socket.onMessages("authenticated", () => {
         setSocketAuthenticated(true);
     })
 
     if (!socketAuthenticated) {
-        socket.authenticate(token);
+        socket.messagesAuthenticate(token);
     }
-
+    
     if (userMatchesSubscription.loading || userAcceptedMatchesSubscription.loading || !socketAuthenticated ) {
         return <AppLayout backgroundColor="black"><Loading /></AppLayout>
     }

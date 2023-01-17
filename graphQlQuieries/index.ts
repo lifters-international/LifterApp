@@ -45,3 +45,13 @@ export * from "./createNotificationPayload";
 export * from  "./UserCreateFood";
 
 export * from "./deleteUserAccount";
+
+export * from "./searchVideos";
+
+export * from "./userIsClient";
+
+export * from "./createTrainerClient";
+
+export * from "./becomeClientSubSecrets";
+
+export * from "./watchTrainerVideo";

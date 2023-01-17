@@ -23,3 +23,5 @@ export { default as DropDown } from "./DropDown";
 export { default as LabelInputDropdown } from "./LabelInputDropDown";
 
 export { default as DailyMatchLimit } from "./DailyMatchLimit";
+
+export { default as VideoSummary } from "./VideoSummary";
