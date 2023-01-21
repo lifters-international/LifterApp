@@ -45,3 +45,29 @@ export * from "./createNotificationPayload";
 export * from  "./UserCreateFood";
 
 export * from "./deleteUserAccount";
+
+export * from "./searchVideos";
+
+export * from "./userIsClient";
+
+export * from "./createTrainerClient";
+
+export * from "./becomeClientSubSecrets";
+
+export * from "./watchTrainerVideo";
+
+export * from "./getPendingClientTrainers";
+
+export * from "./getAcceptedClientTrainers";
+
+export * from "./getClientTrainersAndMessages";
+
+export * from "./cancelCreateTrainersRequest";
+
+export * from "./updateTrainerClientSettings";
+
+export * from "./getTrainersDetailsById";
+
+export * from "./userGetAllTrainerVideo";
+
+export * from "./createTrainerRating";

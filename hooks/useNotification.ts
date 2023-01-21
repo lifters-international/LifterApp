@@ -81,10 +81,10 @@ export const useNotifications = ( userToken : string ) => {
 
                 switch ( type ) {
                     case NotificationType.NEW_MATCH:
-                        navigate("Message", {} )
+                        navigate("Home", { open: "Message" } )
                         break;
                     case NotificationType.NEW_MESSAGE:
-                        navigate("Message", { command: "newMessageSent", ...data } )
+                        navigate("Home", { open: "Message", command: "newMessageSent", ...data } )
                         break;
                     default:
                         break;

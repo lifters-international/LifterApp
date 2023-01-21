@@ -51,7 +51,7 @@ export const useUserAcceptedMatchesSubscription = ( token : string, reload: bool
         fetchChange();
 
         if ( socket != null ) {
-            socket.on("ChangeMatchesOrder", () => {
+            socket.onMessages("ChangeMatchesOrder", () => {
                 setChange(true);
             });
         }

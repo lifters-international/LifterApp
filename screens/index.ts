@@ -1,4 +1,4 @@
-export { default as Home } from "./Home";
+export { default as Heart } from "./Heart";
 
 export { default as Profile } from "./Profile";
 
@@ -25,3 +25,15 @@ export { default as FoodScreen } from "./Food";
 export { default as FoodAnalystics } from "./FoodAnalystics";
 
 export { default as FoodCreate } from "./FoodCreate";
+
+export { default as Home } from "./Home";
+
+export { default as BecomeClient } from "./BecomeClient";
+
+export { default as WatchTrainerVideo } from "./WatchTrainerVideo";
+
+export { default as UserTrainers } from "./UserTrainers";
+
+export { default as ClientMessageBox } from "./ClientMessageBox";
+
+export { default as TrainersDetails } from "./TrainersDetails";

@@ -228,7 +228,7 @@ const Profile: React.FC<Props> = ({ navigation }) => {
                                     onChange: (text: string) => {
                                         setUserData({
                                             ...userData,
-                                            age: parseInt(text)
+                                            age: parseInt(text) || 0
                                         });
                                     }
                                 },

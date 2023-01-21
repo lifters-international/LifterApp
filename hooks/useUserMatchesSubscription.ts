@@ -71,7 +71,7 @@ export const useUserMatchesSubscription = (token : string, reload: boolean) : Us
                     }
                 });
 
-                socket.on("newUserMatches", ( datas : { forYou : boolean } & newUserMatches ) => {
+                socket.onMessages("newUserMatches", ( datas : { forYou : boolean } & newUserMatches ) => {
                     if ( datas.forYou ) setState(prevState => (
                         {
                             ...prevState,

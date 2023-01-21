@@ -36,16 +36,16 @@ export const useGetUserMessages = ( token : string, matchId : string ) : UserMes
                         whoSent: data.getUserMessages.whoIsUser,
                         loading: false,
                         sendMessage: ( token, matchId, message, metaDataType ) => {
-                            socket.emit( "sendMessage", { token, matchId, message, metaDataType } );
+                            socket.messagesEmit( "sendMessage", { token, matchId, message, metaDataType } );
                         },
 
                         sendReadMessage: ( messageId ) => {
-                            socket.emit("sendReadMessage", { messageId, token, matchId })
+                            socket.messagesEmit("sendReadMessage", { messageId, token, matchId })
                         }
                     }
                 ));
 
-                socket.on("NewMessage", ( newMessage: { matchId: string, message: Message }) => {
+                socket.onMessages("NewMessage", ( newMessage: { matchId: string, message: Message }) => {
                     if ( newMessage.matchId === matchId ) {
 
                         setState(prevState => (

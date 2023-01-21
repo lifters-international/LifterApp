@@ -7,19 +7,32 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { useSelector } from "react-redux";
 
-import { Home, Profile, PasswordChange, DeleteAccount, FoodScreen, FoodCreate, FoodAnalystics, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
-import { View, ImageBackground, Text, ActivityIndicator } from "react-native";
+import { Home, Heart, ClientMessageBox, TrainersDetails, UserTrainers, WatchTrainerVideo, BecomeClient, Profile, PasswordChange, DeleteAccount, FoodScreen, FoodCreate, FoodAnalystics, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
+import { View, ImageBackground, ActivityIndicator } from "react-native";
 import { getFromStore, scale, verticalScale, moderateScale } from "../utils";
 import { useAppDispatch } from "../redux";
-import { VerifyToken, setToken, logIn, LoginAsyncThunkResult, setAppReady, setProfilePicture, setAuthState, getSignedInUser, GetSignedUserAsyncThunkResult } from "../redux/features/auth";
-import { Ionicons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
+import { VerifyToken, setToken, logIn, LoginAsyncThunkResult, setAppReady, setAuthState } from "../redux/features/auth";
+import { Ionicons, FontAwesome5, FontAwesome, AntDesign } from '@expo/vector-icons';
 import { TabBar } from './Tab';
-import { disableExperimentalFragmentVariables } from "@apollo/client";
+
+import { StripeProvider } from '@stripe/stripe-react-native';
 
 const Stack = createNativeStackNavigator();
-const MessagesStack = createNativeStackNavigator();
 const ProfileStack = createNativeStackNavigator();
 const FoodStack = createNativeStackNavigator();
+const HomeStack = createNativeStackNavigator();
+
+const MessagesStack = createNativeStackNavigator();
+const TrainersStack = createNativeStackNavigator();
+
+const TrainersStackScreen = () => {
+    return (
+        <TrainersStack.Navigator>
+            <TrainersStack.Screen name="Trainer" component={UserTrainers} options={{ headerShown: false }} />
+            <TrainersStack.Screen name="ClientMessageBox" component={ClientMessageBox} options={{ headerShown: false }} />
+        </TrainersStack.Navigator>
+    )
+}
 
 const MessagesStackScreen = () => {
     return (
@@ -29,6 +42,19 @@ const MessagesStackScreen = () => {
             <MessagesStack.Screen name="MessageBox" component={MessageBox} options={{ headerShown: false }} />
         </MessagesStack.Navigator>
     );
+}
+
+const HomeStackScreen = () => {
+    return (
+        <HomeStack.Navigator>
+            <HomeStack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+            <HomeStack.Screen name="BecomeClient" component={BecomeClient} options={{ headerShown: false }} />
+            <HomeStack.Screen name="Trainers" component={TrainersStackScreen} options={{ headerShown: false }} />
+            <HomeStack.Screen name="Message" component={MessagesStackScreen} options={{ headerShown: false  }} />
+            <HomeStack.Screen name="WatchVideo" component={WatchTrainerVideo} options={{ headerShown: false }} />
+            <HomeStack.Screen name="TrainerPage" component={TrainersDetails} options={{ headerShown: false }} />
+        </HomeStack.Navigator>
+    )
 }
 
 const ProfileStackScreen = () => {
@@ -61,29 +87,28 @@ function TabNavigator() {
                 tabs={[
                     {
                         name: "Home",
-                        component: <Home />,
+                        component: <HomeStackScreen />,
                         options: {
-                            label: "Home",
-                            icon: ({ focus }) => {
-                                return (
-                                    <View>
-                                        <FontAwesome
-                                            name="home"
-                                            size={moderateScale(30)}
-                                            color={focus ? "#FF3636" : "#5e5c5c"}
-                                            style={{
-                                                width: scale(30),
-                                                height: verticalScale(30),
-                                                textDecorationColor: "black",
-                                                position: "relative",
-                                                top: moderateScale(2),
-                                            }}
-                                        />
-                                    </View>
-                                )
-                            }
+                            label: "Trainers",
+                            icon: ({ focus }) => (
+                                <View>
+                                    <FontAwesome
+                                        name="home"
+                                        size={moderateScale(30)}
+                                        color={focus ? "#FF3636" : "#5e5c5c"}
+                                        style={{
+                                            width: scale(30),
+                                            height: verticalScale(30),
+                                            textDecorationColor: "black",
+                                            position: "relative",
+                                            top: moderateScale(2),
+                                        }}
+                                    />
+                                </View>
+                            )
                         }
                     },
+
                     {
                         name: "Search",
                         component: <Search />,
@@ -109,29 +134,33 @@ function TabNavigator() {
                             }
                         }
                     },
+
                     {
-                        name: "Message",
-                        component: <MessagesStackScreen />,
+                        name: "Heart",
+                        component: <Heart />,
                         options: {
-                            label: "Message",
-                            icon: ({ focus }) => (
-                                <View>
-                                    <Ionicons
-                                        name="mail"
-                                        size={moderateScale(28)}
-                                        color={focus ? "#FF3636" : "#5e5c5c"}
-                                        style={{
-                                            width: scale(30),
-                                            height: verticalScale(30),
-                                            textDecorationColor: "black",
-                                            position: "relative",
-                                            top: moderateScale(2),
-                                        }}
-                                    />
-                                </View>
-                            )
+                            label: "Home",
+                            icon: ({ focus }) => {
+                                return (
+                                    <View>
+                                        <AntDesign
+                                            name="heart"
+                                            size={moderateScale(30)}
+                                            color={focus ? "#FF3636" : "#5e5c5c"}
+                                            style={{
+                                                width: scale(30),
+                                                height: verticalScale(30),
+                                                textDecorationColor: "black",
+                                                position: "relative",
+                                                top: moderateScale(2),
+                                            }}
+                                        />
+                                    </View>
+                                )
+                            }
                         }
                     },
+                    
                     {
                         name: "FoodStack",
                         component: <FoodStackScreen />,
@@ -155,6 +184,7 @@ function TabNavigator() {
                             )
                         }
                     },
+
                     {
                         name: "Profile",
                         component: <ProfileStackScreen />,
@@ -177,7 +207,7 @@ function TabNavigator() {
                                 </View>
                             )
                         }
-                    },
+                    }
                 ]}
 
             />
@@ -235,7 +265,7 @@ export default function Navigation() {
                     }));
                 }
             }
-            
+
             dispatch(setAppReady(true))
         }
         setUp().then(() => { });
@@ -245,7 +275,13 @@ export default function Navigation() {
         <NavigationContainer>
             {
                 AppReady ? (
-                    tokenVerified ? <TabNavigator /> : <AuthNavigationStack />
+                    tokenVerified ? (
+                        <StripeProvider
+                            publishableKey="pk_test_51LtTPwB5yAwp5CklgSjB8qC6v2jYZxgp6oTAa31tjutMjqiFQHWNyiEYpSGi2Bgl4LanXzyBECRvqA3poS60yHGv00eXzqq6t9"
+                        >
+                            <TabNavigator />
+                        </StripeProvider>
+                    ) : <AuthNavigationStack />
                 ) : <LoadingScreen />
             }
         </NavigationContainer>

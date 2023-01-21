@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
-import { View, Text, StyleSheet, ScrollView, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { moderateScale, verticalScale } from "../utils";
 
 import DropDown from "./DropDown";

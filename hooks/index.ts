@@ -29,3 +29,21 @@ export * from "./useAddFoodToLiftersDailyFood";
 export * from "./useGetDailyFoodAnalystics";
 
 export * from "./useNotification";
+
+export * from "./useSearchVideo";
+
+export * from "./useUserIsClient";
+
+export * from "./useWatchTrainerVideo";
+
+export * from "./useSignInUserData";
+
+export * from "./usePendingTrainers";
+
+export * from "./useAcceptedTrainers";
+
+export * from "./useGetClientsTrainerAndMessages";
+
+export * from "./useGetTrainerDetails";
+
+export * from "./useUserGetAllTrainerVideo";
