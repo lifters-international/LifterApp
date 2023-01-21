@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
 
 const BecomeClient: React.FC<Props> = ({ navigation, route }) => {
     const { token } = useSelector((state: any) => state.Auth);
-    const { trainer } = route.params as { trainer: string };
+    const { trainer, redirectTab } = route.params as { trainer: string, redirectTab?: string };
     const userIsClient = useUserIsClient(trainer, token);
 
     const [loading, setLoading] = useState(false);
@@ -126,7 +126,7 @@ const BecomeClient: React.FC<Props> = ({ navigation, route }) => {
     }, [userIsClient.data])
 
     useEffect(() => {
-        if (goTrainers) navigation.navigate("Trainers", { open: "settings", client: userIsClient.data?.clientId });
+        if (goTrainers) navigation.navigate("Trainers", { open: redirectTab || "settings", client: userIsClient.data?.clientId });
     });
 
     if (userIsClient.loading) return <AppLayout backgroundColor="black"><Loading /></AppLayout>;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-import { View, Text, Image, TextInput, StyleSheet, Share, ScrollView } from "react-native";
+import { View, Text, Image, TextInput, StyleSheet, Share, ScrollView, Alert, Platform, Linking } from "react-native";
 
 import { Video, AVPlaybackStatus, AVPlaybackStatusSuccess, ResizeMode } from 'expo-av';
 
@@ -14,6 +14,12 @@ import { getDiff, shortenNumber, returnImageSource, scale, moderateScale, vertic
 
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { NavigationProp, RouteProp } from "@react-navigation/native";
+
+import * as MediaLibrary from 'expo-media-library';
+import * as FileSystem from 'expo-file-system';
+import * as ImagePicker from 'expo-image-picker';
+import * as IntentLauncher from 'expo-intent-launcher';
+import * as Application from 'expo-application';
 
 type Props = {
     navigation: NavigationProp<any>;
@@ -59,16 +65,19 @@ const WatchTrainerVideo: React.FC<Props> = ({ route, navigation }) => {
 
     const [comment, setComment] = useState("");
     const [showAllComment, setShowAllComment] = useState(false);
+    
+    const [ videoDownloading, setVideoDownloading ] = useState(false);
+    const [ ImagePermissionStatus, requestImagePermission] = ImagePicker.useMediaLibraryPermissions();
 
     useEffect(() => {
-        if ( videoStatus !== undefined ) if ( ( videoStatus as AVPlaybackStatusSuccess ).isPlaying ) {
-            watchVideo.updateTime( ( videoStatus as AVPlaybackStatusSuccess ).positionMillis )
+        if (videoStatus !== undefined) if ((videoStatus as AVPlaybackStatusSuccess).isPlaying) {
+            watchVideo.updateTime((videoStatus as AVPlaybackStatusSuccess).positionMillis)
         }
     }, [videoStatus]);
 
     if (watchVideo.loading || signedUser.loading) return <AppLayout backgroundColor="black"><Loading /></AppLayout>
 
-    if ( watchVideo.error ) {
+    if (watchVideo.error) {
         return (
             <AppLayout backgroundColor="black">
                 <View style={{ backgroundColor: "rgb(16, 16, 16)", width: scale(250), height: verticalScale(60), marginRight: "auto", marginLeft: "auto", borderRadius: moderateScale(10), position: "relative", top: verticalScale(250) }}>
@@ -186,9 +195,73 @@ const WatchTrainerVideo: React.FC<Props> = ({ route, navigation }) => {
                                     <View>
                                         {
                                             watchVideo.videoData?.video.isClient ?
-                                                (
-                                                    <AntDesign size={moderateScale(30)} name="download" color="#FF3636" onClick={() => window.open(watchVideo.videoData?.video.url)} className="icon" />
-                                                )
+                                                !videoDownloading ? (
+                                                    <AntDesign size={moderateScale(30)} name="download" color="#FF3636" onPress={async () => {
+                                                        const { status, canAskAgain, granted } = await requestImagePermission();
+
+                                                        if ( !canAskAgain && !granted ) {
+                                                            return Alert.alert(
+                                                                "Photo permision denied", 
+                                                                "Please go to Settings > Privacy > Photos and allow access to Photos",
+                                                                [
+                                                                    {
+                                                                        text: "Okay",
+                                                                        onPress: () => {
+                                                                            console.log(Platform.OS)
+                                                                            if ( Platform.OS == "ios" ) Linking.openURL("app-settings:");
+                                                                            else if (Platform.OS == "android") IntentLauncher.startActivityAsync('android.settings.APPLICATION_DETAILS_SETTINGS', {
+                                                                                data: "package:"+Application.applicationId
+                                                                            })
+                                                                        }
+                                                                    }
+                                                                ]
+                                                            );
+                                                        }
+                                                
+                                                        else if ( status !== "granted" ) {
+                                                            return alert("We need access to your camera roll. Can't download video.")
+                                                        }
+
+                                                        setVideoDownloading(true);
+
+                                                        let dots = watchVideo.videoData?.video.url!.split(".") as string[];
+                                                        let mimeType = dots[ dots.length - 1 ];
+
+                                                        const fileUri: string = `${FileSystem.documentDirectory}${watchVideo.videoData?.video.trainerName}-${watchVideo.videoData?.video.title}.${mimeType}`;
+                                                        const downloadedFile: FileSystem.FileSystemDownloadResult = await FileSystem.downloadAsync(watchVideo.videoData?.video.url!, fileUri);
+
+                                                        if ( downloadedFile.status != 200 ) {
+                                                            return;
+                                                        }
+
+                                                        /*
+                                                        const perm = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
+
+                                                        if ( perm.status != "granted" ) {
+                                                            return;
+                                                        }*/
+
+                                                        try {
+                                                            const asset = await MediaLibrary.createAssetAsync(downloadedFile.uri);
+                                                            const album = await MediaLibrary.getAlbumAsync("LiftersHome");
+
+                                                            if ( album == null ) {
+                                                                await MediaLibrary.createAlbumAsync("LiftersHome", asset, false);
+                                                            }else {
+                                                                await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
+                                                            }
+
+                                                            Alert.alert("Video Downloaded")
+
+                                                        } catch ( e ) {
+                                                            console.log( e );
+                                                            Alert.alert("Problem downloading video")
+                                                        }
+
+                                                        setVideoDownloading(false);
+
+                                                    }} className="icon" />
+                                                ) : <AntDesign size={moderateScale(30)} name="loading1" color="#FF3636" /> 
                                                 : <></>
                                         }
                                     </View>
@@ -243,7 +316,7 @@ const WatchTrainerVideo: React.FC<Props> = ({ route, navigation }) => {
                                                 style={{ backgroundColor: "#FF3636", borderRadius: moderateScale(10), padding: moderateScale(10), marginLeft: moderateScale(10) }}
                                                 textStyle={{ color: "white", fontSize: moderateScale(15) }}
                                                 onPress={() => {
-                                                    if ( comment.length > 0 ) {
+                                                    if (comment.length > 0) {
                                                         watchVideo.postComment(comment);
                                                         setComment("");
                                                     }
@@ -314,7 +387,7 @@ const WatchTrainerVideo: React.FC<Props> = ({ route, navigation }) => {
                         <View style={{ marginBottom: verticalScale(550) }}>
                             {
                                 watchVideo.videoData?.recommendedVideos.map((vid: any, index) => (
-                                    <VideoSummary {...vid} clientOnly={false} isClient={false} key={index} onClick={ () => navigation.setParams({ videoId: vid.id }) } />
+                                    <VideoSummary {...vid} clientOnly={false} isClient={false} key={index} onClick={() => navigation.setParams({ videoId: vid.id })} />
                                 ))
                             }
                         </View>

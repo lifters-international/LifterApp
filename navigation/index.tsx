@@ -7,11 +7,11 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { useSelector } from "react-redux";
 
-import { Home, Heart, UserTrainers, WatchTrainerVideo, BecomeClient, Profile, PasswordChange, DeleteAccount, FoodScreen, FoodCreate, FoodAnalystics, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
-import { View, ImageBackground, Text, ActivityIndicator } from "react-native";
+import { Home, Heart, ClientMessageBox, TrainersDetails, UserTrainers, WatchTrainerVideo, BecomeClient, Profile, PasswordChange, DeleteAccount, FoodScreen, FoodCreate, FoodAnalystics, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
+import { View, ImageBackground, ActivityIndicator } from "react-native";
 import { getFromStore, scale, verticalScale, moderateScale } from "../utils";
 import { useAppDispatch } from "../redux";
-import { VerifyToken, setToken, logIn, LoginAsyncThunkResult, setAppReady, setProfilePicture, setAuthState, getSignedInUser, GetSignedUserAsyncThunkResult } from "../redux/features/auth";
+import { VerifyToken, setToken, logIn, LoginAsyncThunkResult, setAppReady, setAuthState } from "../redux/features/auth";
 import { Ionicons, FontAwesome5, FontAwesome, AntDesign } from '@expo/vector-icons';
 import { TabBar } from './Tab';
 
@@ -29,6 +29,7 @@ const TrainersStackScreen = () => {
     return (
         <TrainersStack.Navigator>
             <TrainersStack.Screen name="Trainer" component={UserTrainers} options={{ headerShown: false }} />
+            <TrainersStack.Screen name="ClientMessageBox" component={ClientMessageBox} options={{ headerShown: false }} />
         </TrainersStack.Navigator>
     )
 }
@@ -51,6 +52,7 @@ const HomeStackScreen = () => {
             <HomeStack.Screen name="Trainers" component={TrainersStackScreen} options={{ headerShown: false }} />
             <HomeStack.Screen name="Message" component={MessagesStackScreen} options={{ headerShown: false  }} />
             <HomeStack.Screen name="WatchVideo" component={WatchTrainerVideo} options={{ headerShown: false }} />
+            <HomeStack.Screen name="TrainerPage" component={TrainersDetails} options={{ headerShown: false }} />
         </HomeStack.Navigator>
     )
 }

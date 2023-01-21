@@ -33,3 +33,7 @@ export { default as BecomeClient } from "./BecomeClient";
 export { default as WatchTrainerVideo } from "./WatchTrainerVideo";
 
 export { default as UserTrainers } from "./UserTrainers";
+
+export { default as ClientMessageBox } from "./ClientMessageBox";
+
+export { default as TrainersDetails } from "./TrainersDetails";

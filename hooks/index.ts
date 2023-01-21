@@ -41,3 +41,9 @@ export * from "./useSignInUserData";
 export * from "./usePendingTrainers";
 
 export * from "./useAcceptedTrainers";
+
+export * from "./useGetClientsTrainerAndMessages";
+
+export * from "./useGetTrainerDetails";
+
+export * from "./useUserGetAllTrainerVideo";

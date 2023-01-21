@@ -25,3 +25,21 @@ export { default as LabelInputDropdown } from "./LabelInputDropDown";
 export { default as DailyMatchLimit } from "./DailyMatchLimit";
 
 export { default as VideoSummary } from "./VideoSummary";
+
+export { default as AcceptedTrainersView } from "./TrainersClient"; 
+
+export { default as TrainersClientMessageView } from "./TrainersClientMessageView"
+
+export * from "./TrainersClientSettings";
+
+export * from "./TrainersTrain";
+
+export * from "./TrainsClientMessage";
+
+export * from "./Stars";
+
+export * from "./TrainerDetailsHome";
+
+export * from "./TrainerDetailsRating";
+
+export * from "./TrainersDetailsWrite";

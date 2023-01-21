@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 
 import { usePendingTrainers, useAcceptedTrainers } from "../hooks";
 
-import { AppLayout, Loading } from "../components";
+import { AppLayout, Loading, AcceptedTrainersView } from "../components";
 
 import { moderateScale, scale, socket, verticalScale, returnImageSource } from "../utils";
 
@@ -64,6 +64,12 @@ const UserTrainers: React.FC<Prop> = ({ navigation, route }) => {
                     }
                 </ScrollView>
             </View>
+
+            <AcceptedTrainersView
+                clients={acceptedClients.data}
+                navigation={navigation}
+                route={route}
+            />
         </AppLayout>
     )
 }

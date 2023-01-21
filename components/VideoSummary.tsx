@@ -22,7 +22,7 @@ const VideoSummary: React.FC<{ profilePicture?: string, trainerName?: string, on
                     </View>
                 </View>
 
-                <View style={ profilePicture ? style.prof : undefined }>
+                <View style={profilePicture ? style.prof : undefined}>
                     {
                         profilePicture && <Image source={returnImageSource(profilePicture as string)} style={style.profilePicture} resizeMode="stretch" />
                     }
@@ -30,8 +30,8 @@ const VideoSummary: React.FC<{ profilePicture?: string, trainerName?: string, on
                     <View>
                         <Text style={{ color: "white" }}>{shortenText(title, 52)}</Text>
                         <Text style={{ color: "white" }}>
-                            { shortenText(trainerName || "", 8) }&nbsp;
-                            { trainerName && <>&#8226;</> }&nbsp;
+                            {shortenText(trainerName || "", 8)}
+                            {trainerName && <>&nbsp; &#8226; &nbsp;</>}
                             {shortenNumber(views)} views &#8226; &nbsp;
                             {getDiff(date, new Date(new Date().toLocaleString()))} ago &nbsp;
                             {
