@@ -111,7 +111,7 @@ const WatchTrainerVideo: React.FC<Props> = ({ route, navigation }) => {
 
                                 <View style={{ display: "flex", flexDirection: "row", marginBottom: verticalScale(20) }}>
 
-                                    <Image source={returnImageSource(watchVideo.videoData?.video.trainerProfile!)} style={{ borderRadius: moderateScale(50) }} resizeMode="stretch" />
+                                    <Image source={returnImageSource(watchVideo.videoData?.video.trainerProfile!)} style={{ marginRight: moderateScale(4), borderRadius: moderateScale(50), width: scale(30), height: verticalScale(30) }} resizeMode="stretch" />
 
                                     <View style={{ display: "flex", flexDirection: "column", marginLeft: moderateScale(5) }}>
 
@@ -234,13 +234,6 @@ const WatchTrainerVideo: React.FC<Props> = ({ route, navigation }) => {
                                                             return;
                                                         }
 
-                                                        /*
-                                                        const perm = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
-
-                                                        if ( perm.status != "granted" ) {
-                                                            return;
-                                                        }*/
-
                                                         try {
                                                             const asset = await MediaLibrary.createAssetAsync(downloadedFile.uri);
                                                             const album = await MediaLibrary.getAlbumAsync("LiftersHome");
@@ -290,7 +283,7 @@ const WatchTrainerVideo: React.FC<Props> = ({ route, navigation }) => {
                                 watchVideo.videoData?.allowComments && (
                                     <View style={{ marginTop: moderateScale(10) }}>
                                         <View style={{ display: "flex", flexDirection: "row" }}>
-                                            <Image source={returnImageSource(signedUser.data?.profilePicture!)} style={{ borderRadius: moderateScale(50) }} resizeMode="stretch" />
+                                            <Image source={returnImageSource(signedUser.data?.profilePicture!)} style={{ marginRight: moderateScale(4), borderRadius: moderateScale(50), width: scale(30), height: verticalScale(30) }} resizeMode="stretch" />
                                             <TextInput
                                                 placeholder="Add a comment"
                                                 style={{ color: "rgb(100, 99, 99)" }}
@@ -336,10 +329,11 @@ const WatchTrainerVideo: React.FC<Props> = ({ route, navigation }) => {
                                             watchVideo.videoData!.comments.slice(0, 5)
                                     ).map((comment, index) => {
                                         let date = new Date(new Date(comment.updatedAt!).toLocaleString());
+                                        console.log(comment.whoCreatedProfilePicture, returnImageSource(comment.whoCreatedProfilePicture) )
 
                                         return (
                                             <View key={index} style={{ display: "flex", flexDirection: "row", marginBottom: moderateScale(10), marginTop: moderateScale(10) }}>
-                                                <Image source={returnImageSource(comment.whoCreatedProfilePicture)} style={{ borderRadius: moderateScale(50) }} resizeMode="stretch" />
+                                                <Image source={returnImageSource(comment.whoCreatedProfilePicture)} style={{ marginRight: moderateScale(4), borderRadius: moderateScale(50), width: scale(30), height: verticalScale(30) }} resizeMode="stretch" />
 
                                                 <View>
                                                     <View style={{ display: "flex", flexDirection: "row" }}>
