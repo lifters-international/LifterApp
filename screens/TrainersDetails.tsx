@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, ScrollView, Image, Share } from "react-native";
+import { View, Text, ScrollView, Image, Share, Alert, TouchableOpacity } from "react-native";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 
 import { useSelector } from "react-redux";
@@ -9,7 +9,7 @@ import { Ionicons, MaterialIcons, FontAwesome, Feather } from '@expo/vector-icon
 import { Loading, AppLayout, TrainerDetailsHome, TrainersRatingSlide, TrainerWriteSlide, Stars } from "../components";
 
 import { useGetTrainerDetails } from "../hooks";
-import { scale, moderateScale, verticalScale, returnImageSource } from "../utils";
+import { scale, moderateScale, verticalScale, returnImageSource, shortenText, shortenNumber } from "../utils";
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -44,7 +44,7 @@ const TrainerDetails: React.FC<Props> = ({ navigation, route }) => {
                     resizeMode="stretch"
                     style={{
                         width: scale(350),
-                        height: verticalScale(200)
+                        height: verticalScale(90)
                     }}
                 />
 
@@ -57,11 +57,14 @@ const TrainerDetails: React.FC<Props> = ({ navigation, route }) => {
                                 borderWidth: moderateScale(1),
                                 borderColor: "rgb(59, 59, 59)",
                                 borderRadius: moderateScale(30),
-                                padding: moderateScale(10)
+                                padding: moderateScale(10),
+                                width: scale(45),
+                                height: verticalScale(40),
+                                marginRight: moderateScale(10)
                             }}
                         />
 
-                        <View>
+                        <View style={{ width: scale(180) }}>
                             <View style={{ display: "flex", flexDirection: "row" }}>
                                 <Text style={{ color: "white", fontSize: moderateScale(16) }}>{trainerDetails.data?.name}</Text>
                                 {
@@ -76,8 +79,10 @@ const TrainerDetails: React.FC<Props> = ({ navigation, route }) => {
                                 size={15}
                             />
 
-                            <Text style={{ color: "rgb(59, 59, 59)", fontSize: moderateScale(15) }}>{trainerDetails.data?.bio}</Text>
-                            <Text style={{ color: "rgb(59, 59, 59)", fontSize: moderateScale(15) }}>{trainerDetails.data?.clientCount} Clients</Text>
+                            <TouchableOpacity onPress={() =>  Alert.alert(trainerDetails.data?.bio!) }>
+                                <Text style={{ color: "rgb(59, 59, 59)", fontSize: moderateScale(15) }}>{shortenText(trainerDetails.data?.bio!, 60)}</Text>
+                            </TouchableOpacity>
+                            <Text style={{ color: "rgb(59, 59, 59)", fontSize: moderateScale(15) }}>{shortenNumber(trainerDetails.data?.clientCount!)} Clients</Text>
                         </View>
                     </View>
 

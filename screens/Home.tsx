@@ -89,7 +89,11 @@ const Home: React.FC<Props> = ({ navigation }) => {
                                             }
                                         ])
                                     }
-                                }}/>
+                                }}
+                                onProfileTouch={
+                                    () => navigation.navigate("TrainerPage", { trainer: video.trainerId })
+                                }
+                                />
                             ))
                         }
                     </ScrollView>
