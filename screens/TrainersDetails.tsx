@@ -178,7 +178,7 @@ const TrainerDetails: React.FC<Props> = ({ navigation, route }) => {
             <KeyboardAwareScrollView style={{ height: "100%" }} extraScrollHeight={verticalScale(220)}>
 
                 <ScrollView>
-                    {show === "home" && <TrainerDetailsHome gyms={trainerDetails.data?.gyms!} trainerId={trainer} token={token} />}
+                    {show === "home" && <TrainerDetailsHome gyms={trainerDetails.data?.gyms!} trainerId={trainer} token={token} name={trainerDetails.data?.name!} navigation={navigation} />}
                     {show === "rating" && <TrainersRatingSlide ratings={trainerDetails.data?.ratings!} />}
                     {show === "write" && <TrainerWriteSlide token={token} name={trainerDetails.data?.name!} trainerId={trainer} setRating={() => setShow("rating")} />}
                 </ScrollView>
