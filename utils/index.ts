@@ -1,7 +1,78 @@
 import * as SecureStore from 'expo-secure-store';
 import * as Device from 'expo-device';
-export * from "@lifters-international/lifters-utils";
 import { Dimensions } from 'react-native';
+
+import { WatchTrainerVideo, UserData } from "@lifters-international/lifters-utils";
+export * from "@lifters-international/lifters-utils";
+
+export type TrainersSearchResult = {
+    id: string;
+
+    name: string;
+
+    bio: string;
+
+    profilePicture: string;
+
+    productId: string;
+
+    price: string;
+
+    ratingsAverage: number;
+}
+
+export type SearchLiftersAndTrainersResults = {
+    type: "lifters" | "trainers";
+
+    lifters?: UserData;
+
+    trianer?: TrainersSearchResult
+}
+
+export type SearchLiftersAndTrainers = {
+    searchUserAndTrainers: {
+        results: SearchLiftersAndTrainersResults[];
+    }
+}
+
+export type WatchTrainerVideoV401CommentsChildren = {
+    comment: string;
+    createdAt: string; 
+    id: string; 
+    parentId: string; 
+    updatedAt: number; 
+    videoId: string; 
+    whoCreatedId: string; 
+    whoCreatedName: string; 
+    whoCreatedProfilePicture: string; 
+    whoCreatedType: "lifters" | "trainers" 
+};
+
+export type WatchTrainerVideoV401Comments = {
+    id: string;
+
+    comment: string;
+
+    whoCreatedId: string;
+
+    whoCreatedType: "lifters" | "trainers";
+
+    whoCreatedName: string;
+
+    whoCreatedProfilePicture: string;
+
+    updatedAt: number;
+
+    parentId?: string;
+
+    childrenCount: number;
+
+    children: WatchTrainerVideoV401CommentsChildren[];
+}
+
+export type WatchTrainerVideoV401 = WatchTrainerVideo & {
+    comments: WatchTrainerVideoV401Comments[];
+}
 
 export const saveToStore =  async (key: string, value: string) => {
     await SecureStore.setItemAsync(key, value);

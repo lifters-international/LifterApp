@@ -43,3 +43,5 @@ export * from "./TrainerDetailsHome";
 export * from "./TrainerDetailsRating";
 
 export * from "./TrainersDetailsWrite";
+
+export * from "./Comment";
