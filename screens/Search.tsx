@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, TextInput, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
-import { Loading, AppLayout } from "../components";
+import { Loading, AppLayout, TrainersSearchCard } from "../components";
 import { useSearchQuery, useAcceptDeclineMatch } from '../hooks';
-import { returnImageSource, SubscriptionType, scale, verticalScale, moderateScale } from "../utils";
+import { returnImageSource, scale, verticalScale, moderateScale } from "../utils";
 import { useSelector } from "react-redux";
 import { IconFill } from "@ant-design/icons-react-native";
 import { Ionicons } from '@expo/vector-icons';
@@ -57,30 +57,35 @@ const Search: React.FC = () => {
                                     showsHorizontalScrollIndicator={false}
                                 >
                                     {
-                                        queryResult.result?.map((lifter, index) => (
+                                        queryResult.result?.map((result, index) => (
                                             (
-                                                <View key={`user-search-result-${index}`} style={styles.SearchResult}>
-                                                    <Image
-                                                        style={styles.SearchResultImage}
-                                                        source={returnImageSource(lifter.profilePicture)}
-                                                        resizeMode="contain"
-                                                    />
-                                                    <TouchableOpacity onPress={ () => alert(`Username: ${lifter.username}`) } >
-                                                        <Text style={styles.name}>{lifter.username.slice(0, 5) + ( lifter.username.length > 5 ? "..." : "" )}</Text>
-                                                    </TouchableOpacity>
-                                                    <View style={{ display: "flex", flexDirection: "row", alignSelf: "stretch", position: "relative", left: scale(120) }}>
-                                                        <TouchableOpacity style={styles.liftMatchX} onPress={() => acceptMatch(false, lifter.id)}>
-                                                            <Text style={{ color: "white", textAlign: "center", fontSize: moderateScale(25) }}>X</Text>
-                                                        </TouchableOpacity>
+                                                <View key={`user-search-result-${index}`}>
+                                                    {
+                                                        result.type === "lifters" ? (
+                                                            <View style={styles.SearchResult}>
+                                                                <Image
+                                                                    style={styles.SearchResultImage}
+                                                                    source={returnImageSource(result.lifters?.profilePicture!)}
+                                                                    resizeMode="contain"
+                                                                />
+                                                                <TouchableOpacity onPress={ () => alert(`Username: ${result.lifters?.username}`) } >
+                                                                    <Text style={styles.name}>{result.lifters?.username.slice(0, 5) + ( result.lifters!.username.length > 5 ? "..." : "" )}</Text>
+                                                                </TouchableOpacity>
+                                                                <View style={{ display: "flex", flexDirection: "row", alignSelf: "stretch", position: "relative", left: scale(120) }}>
+                                                                    <TouchableOpacity style={styles.liftMatchX} onPress={() => acceptMatch(false, result.lifters?.id!)}>
+                                                                        <Text style={{ color: "white", textAlign: "center", fontSize: moderateScale(25) }}>X</Text>
+                                                                    </TouchableOpacity>
 
-                                                        <TouchableOpacity style={styles.lifterMatchHeart} onPress={() => acceptMatch(true, lifter.id)}>
-                                                            <IconFill name="heart" style={{ color: "white", textAlign: "center", fontSize: moderateScale(25) }} />
-                                                        </TouchableOpacity>
-                                                    </View>
+                                                                    <TouchableOpacity style={styles.lifterMatchHeart} onPress={() => acceptMatch(true, result.lifters?.id!)}>
+                                                                        <IconFill name="heart" style={{ color: "white", textAlign: "center", fontSize: moderateScale(25) }} />
+                                                                    </TouchableOpacity>
+                                                                </View>
+                                                            </View>
+                                                        ): <TrainersSearchCard {...result.trianer!}/>
+                                                    }
                                                 </View>
                                             )
-                                        )
-                                        )
+                                        ))
                                     }
                                 </ScrollView>
                             </View>

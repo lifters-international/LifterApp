@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, TextInput, Text, ScrollView, Alert } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
 import { NavigationProp } from "@react-navigation/native";
 
 import { useSelector } from "react-redux";
@@ -19,7 +20,9 @@ interface Props {
 
 const Home: React.FC<Props> = ({ navigation }) => {
     const { token } = useSelector((state: any) => state.Auth);
-    useNotifications(token);
+    //useNotifications(token);
+
+    const focus = useIsFocused();
 
     const { useGetScreenNavProps, resetNavProps } = useTabBarContext();
 
@@ -36,8 +39,12 @@ const Home: React.FC<Props> = ({ navigation }) => {
                 params: navProps
             });
             resetNavProps();
+        } else if (navProps.open === "TrainerPage") {
+            navigation.navigate("TrainerPage", { trainer: navProps.trainerId });
+            resetNavProps();
         }
-    }, [navProps]);
+
+    }, [focus, navProps]);
 
     useEffect(() => {
         searchVideos.setSearchTerm(videoSearch)
@@ -74,25 +81,26 @@ const Home: React.FC<Props> = ({ navigation }) => {
                     <ScrollView style={styles.scrollView}>
                         {
                             searchVideos.data.map( ( video, index ) => (
-                                <VideoSummary {...video} key={index} onClick={() => {
-                                    if ( ( video.clientOnly && video.isClient ) || !video.clientOnly ) navigation.navigate("WatchVideo", { videoId: video.id });
-                                    else {
-                                        Alert.alert(`Become ${video.trainerName}'s Client`, "Can't Watch A Client Only Video", [
-                                            {
-                                                text: "Close",
-                                                style: "cancel"
-                                            },
+                                <VideoSummary {...video} key={index} 
+                                    onClick={() => {
+                                        if ( ( video.clientOnly && video.isClient ) || !video.clientOnly ) navigation.navigate("WatchVideo", { videoId: video.id });
+                                        else {
+                                            Alert.alert(`Become ${video.trainerName}'s Client`, "Can't Watch A Client Only Video", [
+                                                {
+                                                    text: "Close",
+                                                    style: "cancel"
+                                                },
 
-                                            {
-                                                text: "Become Client",
-                                                onPress: () => navigation.navigate("BecomeClient", { trainer: video.trainerId  })
-                                            }
-                                        ])
+                                                {
+                                                    text: "Become Client",
+                                                    onPress: () => navigation.navigate("BecomeClient", { trainer: video.trainerId  })
+                                                }
+                                            ])
+                                        }
+                                    }}
+                                    onProfileTouch={
+                                        () => navigation.navigate("TrainerPage", { trainer: video.trainerId })
                                     }
-                                }}
-                                onProfileTouch={
-                                    () => navigation.navigate("TrainerPage", { trainer: video.trainerId })
-                                }
                                 />
                             ))
                         }

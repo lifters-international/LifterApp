@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Image, Text, TouchableOpacity, TextInput } from 'react-native';
 import { getDiff, shortenNumber, WatchTrainerVideoV401Comments, returnImageSource, moderateScale, scale, verticalScale } from '../utils';
-import { Button } from "../components";
+import Button from "./Button";
 
 type Props = { 
     allowComments: boolean; 

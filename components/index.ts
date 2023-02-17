@@ -30,6 +30,8 @@ export { default as AcceptedTrainersView } from "./TrainersClient";
 
 export { default as TrainersClientMessageView } from "./TrainersClientMessageView"
 
+export { default as TrainersSearchCard } from "./TrainerSearchView";
+
 export * from "./TrainersClientSettings";
 
 export * from "./TrainersTrain";
