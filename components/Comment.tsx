@@ -90,7 +90,7 @@ export const WatchTrainerVideoComment: React.FC<Props> = ({ id, comment, updated
                                                 />
                                             </View>
 
-                                            <View style={{ display: "flex", flexDirection: "row", marginTop: moderateScale(10), position: "relative", left: scale(140) }}>
+                                            <View style={{ display: "flex", flexDirection: "row", marginTop: moderateScale(10), position: "relative", left: scale(120) }}>
                                                 <Button 
                                                     title='Cancel'
                                                     style={{ backgroundColor: "rgb(29, 29, 29)", borderRadius: moderateScale(10), padding: moderateScale(10) }}

@@ -20,35 +20,44 @@ interface Props {
 
 const Home: React.FC<Props> = ({ navigation }) => {
     const { token } = useSelector((state: any) => state.Auth);
-    //useNotifications(token);
+    useNotifications(token);
 
-    const focus = useIsFocused();
+    const { navProps, resetNavProps } = useTabBarContext();
 
-    const { useGetScreenNavProps, resetNavProps } = useTabBarContext();
+    const [ reset, setReset ] = useState(false);
 
     const [videoSearch, setVideoSearch] = useState("");
-
-    const navProps = useGetScreenNavProps();
 
     const searchVideos = useSearchVideo(token);
 
     useEffect(() => {
-        if (navProps.open === "Message") {
-            navigation.navigate("Message", {
-                screen: "Messages",
-                params: navProps
-            });
-            resetNavProps();
-        } else if (navProps.open === "TrainerPage") {
-            navigation.navigate("TrainerPage", { trainer: navProps.trainerId });
-            resetNavProps();
-        }
-
-    }, [focus, navProps]);
-
-    useEffect(() => {
         searchVideos.setSearchTerm(videoSearch)
     }, [ videoSearch ])
+
+    useEffect(() => {
+        if ( reset ) {
+            resetNavProps();
+            setReset(false);
+        } else {
+            const unsubscribe = navigation.addListener('focus', () => {
+                if ( !reset ) {
+                    console.log( reset );
+                    if (navProps.open === "Message") {
+                        navigation.navigate("Message", {
+                            screen: "Messages",
+                            params: navProps
+                        });
+                        setReset(true);
+                    } else if (navProps.open === "TrainerPage") {
+                        setReset(true);
+                        navigation.navigate({ name: "TrainerPage", params: { trainer: navProps.trainerId } });
+                    }
+                }
+            });
+
+            return unsubscribe
+        }
+    }, [ reset ]);
 
     if (searchVideos.loading) return <AppLayout backgroundColor="black"><Loading /></AppLayout>;
 
