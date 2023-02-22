@@ -6,11 +6,11 @@ import { Video, AVPlaybackStatus, AVPlaybackStatusSuccess, ResizeMode } from 'ex
 
 import { useSelector } from "react-redux";
 
-import { Loading, AppLayout, Button, VideoSummary } from "../components";
+import { Loading, AppLayout, Button, VideoSummary, WatchTrainerVideoComment } from "../components";
 
 import { useWatchTrainerVideo, useSignInUserData } from "../hooks";
 
-import { getDiff, shortenNumber, returnImageSource, scale, moderateScale, verticalScale } from "../utils";
+import { getDiff, shortenNumber, returnImageSource, scale, moderateScale, verticalScale, WatchTrainerVideoV401Comments } from "../utils";
 
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { NavigationProp, RouteProp } from "@react-navigation/native";
@@ -324,28 +324,12 @@ const WatchTrainerVideo: React.FC<Props> = ({ route, navigation }) => {
                                 {
                                     (
                                         showAllComment || watchVideo.videoData!.comments.length < 5 ?
-                                            watchVideo.videoData!.comments
+                                            watchVideo.videoData!.comments!
                                             :
-                                            watchVideo.videoData!.comments.slice(0, 5)
-                                    ).map((comment, index) => {
-                                        let date = new Date(new Date(comment.updatedAt!).toLocaleString());
-                                        console.log(comment.whoCreatedProfilePicture, returnImageSource(comment.whoCreatedProfilePicture) )
-
-                                        return (
-                                            <View key={index} style={{ display: "flex", flexDirection: "row", marginBottom: moderateScale(10), marginTop: moderateScale(10) }}>
-                                                <Image source={returnImageSource(comment.whoCreatedProfilePicture)} style={{ marginRight: moderateScale(4), borderRadius: moderateScale(50), width: scale(30), height: verticalScale(30) }} resizeMode="stretch" />
-
-                                                <View>
-                                                    <View style={{ display: "flex", flexDirection: "row" }}>
-                                                        <Text style={{ color: "rgb(95, 93, 93)" }}>{comment.whoCreatedName}</Text>
-                                                        <Text style={{ color: "rgb(71, 71, 71)" }}>&nbsp; {getDiff(date, new Date(new Date().toLocaleString()))} ago </Text>
-                                                    </View>
-
-                                                    <Text style={{ color: "rgb(71, 71, 71)" }}>{comment.comment}</Text>
-                                                </View>
-                                            </View>
-                                        )
-                                    })
+                                            watchVideo.videoData!.comments!.slice(0, 5)
+                                    ).map((comment, index) => (
+                                        <WatchTrainerVideoComment {...( comment as WatchTrainerVideoV401Comments)} key={`com-${index}`} profilePicture={signedUser.data?.profilePicture!} allowComments={watchVideo.videoData?.allowComments || false} askForChildren={watchVideo.askForChildren} removeChildren={watchVideo.removeChildren} postComment={watchVideo.postComment} />
+                                    ))
                                 }
 
                                 {

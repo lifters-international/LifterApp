@@ -1,7 +1,7 @@
 import * as SecureStore from 'expo-secure-store';
 import * as Device from 'expo-device';
-export * from "@lifters-international/lifters-utils";
 import { Dimensions } from 'react-native';
+export * from "@lifters-international/lifters-utils";
 
 export const saveToStore =  async (key: string, value: string) => {
     await SecureStore.setItemAsync(key, value);

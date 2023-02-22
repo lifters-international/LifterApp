@@ -13,7 +13,7 @@
     "@ant-design/icons-react-native": "^2.3.2",
     "@apollo/client": "^3.6.9",
     "@expo/webpack-config": "^0.17.0",
-    "@lifters-international/lifters-utils": "^2.1.1",
+    "@lifters-international/lifters-utils": "^2.2.0",
     "@react-navigation/bottom-tabs": "^6.3.3",
     "@react-navigation/material-bottom-tabs": "^6.2.3",
     "@react-navigation/native": "^6.0.12",

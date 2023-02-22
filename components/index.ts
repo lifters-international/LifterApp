@@ -30,6 +30,8 @@ export { default as AcceptedTrainersView } from "./TrainersClient";
 
 export { default as TrainersClientMessageView } from "./TrainersClientMessageView"
 
+export { default as TrainersSearchCard } from "./TrainerSearchView";
+
 export * from "./TrainersClientSettings";
 
 export * from "./TrainersTrain";
@@ -43,3 +45,5 @@ export * from "./TrainerDetailsHome";
 export * from "./TrainerDetailsRating";
 
 export * from "./TrainersDetailsWrite";
+
+export * from "./Comment";
