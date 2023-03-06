@@ -2,6 +2,10 @@ export { default as Heart } from "./Heart";
 
 export { default as Profile } from "./Profile";
 
+export { default as ProfileSettings } from "./ProfileSettings";
+
+export { default as CreateReels } from "./CreateReels";
+
 export { default as PasswordChange } from "./PasswordChange";
 
 export { default as DeleteAccount } from "./DeleteAccount";

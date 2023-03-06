@@ -1,7 +1,56 @@
 import * as SecureStore from 'expo-secure-store';
 import * as Device from 'expo-device';
 import { Dimensions } from 'react-native';
+export { default as socket } from "./socket";
 export * from "@lifters-international/lifters-utils";
+
+import { GraphqlFetchResult } from "@lifters-international/lifters-utils";
+
+export const getApiUrl = () => {
+    return `${getServerUrl()}graphql`;
+}
+
+export const getWSApiUrl = () => {
+    return  `wss://${process.env.NODE_ENV === "production" ? "server.lifters.app" : "10.0.0.152:5000"}/graphql`;
+}
+
+export const getImageUploadApi = () => {
+    return `${getServerUrl()}upload/image`;
+}
+
+export const getReelsUploadApi = () => {
+    return `${getServerUrl()}upload/lifters/newReels`
+}
+
+export const getServerUrl = () => {
+    return process.env.NODE_ENV === "production" ? "https://server.lifters.app/" : "http://10.0.0.152:5000/";
+}
+
+export const fetchGraphQl = async (query: string, variables: any): Promise<GraphqlFetchResult> => {
+    const response = await fetch(
+        getApiUrl(),
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                //"Accept": ""Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify({ query, variables })
+        }
+    );
+    const data = await response.json();
+    return data;
+}
+
+export type GetLoggedInUserHomePageDetails = {
+    id: string;
+    username: string;
+    profilePicture: string;
+    bio: string;
+    reels: { id: string, video_url: string }[];
+    followers: number;
+    following: number;
+}
 
 export const saveToStore =  async (key: string, value: string) => {
     await SecureStore.setItemAsync(key, value);

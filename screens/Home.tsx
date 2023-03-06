@@ -41,7 +41,6 @@ const Home: React.FC<Props> = ({ navigation }) => {
         } else {
             const unsubscribe = navigation.addListener('focus', () => {
                 if ( !reset ) {
-                    console.log( reset );
                     if (navProps.open === "Message") {
                         navigation.navigate("Message", {
                             screen: "Messages",

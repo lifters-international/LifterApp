@@ -47,3 +47,5 @@ export * from "./useGetClientsTrainerAndMessages";
 export * from "./useGetTrainerDetails";
 
 export * from "./useUserGetAllTrainerVideo";
+
+export * from "./useLoggedInUserHomePage";

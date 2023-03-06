@@ -73,3 +73,5 @@ export * from "./userGetAllTrainerVideo";
 export * from "./createTrainerRating";
 
 export * from "./searchUserAndTrainers";
+
+export * from "./getLoggedInUserHomePageDetails";

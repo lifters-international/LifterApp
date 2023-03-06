@@ -7,7 +7,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { useSelector } from "react-redux";
 
-import { Home, Heart, ClientMessageBox, TrainersDetails, UserTrainers, WatchTrainerVideo, BecomeClient, Profile, PasswordChange, DeleteAccount, FoodScreen, FoodCreate, FoodAnalystics, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
+import { Home, Heart, ClientMessageBox, TrainersDetails, UserTrainers, WatchTrainerVideo, BecomeClient, Profile, ProfileSettings, CreateReels, PasswordChange, DeleteAccount, FoodScreen, FoodCreate, FoodAnalystics, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
 import { View, ImageBackground, ActivityIndicator } from "react-native";
 import { getFromStore, scale, verticalScale, moderateScale } from "../utils";
 import { useAppDispatch } from "../redux";
@@ -60,7 +60,9 @@ const HomeStackScreen = () => {
 const ProfileStackScreen = () => {
     return (
         <ProfileStack.Navigator>
-            <ProfileStack.Screen name="Profiles" component={Profile} options={{ headerShown: false }} />
+            <ProfileStack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
+            <ProfileStack.Screen name="ProfileSettings" component={ProfileSettings} options={{ headerShown: false }} />
+            <ProfileStack.Screen name="CreateReels" component={CreateReels} options={{ headerShown: false }} />
             <ProfileStack.Screen name="Change Password" component={PasswordChange} options={{ headerShown: false }} />
             <ProfileStack.Screen name="Delete Account" component={DeleteAccount} options={{ headerShown: false }} />
         </ProfileStack.Navigator>

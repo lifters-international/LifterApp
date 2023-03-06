@@ -126,8 +126,6 @@ export const TabBar: React.FC<TabBarProps> = ({ tabs, initialTab, onChangeTab, b
 
     const resetNavProps = () => {
         setNavProps( prev => ({}) );
-        
-        console.log(navProps)
     }
 
     const navigate = (to: string, props?: { [key: string]: any }) => {

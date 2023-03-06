@@ -99,6 +99,7 @@ const WatchTrainerVideo: React.FC<Props> = ({ route, navigation }) => {
                     resizeMode={ResizeMode.CONTAIN}
                     useNativeControls
                     onPlaybackStatusUpdate={status => setVideoStatus(status)}
+                    isMuted={false}
                 />
 
                 <ScrollView>
@@ -207,7 +208,6 @@ const WatchTrainerVideo: React.FC<Props> = ({ route, navigation }) => {
                                                                     {
                                                                         text: "Okay",
                                                                         onPress: () => {
-                                                                            console.log(Platform.OS)
                                                                             if ( Platform.OS == "ios" ) Linking.openURL("app-settings:");
                                                                             else if (Platform.OS == "android") IntentLauncher.startActivityAsync('android.settings.APPLICATION_DETAILS_SETTINGS', {
                                                                                 data: "package:"+Application.applicationId
@@ -247,7 +247,6 @@ const WatchTrainerVideo: React.FC<Props> = ({ route, navigation }) => {
                                                             Alert.alert("Video Downloaded")
 
                                                         } catch ( e ) {
-                                                            console.log( e );
                                                             Alert.alert("Problem downloading video")
                                                         }
 
