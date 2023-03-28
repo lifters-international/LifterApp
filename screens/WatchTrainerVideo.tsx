@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 
 import { View, Text, Image, TextInput, StyleSheet, Share, ScrollView, Alert, Platform, Linking } from "react-native";
 
-import { Video, AVPlaybackStatus, AVPlaybackStatusSuccess, ResizeMode } from 'expo-av';
+import { Video, AVPlaybackStatus, AVPlaybackStatusSuccess, ResizeMode, Audio } from 'expo-av';
 
 import { useSelector } from "react-redux";
 
@@ -68,6 +68,14 @@ const WatchTrainerVideo: React.FC<Props> = ({ route, navigation }) => {
     
     const [ videoDownloading, setVideoDownloading ] = useState(false);
     const [ ImagePermissionStatus, requestImagePermission] = ImagePicker.useMediaLibraryPermissions();
+
+    useEffect( () => {
+        const setUp = async () => {
+            await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
+        }
+
+        setUp();
+    }, [ ] );
 
     useEffect(() => {
         if (videoStatus !== undefined) if ((videoStatus as AVPlaybackStatusSuccess).isPlaying) {

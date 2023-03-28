@@ -75,3 +75,5 @@ export * from "./createTrainerRating";
 export * from "./searchUserAndTrainers";
 
 export * from "./getLoggedInUserHomePageDetails";
+
+export * from './createLifterReels';

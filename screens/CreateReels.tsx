@@ -4,7 +4,7 @@ import { NavigationProp } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 
 import { Feather, Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { Video, ResizeMode } from 'expo-av';
+import { Video, ResizeMode, Audio } from 'expo-av';
 
 import { AppLayout, Button, Loading } from "../components";
 
@@ -13,6 +13,7 @@ import * as FileSystem from 'expo-file-system';
 import * as Application from 'expo-application';
 import * as IntentLauncher from 'expo-intent-launcher'
 import { getReelsUploadApi, moderateScale, returnImageSource, scale, verticalScale } from "../utils";
+import { useCreateReels } from "../hooks";
 
 interface Props {
     navigation: NavigationProp<any>;
@@ -24,7 +25,9 @@ const CreateReels: React.FC<Props> = ({ navigation }) => {
 
     const [loading, setLoading] = useState(false);
 
-    const [createReelState, setCreateReelState] = useState<{ url: string, caption: string }>({ caption: "", url: "https://lifters-media.nyc3.digitaloceanspaces.com/video/mp4/07a43140-7006-40f5-93e6-1e96857476a9.mp4" });
+    const [createReelState, setCreateReelState] = useState<{ url: string, caption: string }>({ caption: "", url: "" });
+
+    const { loading: Uploading, doneUploading, error, upload } = useCreateReels(token);
 
     const video = useRef<Video>(null);
     const [stateVideoPlaying, setStateVideoPlaying] = useState(false);
@@ -33,6 +36,8 @@ const CreateReels: React.FC<Props> = ({ navigation }) => {
 
 
     const pickImage = async () => {
+        await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
+
         const { status, canAskAgain, granted } = await requestImagePermission();
 
         if (!canAskAgain && !granted) {
@@ -132,7 +137,21 @@ const CreateReels: React.FC<Props> = ({ navigation }) => {
         pickImage();
     }, []);
 
-    if (loading) return <AppLayout backgroundColor="black"><Loading /></AppLayout>;
+    useEffect(() => {
+        if ( doneUploading && !error ) {
+            navigation.goBack();
+        }
+    }, [ doneUploading ]);
+
+    if (loading || Uploading) return <AppLayout backgroundColor="black"><Loading /></AppLayout>;
+
+    if ( error ) {
+        return (
+            <View style={{ backgroundColor: "rgb(16, 16, 16)", width: scale(250), height: verticalScale(60), marginRight: "auto", marginLeft: "auto", borderRadius: moderateScale(10), position: "relative", top: verticalScale(250) }}>
+                <Text style={{ color: "white", textAlign: "center", fontSize: moderateScale(20), marginTop: moderateScale(15) }}>An Error occured uploading reel.</Text>
+            </View>
+        )
+    }
 
     return (
         <AppLayout backgroundColor="black">
@@ -206,6 +225,10 @@ const CreateReels: React.FC<Props> = ({ navigation }) => {
                                             title="Create"
                                             textStyle={{ color: "white", fontSize: moderateScale(20) }}
                                             style={{ backgroundColor: "#FF3636", width: scale(80), padding: moderateScale(10), borderRadius: moderateScale(10), alignItems: "center" }}
+                                            onPress={() =>{
+                                                upload(createReelState);
+                                            }}
+                                        
                                         />
                                     </View>
                                 </TouchableOpacity>

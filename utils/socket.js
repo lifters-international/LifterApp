@@ -4,6 +4,10 @@ const getServerUrl = () => {
     return process.env.NODE_ENV === "production" ? "https://server.lifters.app/" : "http://10.0.0.25:5000/";
 }
 
+const getReelsServerUrl = () => {
+    return process.env.NODE_ENV === "production" ? "https://reels.lifters.app/" : "http://10.0.0.25:5050/";
+}
+
 const socketMessagesEvent = {
     ChangeMatchesOrder: () => {},
     authenticated: () => {},
@@ -26,11 +30,20 @@ const socketTrainerClientEvent = {
     NewMessage: () => {}
 }
 
+const socketReelsEvent = {
+    reelCountsDetailsResponse: () => {},
+    newReelLike: () => {},
+    newReelSave: () => {},
+    reelCaptionUpdated: () => {}
+};
+
 const messagesSocket = io(getServerUrl()+ "messages");
 
 const videoSocket = io(getServerUrl()+"trainerVideos");
 
 const trainerClientSocket = io(getServerUrl()+"trainersClient");
+
+const reelsSocket = io(getReelsServerUrl());
 
 messagesSocket.onAny( ( event, arg ) => {
     try {
@@ -55,6 +68,14 @@ trainerClientSocket.onAny( (event, arg ) => {
         console.log(err);
     }
 });
+
+reelsSocket.onAny( ( event, arg ) => {
+    try {
+        socketReelsEvent[event](arg);
+    }catch(err) {
+        console.log(err);
+    }
+})
 
 module.exports = {
 
@@ -93,5 +114,13 @@ module.exports = {
 
     trainerClientEmit: ( event, args ) => {
         trainerClientSocket.emit( event, args)
+    },
+
+    reelsEmit: ( event, args ) => {
+        reelsSocket.emit(event, args);
+    },
+
+    onReels: ( event, callback ) => {
+        socketReelsEvent[event] = callback;
     }
 };

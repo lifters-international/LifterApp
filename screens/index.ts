@@ -4,6 +4,8 @@ export { default as Profile } from "./Profile";
 
 export { default as ProfileSettings } from "./ProfileSettings";
 
+export { default as WatchLifterProfileReels } from "./WatchLifterProfileReels";
+
 export { default as CreateReels } from "./CreateReels";
 
 export { default as PasswordChange } from "./PasswordChange";

@@ -192,7 +192,7 @@ export const useWatchTrainerVideo = (token: string, videoId: string) => {
                 ...prev,
                 videoData: {
                     ...prev.videoData!,
-                    commens: (
+                    comments: (
                         () => {
                             let oldComment = prev.videoData?.comments!;
 

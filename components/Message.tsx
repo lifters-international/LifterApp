@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { View, Text, Image, StyleSheet } from 'react-native';
-import { Video, ResizeMode } from 'expo-av';
+import { Video, ResizeMode, Audio } from 'expo-av';
 
 import { Message, MessageWhoSent, MessageMetaDataType, returnImageSource, UserMessageStatus, scale, moderateScale } from '../utils';
 
@@ -13,6 +13,12 @@ export type MessageProps = {
 
 const Messages: React.FC<MessageProps> = ({ id, status, metaDataType, message, whoSent, CurrentWhoSent, sendReadMessage }) => {
     useEffect(() => {
+        const setUp = async () => {
+            await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
+        }
+
+        setUp();
+
         if ( whoSent !== CurrentWhoSent && status === UserMessageStatus.DELIVERED ) {
             sendReadMessage(id);
         }

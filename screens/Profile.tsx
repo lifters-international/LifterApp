@@ -1,30 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
-import { StyleSheet, Text, View, Image, ScrollView, TextInput, ImageBackground, FlatList, Platform, Linking, Alert } from 'react-native';
+import { Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
 
 import { Entypo, Feather } from '@expo/vector-icons';
 
-import * as Application from 'expo-application';
-import * as IntentLauncher from 'expo-intent-launcher'
 import { AppLayout, Button, Loading } from "../components";
 import { NavigationProp } from "@react-navigation/native";
 import { useSelector } from "react-redux";
-import * as ImagePicker from 'expo-image-picker';
-import * as FileSystem from 'expo-file-system';
 
-import { scale, verticalScale, moderateScale, returnImageSource, shortenText, shortenNumber } from "../utils";
+import { scale, verticalScale, moderateScale, returnImageSource, shortenText, shortenNumber, turnArrayIntoDimensionalArray } from "../utils";
 import { useLoggedInUserHomePage } from "../hooks";
+import { ResizeMode, Video } from "expo-av";
 
 interface Props {
     navigation: NavigationProp<any>;
 }
 
 const Profile: React.FC<Props> = ({ navigation }) => {
-    const { token, profilePicture } = useSelector( ( state: any ) => state.Auth );
+    const { token } = useSelector( ( state: any ) => state.Auth );
 
     const { loading, errors, data } = useLoggedInUserHomePage(token);
-
-    console.log({ loading, errors, data });
 
     if ( loading ) return <AppLayout backgroundColor="black"><Loading /></AppLayout>;
 
@@ -79,6 +74,33 @@ const Profile: React.FC<Props> = ({ navigation }) => {
                         style={{ alignItems: "center", backgroundColor: "red", width: scale(320), padding: 10, height: verticalScale(50), marginRight: 'auto', marginLeft: 'auto', marginTop: moderateScale(20), marginBottom: moderateScale(20), borderRadius: moderateScale(10) }}
                         onPress={() => navigation.navigate("ProfileSettings")}
                     />
+                </View>
+
+                <View style={{ marginBottom: moderateScale(100), marginTop: moderateScale(15) }}>
+                    {
+                        ( turnArrayIntoDimensionalArray(data!.reels) as { id: string, video_url: string }[][]).map( ( row, index ) => (
+                            <View key={`profile-reel-row${index}`} style={{ display: "flex", flexDirection: "row" }}>
+                                {
+                                    row.map( ( reel, index ) => (
+                                        <TouchableOpacity key={`profile-reel-row-reel-${index}`}
+                                            onPress={
+                                                () => {
+                                                    navigation.navigate("WatchLifterProfileReels", { scrollToReel: reel.id })
+                                                }
+                                            }
+                                        >
+                                            <Video
+                                                source={ returnImageSource(reel.video_url) }
+                                                style={{ width: scale(120), height: verticalScale(180), borderRadius: moderateScale(10) }}
+                                                resizeMode={ResizeMode.STRETCH}
+                                                useNativeControls={false}
+                                            />
+                                        </TouchableOpacity>
+                                    ))
+                                }
+                            </View>
+                        ))
+                    }
                 </View>
             </ScrollView>
         </AppLayout>

@@ -42,12 +42,27 @@ export const fetchGraphQl = async (query: string, variables: any): Promise<Graph
     return data;
 }
 
+export type GetLoggedInUserHomePageDetailsReels = { 
+    id: string; 
+    video_url: string;
+    caption: string;
+    likesCount?: number;
+    commentsCount?: number;
+    sharesCount?: number;
+    savesCount?: number;
+    downloadsCount?: number;
+    ownerProfilePicture?: string;
+    ownerName?: string;
+    userLiked?: boolean;
+    userSaved?: boolean;
+}
+
 export type GetLoggedInUserHomePageDetails = {
     id: string;
     username: string;
     profilePicture: string;
     bio: string;
-    reels: { id: string, video_url: string }[];
+    reels: GetLoggedInUserHomePageDetailsReels[];
     followers: number;
     following: number;
 }
@@ -89,6 +104,20 @@ export const returnImageSource = ( source : string, soureOp?: { [key : string] :
     } else {
         return { uri: source, ...soureOp };
     }
+}
+
+export const turnArrayIntoDimensionalArray = ( sourceArray: any[], dimension = 3 ): any[] => {
+    return sourceArray.reduce( ( prev, current, index ) => {
+        if ( index === 0 ) {
+            prev.push( [ current ] );
+        }else if ( prev[ prev.length - 1 ].length < dimension ) {
+            prev[prev.length - 1 ].push( current ); 
+        }else {
+            prev.push( [ current ] );
+        }
+
+        return prev;
+    }, [])
 } 
 
 const { width, height } = Dimensions.get('window');

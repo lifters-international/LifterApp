@@ -7,6 +7,7 @@ export const getLoggedInUserHomePageDetails = `
             reels {
                 id
                 video_url
+                caption
             }
             username
             profilePicture
