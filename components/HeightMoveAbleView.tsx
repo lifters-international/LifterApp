@@ -36,7 +36,7 @@ export const HeightMoveAbleView : React.FC<HeightMoveAbleViewProps> = ({ starter
 
     return (
         <View style={{ position: "absolute", zIndex: 10, bottom: 0 }}
-            onStartShouldSetResponder={ () => true }
+            onStartShouldSetResponder={ ( event ) => true }
             onResponderStart={ ( event ) => {
                 setholdingStartMove(event.nativeEvent.pageY);
                 viewButtonRef.current?.measure( ( x, y, width, height, pageX, pageY ) => {

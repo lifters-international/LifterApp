@@ -21,7 +21,8 @@ const socketVideoEvent = {
     YouDisLikedVideo: () => {},
     LikedVideo: () => {},
     DisLikedVideo: () => {},
-    newComment: () => {}
+    newComment: () => {},
+    newChildComment: () => {}
 }
 
 const socketTrainerClientEvent = {
@@ -34,7 +35,13 @@ const socketReelsEvent = {
     reelCountsDetailsResponse: () => {},
     newReelLike: () => {},
     newReelSave: () => {},
-    reelCaptionUpdated: () => {}
+    reelCaptionUpdated: () => {},
+    reelInformationResponse: () => {},
+    reelDeleted: () => {},
+    parentComments: () => {},
+    childComments: () => {},
+    newChildComment: () => {},
+    newComment: () => {}
 };
 
 const messagesSocket = io(getServerUrl()+ "messages");

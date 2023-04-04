@@ -21,7 +21,7 @@ interface Props {
 const WatchLifterProfileReels: React.FC<Props> = ({ navigation, route }) => {
     const { token } = useSelector((state: any) => state.Auth);
 
-    const { loading, errors, data, getReelsInformation, likeReel, saveReel, updateCaption, deleteReel, downloadReel } = useWatchLifterProfileReels(token);
+    const { loading, errors, data, subscribeToEvent, unSubscribeToEvent, postComment, shareReel, getParentComments, getReelsInformation, likeReel, saveReel, updateCaption, deleteReel, downloadReel, askForChildren } = useWatchLifterProfileReels(token);
 
     const scrollViewRef = useRef<ScrollView>(null);
 
@@ -107,22 +107,36 @@ const WatchLifterProfileReels: React.FC<Props> = ({ navigation, route }) => {
                 {
                     data?.reels.map((reel, index) => (
                         <UserProfileReels 
-                            key={`lifter-reels-${index}`} 
-                            {...reel} 
-                            shouldPlay={ scrollPos.y / verticalScale(660) === index } 
-                            userId={data!.id}
-                            getReelsInformation={getReelsInformation} 
-                            likeReel={likeReel}
-                            saveReel={saveReel}
-                            allowEdit={true}
-                            updateCaption={updateCaption}
-                            allowDelete={true}
-                            deleteReel={deleteReel}
-                            downloadReel={downloadReel}
-                            isVideoMuted={isVideoMuted}
-                            toggleMuteVideo={ ( mute?: boolean ) => setMuteVideo(mute || !isVideoMuted) }
-                            enableScroll={ () => setScrollEnabled(true) }
-                            disableScroll={ () => setScrollEnabled(false) }
+                            key={`lifter-reels-${index}`}
+
+                            componentData={{
+                                userId: data!.id,
+                                usersProfilePicture: data?.profilePicture,
+                                shouldPlay: scrollPos.y / verticalScale(660) === index,
+                                isVideoMuted,
+                                allowEdit: true,
+                                allowDelete: true
+                            }}
+
+                            functions={{
+                                getReelsInformation,
+                                likeReel,
+                                saveReel,
+                                updateCaption,
+                                getParentComments,
+                                deleteReel,
+                                downloadReel,
+                                askForChildren,
+                                subscribeToEvent, 
+                                unSubscribeToEvent,
+                                enableScroll: () => setScrollEnabled(true),
+                                disableScroll: () => setScrollEnabled(false),
+                                toggleMuteVideo: ( mute?: boolean ) => setMuteVideo(mute || !isVideoMuted),
+                                postComment,
+                                shareReel
+                            }}
+
+                            reel={reel}
                         />
                     ))
                 }

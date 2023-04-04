@@ -100,7 +100,7 @@ const TrainerDetails: React.FC<Props> = ({ navigation, route }) => {
                             name="share"
                             onPress={async () => {
                                 const result = await Share.share({
-                                    message: `Come and check out ${trainerDetails.data?.name}'s trainers page on LiftersHome... The #1 Home For All Things GYM!!!`,
+                                    message: `Come and check out ${trainerDetails.data?.name}'s trainers page on LiftersHome... The #1 Home For All GYM People!!!`,
                                     url: `https://www.lifters.app/trainer/${trainerDetails.data?.id}`
                                 })
                             }}

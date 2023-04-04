@@ -42,6 +42,22 @@ export const fetchGraphQl = async (query: string, variables: any): Promise<Graph
     return data;
 }
 
+export declare type WatchLifterProfileReelsCommentsChildren = {
+    id: string;
+    comment: string;
+    liftersId: string;
+    liftersName: string;
+    liftersProfilePicture: string;
+    updated_at: number;
+};
+export declare type WatchLifterProfileReelsComments = {
+    parentId?: string;
+    childrenCount: number;
+    children: WatchLifterProfileReelsCommentsChildren[];
+} & WatchLifterProfileReelsCommentsChildren;
+
+export type WatchLifterProfileReelsCommentsDict = { [ key: string ] : WatchLifterProfileReelsComments[] };
+
 export type GetLoggedInUserHomePageDetailsReels = { 
     id: string; 
     video_url: string;

@@ -53,3 +53,5 @@ export * from "./UserProfileReels";
 export * from "./HeightMoveAbleView";
 
 export * from "./DotLoading";
+
+export * from "./LifterReelsComment";

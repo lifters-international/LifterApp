@@ -195,7 +195,7 @@ const WatchTrainerVideo: React.FC<Props> = ({ route, navigation }) => {
                                         name="share"
                                         onPress={async () => {
                                             const result = await Share.share({
-                                                message: `Come check out this video by ${watchVideo.videoData?.video.trainerName} on LiftersHome... The #1 Home For All Things GYM!!!`,
+                                                message: `Come check out this video by ${watchVideo.videoData?.video.trainerName} on LiftersHome... The #1 Home For All GYM People!!!`,
                                                 url: `https://www.lifters.app/videos/${watchVideo.videoData?.video.id}`
                                             })
                                         }}
