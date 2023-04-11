@@ -10,14 +10,14 @@ export type LoggedInUserHomePageDetailsState = {
     data?: GetLoggedInUserHomePageDetails;
 }
 
-export const useLoggedInUserHomePage = ( token: string ) => {
+export const useLoggedInUserHomePage = ( token: string, refreshing: boolean ) => {
     const [ state, setState ] = useState<LoggedInUserHomePageDetailsState>({
         loading: true,
         errors: []
     });
 
     useEffect(() => {
-        if ( token == null ) return;
+        if ( token == null || !refreshing ) return;
 
         fetchGraphQl(getLoggedInUserHomePageDetails, { token })
         .then( res => {
@@ -35,7 +35,7 @@ export const useLoggedInUserHomePage = ( token: string ) => {
                 }))
             }
         })
-    }, [ token ]);
+    }, [ token, refreshing ]);
 
     return state;
 }

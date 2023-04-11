@@ -79,6 +79,7 @@ export type GetLoggedInUserHomePageDetails = {
     profilePicture: string;
     bio: string;
     reels: GetLoggedInUserHomePageDetailsReels[];
+    reelsSaves: GetLoggedInUserHomePageDetailsReels[];
     followers: number;
     following: number;
 }

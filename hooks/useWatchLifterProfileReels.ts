@@ -36,7 +36,7 @@ export enum ManagerListenerEvents {
     newReelShare = "newReelShare"
 };
 
-export const useWatchLifterProfileReels = (token: string) => {
+export const useWatchLifterProfileReels = (token: string, refreshing: boolean ) => {
     const [state, setState] = useState<WatchLifterProfileReelsDetailsState>({
         loading: true,
         errors: [],
@@ -69,7 +69,7 @@ export const useWatchLifterProfileReels = (token: string) => {
     , []);
 
     useEffect(() => {
-        if (token == null) return;
+        if ( token == null || !refreshing ) return;
 
         fetchGraphQl(getLoggedInUserHomePageDetails, { token })
             .then(res => {
@@ -80,10 +80,6 @@ export const useWatchLifterProfileReels = (token: string) => {
                         errors: res.errors
                     }))
                 } else {
-                    setData(prev => ({
-                        ...prev,
-                        ...res.data.getLoggedInUserHomePageDetails,
-                    }));
 
                     setState(prev => ({
                         ...prev,
@@ -130,9 +126,14 @@ export const useWatchLifterProfileReels = (token: string) => {
                         }
                     }));
 
+                    setData(prev => ({
+                        ...prev,
+                        ...res.data.getLoggedInUserHomePageDetails,
+                    }));
+
                 }
             })
-    }, [token]);
+    }, [token, refreshing]);
 
     useEffect(() => {
         socket.onReels("reelInformationResponse", (reelsInformation: { reel: string, likeCount: number, commentsCount: number, sharesCount: number, savesCount: number, downloadsCount: number, ownerProfilePicture: string, ownerName: string, userLiked: boolean, userSaved: boolean }) => {

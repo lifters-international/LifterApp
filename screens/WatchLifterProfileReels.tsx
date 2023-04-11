@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { View, Text, ScrollView } from "react-native";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { View, Text, ScrollView, RefreshControl } from "react-native";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 
 import { useSelector } from "react-redux";
@@ -21,7 +21,11 @@ interface Props {
 const WatchLifterProfileReels: React.FC<Props> = ({ navigation, route }) => {
     const { token } = useSelector((state: any) => state.Auth);
 
-    const { loading, errors, data, subscribeToEvent, unSubscribeToEvent, postComment, shareReel, getParentComments, getReelsInformation, likeReel, saveReel, updateCaption, deleteReel, downloadReel, askForChildren } = useWatchLifterProfileReels(token);
+    const [refreshing, setRefreshing] = useState(false);
+
+    const { loading, errors, data, subscribeToEvent, unSubscribeToEvent, postComment, shareReel, getParentComments, getReelsInformation, likeReel, saveReel, updateCaption, deleteReel, downloadReel, askForChildren } = useWatchLifterProfileReels(token, refreshing);
+
+    const [ view, setView ] = useState<"saved" | "reels">("reels");
 
     const scrollViewRef = useRef<ScrollView>(null);
 
@@ -32,6 +36,10 @@ const WatchLifterProfileReels: React.FC<Props> = ({ navigation, route }) => {
     const { setTabBarVisiblity } = useTabBarContext();
 
     const [ isVideoMuted, setMuteVideo ] = useState(false);
+
+    const onRefresh = useCallback(() => {
+        setRefreshing( true );
+    }, []);
 
     useEffect( () => {
         setTabBarVisiblity(false);
@@ -60,6 +68,12 @@ const WatchLifterProfileReels: React.FC<Props> = ({ navigation, route }) => {
         const setUp = async () => {
             await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
 
+            if ( route.params?.viewToShow && scrollViewRef ) {
+                let { viewToShow } = route.params;
+
+                setView( viewToShow || "reels" );
+            }
+
             if ( route.params?.scrollToReel && scrollViewRef && loading === false ) {
                 let { scrollToReel } = route.params;
 
@@ -75,7 +89,11 @@ const WatchLifterProfileReels: React.FC<Props> = ({ navigation, route }) => {
 
     useEffect(() => {
         scrollViewRef.current?.scrollTo({ ...scrollPos });
-    }, [ scrollPos ])
+    }, [ scrollPos ]);
+
+    useEffect(() => {
+        setRefreshing(loading);
+    }, [ data ]);
 
     if (loading) return <AppLayout backgroundColor="black"><Loading /></AppLayout>;
 
@@ -103,9 +121,12 @@ const WatchLifterProfileReels: React.FC<Props> = ({ navigation, route }) => {
                         }
                     }
                 }
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
             >
                 {
-                    data?.reels.map((reel, index) => (
+                    data?.[view == "reels" ? "reels" : "reelsSaves"].map((reel, index) => (
                         <UserProfileReels 
                             key={`lifter-reels-${index}`}
 

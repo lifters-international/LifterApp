@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
-import { Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, View, Image, ScrollView, TouchableOpacity, RefreshControl } from 'react-native';
 
-import { Entypo, Feather } from '@expo/vector-icons';
+import { Entypo, Feather, MaterialIcons, Ionicons } from '@expo/vector-icons';
 
 import { AppLayout, Button, Loading } from "../components";
 import { NavigationProp } from "@react-navigation/native";
@@ -19,7 +19,23 @@ interface Props {
 const Profile: React.FC<Props> = ({ navigation }) => {
     const { token } = useSelector( ( state: any ) => state.Auth );
 
-    const { loading, errors, data } = useLoggedInUserHomePage(token);
+    const [refreshing, setRefreshing] = useState(false);
+
+    const { loading, errors, data } = useLoggedInUserHomePage(token, refreshing);
+
+    const [ view, setView ] = useState<"saved" | "reels">("reels");
+
+    const onRefresh = useCallback(() => {
+        setRefreshing( true );
+    }, []);
+ 
+    useEffect(() => {
+        setRefreshing(true);
+    }, [ view ]);
+
+    useEffect(() => {
+        setRefreshing(loading);
+    }, [ data ]);
 
     if ( loading ) return <AppLayout backgroundColor="black"><Loading /></AppLayout>;
 
@@ -35,8 +51,12 @@ const Profile: React.FC<Props> = ({ navigation }) => {
 
     return (
         <AppLayout backgroundColor="black">
-            <ScrollView>
-                <View style={{ marginTop: verticalScale(20), borderBottomWidth: moderateScale(0.5), borderBottomColor: "#3c3b3b" }}>
+            <ScrollView
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
+            >
+                <View style={{ marginTop: verticalScale(20) }}>
                     <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                         <Feather name="plus-square" size={moderateScale(30)} color="#FF3636" style={{ marginLeft: moderateScale(20) }} onPress={ () => navigation.navigate("CreateReels") } />
                         <Entypo name="dots-three-vertical" size={moderateScale(30)} color="#FF3636"  />
@@ -76,32 +96,91 @@ const Profile: React.FC<Props> = ({ navigation }) => {
                     />
                 </View>
 
-                <View style={{ marginBottom: moderateScale(100), marginTop: moderateScale(15) }}>
-                    {
-                        ( turnArrayIntoDimensionalArray(data!.reels) as { id: string, video_url: string }[][]).map( ( row, index ) => (
-                            <View key={`profile-reel-row${index}`} style={{ display: "flex", flexDirection: "row" }}>
-                                {
-                                    row.map( ( reel, index ) => (
-                                        <TouchableOpacity key={`profile-reel-row-reel-${index}`}
-                                            onPress={
-                                                () => {
-                                                    navigation.navigate("WatchLifterProfileReels", { scrollToReel: reel.id })
-                                                }
-                                            }
-                                        >
-                                            <Video
-                                                source={ returnImageSource(reel.video_url) }
-                                                style={{ width: scale(120), height: verticalScale(180), borderRadius: moderateScale(10) }}
-                                                resizeMode={ResizeMode.STRETCH}
-                                                useNativeControls={false}
-                                            />
-                                        </TouchableOpacity>
-                                    ))
-                                }
-                            </View>
-                        ))
-                    }
+                <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginTop: moderateScale(15), borderBottomWidth: moderateScale(1), borderBottomColor: "#FF3636" }}>
+                    <View
+                        style={{
+                            position: "relative", 
+                            left: scale(60),
+                            marginBottom: moderateScale(10), 
+                            ...(view === "reels" ? { borderBottomColor: "#FF3636", borderBottomWidth: moderateScale(1) } : {} ) 
+                        }}
+                    >
+                        <MaterialIcons name="widgets" size={moderateScale(40)} color="#FF3636" style={ view === "reels" ? { marginBottom: moderateScale(10) } : undefined } onPress={ () => setView("reels") }/>
+                    </View>
+
+                    <View
+                        style={{
+                            position: "relative", 
+                            right: scale(50),
+                            marginBottom: moderateScale(10), 
+                            ...(view === "saved" ? { borderBottomColor: "#FF3636", borderBottomWidth: moderateScale(1) } : {} ) 
+                        }}
+                    >
+                        <Ionicons name="bookmark" size={moderateScale(40)} color="#FF3636" style={ view === "saved" ? { marginBottom: moderateScale(10) } : undefined } onPress={ () => setView("saved") }/>
+                    </View>
                 </View>
+
+                {
+                    view == "reels" && (
+                        <View style={{ marginBottom: moderateScale(100), marginTop: moderateScale(15) }}>
+                            {
+                                ( turnArrayIntoDimensionalArray(data!.reels) as { id: string, video_url: string }[][]).map( ( row, index ) => (
+                                    <View key={`profile-reel-row${index}`} style={{ display: "flex", flexDirection: "row" }}>
+                                        {
+                                            row.map( ( reel, index ) => (
+                                                <TouchableOpacity key={`profile-reel-row-reel-${index}`}
+                                                    onPress={
+                                                        () => {
+                                                            navigation.navigate("WatchLifterProfileReels", { scrollToReel: reel.id, viewToShow: "reels" })
+                                                        }
+                                                    }
+                                                >
+                                                    <Video
+                                                        source={ returnImageSource(reel.video_url) }
+                                                        style={{ width: scale(120), height: verticalScale(180), borderRadius: moderateScale(10) }}
+                                                        resizeMode={ResizeMode.STRETCH}
+                                                        useNativeControls={false}
+                                                    />
+                                                </TouchableOpacity>
+                                            ))
+                                        }
+                                    </View>
+                                ))
+                            }
+                        </View>
+                    )
+                }
+
+                {
+                    view == "saved" && (
+                        <View style={{ marginBottom: moderateScale(100), marginTop: moderateScale(15) }}>
+                            {
+                                ( turnArrayIntoDimensionalArray(data!.reelsSaves) as { id: string, video_url: string }[][]).map( ( row, index ) => (
+                                    <View key={`profile-reel-row${index}`} style={{ display: "flex", flexDirection: "row" }}>
+                                        {
+                                            row.map( ( reel, index ) => (
+                                                <TouchableOpacity key={`profile-reel-row-reel-${index}`}
+                                                    onPress={
+                                                        () => {
+                                                            navigation.navigate("WatchLifterProfileReels", { scrollToReel: reel.id, viewToShow: "saved" })
+                                                        }
+                                                    }
+                                                >
+                                                    <Video
+                                                        source={ returnImageSource(reel.video_url) }
+                                                        style={{ width: scale(120), height: verticalScale(180), borderRadius: moderateScale(10) }}
+                                                        resizeMode={ResizeMode.STRETCH}
+                                                        useNativeControls={false}
+                                                    />
+                                                </TouchableOpacity>
+                                            ))
+                                        }
+                                    </View>
+                                ))
+                            }
+                        </View>
+                    )
+                }
             </ScrollView>
         </AppLayout>
     )

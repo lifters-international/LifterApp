@@ -9,6 +9,11 @@ export const getLoggedInUserHomePageDetails = `
                 video_url
                 caption
             }
+            reelsSaves {
+                id
+                video_url
+                caption
+            }
             username
             profilePicture
             bio
