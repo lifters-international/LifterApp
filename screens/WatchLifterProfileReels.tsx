@@ -23,7 +23,11 @@ const WatchLifterProfileReels: React.FC<Props> = ({ navigation, route }) => {
 
     const [refreshing, setRefreshing] = useState(false);
 
-    const { loading, errors, data, subscribeToEvent, unSubscribeToEvent, postComment, shareReel, getParentComments, getReelsInformation, likeReel, saveReel, updateCaption, deleteReel, downloadReel, askForChildren } = useWatchLifterProfileReels(token, refreshing);
+    const { 
+        loading, errors, data, subscribeToEvent, unSubscribeToEvent, postComment, shareReel, getParentComments, 
+        getReelsInformation, likeReel, saveReel, updateCaption, deleteReel, downloadReel, askForChildren, 
+        createViewHistory, updateViewHistory
+    } = useWatchLifterProfileReels(token, refreshing);
 
     const [ view, setView ] = useState<"saved" | "reels">("reels");
 
@@ -154,7 +158,9 @@ const WatchLifterProfileReels: React.FC<Props> = ({ navigation, route }) => {
                                 disableScroll: () => setScrollEnabled(false),
                                 toggleMuteVideo: ( mute?: boolean ) => setMuteVideo(mute || !isVideoMuted),
                                 postComment,
-                                shareReel
+                                shareReel,
+                                createViewHistory,
+                                updateViewHistory
                             }}
 
                             reel={reel}

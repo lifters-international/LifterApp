@@ -84,6 +84,25 @@ export type GetLoggedInUserHomePageDetails = {
     following: number;
 }
 
+export type ReelsMangerListener = {
+    id: string;
+    emit: (args?: any) => void;
+}
+
+
+export enum ReelsManagerListenerEvents {
+    newReelLike = "newReelLike",
+    newReelSave = "newReelSave",
+    reelCaptionUpdated = "reelCaptionUpdated",
+    reelInformationResponse = "reelInformationResponse",
+    parentComments = "parentComments",
+    childComments = "childComments",
+    newComment = "newComment",
+    newChildComment = "newChildComment",
+    newReelShare = "newReelShare",
+    viewHistoryToken = "viewHistoryToken"
+};
+
 export const saveToStore =  async (key: string, value: string) => {
     await SecureStore.setItemAsync(key, value);
 }

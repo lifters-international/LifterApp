@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, TextInput, Text, ScrollView, Alert } from "react-native";
-import { useIsFocused } from "@react-navigation/native";
 import { NavigationProp } from "@react-navigation/native";
 
 import { useSelector } from "react-redux";

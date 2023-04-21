@@ -7,12 +7,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { useSelector } from "react-redux";
 
-import { Home, Heart, ClientMessageBox, TrainersDetails, UserTrainers, WatchTrainerVideo, BecomeClient, Profile, ProfileSettings, CreateReels, WatchLifterProfileReels, PasswordChange, DeleteAccount, FoodScreen, FoodCreate, FoodAnalystics, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
+import { Home, Reels, ClientMessageBox, TrainersDetails, UserTrainers, WatchTrainerVideo, BecomeClient, Profile, ProfileSettings, CreateReels, WatchLifterProfileReels, PasswordChange, DeleteAccount, FoodScreen, FoodCreate, FoodAnalystics, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
 import { View, ImageBackground, ActivityIndicator } from "react-native";
 import { getFromStore, scale, verticalScale, moderateScale } from "../utils";
 import { useAppDispatch } from "../redux";
 import { VerifyToken, setToken, logIn, LoginAsyncThunkResult, setAppReady, setAuthState } from "../redux/features/auth";
-import { Ionicons, FontAwesome5, FontAwesome, AntDesign } from '@expo/vector-icons';
+import { Ionicons, FontAwesome5, FontAwesome, Octicons } from '@expo/vector-icons';
 import { TabBar } from './Tab';
 
 import { StripeProvider } from '@stripe/stripe-react-native';
@@ -24,6 +24,8 @@ const HomeStack = createNativeStackNavigator();
 
 const MessagesStack = createNativeStackNavigator();
 const TrainersStack = createNativeStackNavigator();
+
+const ReelsStack = createNativeStackNavigator();
 
 const TrainersStackScreen = () => {
     return (
@@ -78,6 +80,14 @@ const FoodStackScreen = () => {
             <FoodStack.Screen name="FoodAnalystics" component={FoodAnalystics} options={{ headerShown: false }} />
         </FoodStack.Navigator>
     );
+}
+
+const ReelsScreen = () => {
+    return (
+        <ReelsStack.Navigator>
+            <ReelsStack.Screen name="reels" component={Reels} options={{ headerShown: false }} />
+        </ReelsStack.Navigator>
+    )
 }
 
 function TabNavigator() {
@@ -139,15 +149,15 @@ function TabNavigator() {
                     },
 
                     {
-                        name: "Heart",
-                        component: <Heart />,
+                        name: "Reels",
+                        component: <ReelsScreen />,
                         options: {
                             label: "Home",
                             icon: ({ focus }) => {
                                 return (
                                     <View>
-                                        <AntDesign
-                                            name="heart"
+                                        <Octicons
+                                            name="video"
                                             size={moderateScale(30)}
                                             color={focus ? "#FF3636" : "#5e5c5c"}
                                             style={{

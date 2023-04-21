@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { View, Text, Image, ScrollView, TextInput, TouchableOpacity, Alert, Platform, Linking, Share } from "react-native";
 
 import { ResizeMode, Video } from "expo-av";
-import { WatchLifterProfileReelsComments, GetLoggedInUserHomePageDetailsReels, WatchLifterProfileReelsCommentsChildren, moderateScale, returnImageSource, scale, shortenNumber, shortenText, verticalScale } from "../utils";
+import { WatchLifterProfileReelsComments, GetLoggedInUserHomePageDetailsReels, WatchLifterProfileReelsCommentsChildren, moderateScale, returnImageSource, scale, shortenNumber, shortenText, verticalScale, ReelsManagerListenerEvents } from "../utils";
 
-import { MangerListener, ManagerListenerEvents } from "../hooks";
+import { MangerListener } from "../hooks";
 
 import { AntDesign, FontAwesome, FontAwesome5, MaterialCommunityIcons, Ionicons, EvilIcons, Feather, Entypo } from '@expo/vector-icons';
 
@@ -48,8 +48,10 @@ type Props = {
         disableScroll?: () => void;
         enableScroll?: () => void;
         shareReel: (reel: string, userId: string) => void;
-        subscribeToEvent: (event: ManagerListenerEvents, listener: MangerListener) => void;
-        unSubscribeToEvent: (event: ManagerListenerEvents, id: string) => void;
+        subscribeToEvent: (event: ReelsManagerListenerEvents, listener: MangerListener) => void;
+        unSubscribeToEvent: (event: ReelsManagerListenerEvents, id: string) => void;
+        createViewHistory: ( reel: string, userId: string ) => void;
+        updateViewHistory: ( reel: string, userId: string, time: number ) => void;
     };
 
     reel: GetLoggedInUserHomePageDetailsReels;
@@ -78,6 +80,10 @@ export const UserProfileReels: React.FC<Props> = ({ reel, functions, componentDa
     const [toggleSaveDownload, setToggleSaveDownload] = useState(false);
 
     const [commentText, setCommentText] = useState("");
+
+    const [ viewHistoryToken, setViewHistoryToken ] = useState("");
+
+    const [ secondsWatched, setSecondsWatched ] = useState(0);
 
     const DOUBLE_PRESS_DELAY = 200;
 
@@ -134,7 +140,11 @@ export const UserProfileReels: React.FC<Props> = ({ reel, functions, componentDa
     }, [commentUp]);
 
     useEffect(() => {
-        functions.subscribeToEvent(ManagerListenerEvents.reelInformationResponse, {
+        functions.updateViewHistory(reelData.id, componentData.userId, secondsWatched );
+    }, [ secondsWatched ]);
+
+    useEffect(() => {
+        functions.subscribeToEvent(ReelsManagerListenerEvents.reelInformationResponse, {
             id: reelData.id,
             emit: (reelsInformation: { reel: string, likeCount: number, commentsCount: number, sharesCount: number, savesCount: number, downloadsCount: number, ownerProfilePicture: string, ownerName: string, userLiked: boolean, userSaved: boolean }) => {
                 setReelData(
@@ -147,7 +157,7 @@ export const UserProfileReels: React.FC<Props> = ({ reel, functions, componentDa
             }
         });
 
-        functions.subscribeToEvent(ManagerListenerEvents.newReelLike, {
+        functions.subscribeToEvent(ReelsManagerListenerEvents.newReelLike, {
             id: reelData.id,
             emit: (reelLikeEvent: { reel: string, userId: string, like: boolean }) => {
                 setReelData(
@@ -167,7 +177,7 @@ export const UserProfileReels: React.FC<Props> = ({ reel, functions, componentDa
             }
         });
 
-        functions.subscribeToEvent(ManagerListenerEvents.newReelSave, {
+        functions.subscribeToEvent(ReelsManagerListenerEvents.newReelSave, {
             id: reelData.id,
             emit: (reelLikeSave: { reel: string, userId: string, save: boolean }) => {
                 setReelData(
@@ -187,7 +197,7 @@ export const UserProfileReels: React.FC<Props> = ({ reel, functions, componentDa
             }
         });
 
-        functions.subscribeToEvent(ManagerListenerEvents.reelCaptionUpdated, {
+        functions.subscribeToEvent(ReelsManagerListenerEvents.reelCaptionUpdated, {
             id: reelData.id,
             emit: (reelsCaptionUpdatedEvent: { reel: string, caption: string }) => {
                 setReelData(
@@ -199,7 +209,7 @@ export const UserProfileReels: React.FC<Props> = ({ reel, functions, componentDa
             }
         });
 
-        functions.subscribeToEvent(ManagerListenerEvents.parentComments, {
+        functions.subscribeToEvent(ReelsManagerListenerEvents.parentComments, {
             id: reelData.id,
             emit: (parentCommentsEvent: { reel: string, comments: WatchLifterProfileReelsComments[] }) => {
                 setCommentsLoading(false);
@@ -209,7 +219,7 @@ export const UserProfileReels: React.FC<Props> = ({ reel, functions, componentDa
             }
         });
 
-        functions.subscribeToEvent(ManagerListenerEvents.childComments, {
+        functions.subscribeToEvent(ReelsManagerListenerEvents.childComments, {
             id: reelData.id,
             emit: ( childCommentsEvent: { reel: string, parentComment: string, childComments: WatchLifterProfileReelsCommentsChildren[] } ) => {
                 setComments(
@@ -224,7 +234,7 @@ export const UserProfileReels: React.FC<Props> = ({ reel, functions, componentDa
             }
         });
 
-        functions.subscribeToEvent(ManagerListenerEvents.newComment, {
+        functions.subscribeToEvent(ReelsManagerListenerEvents.newComment, {
             id: reelData.id,
             emit: ( newCommentEvent: { id: string, comment: string, reel: string, user : string, liftersProfilePicture: string, liftersName: string, updated_at: number } ) => {
                 setComments( prev => ({
@@ -248,7 +258,7 @@ export const UserProfileReels: React.FC<Props> = ({ reel, functions, componentDa
             }
         });
 
-        functions.subscribeToEvent(ManagerListenerEvents.newChildComment, {
+        functions.subscribeToEvent(ReelsManagerListenerEvents.newChildComment, {
             id: reelData.id,
             emit: ( newChildCommentEvent : { id: string, comment: string, reel: string, user : string, liftersProfilePicture: string, liftersName: string, updated_at: number, parentId: string, parent: string, ancestorId: string } ) => {
                 setComments( prev => ({
@@ -280,7 +290,7 @@ export const UserProfileReels: React.FC<Props> = ({ reel, functions, componentDa
             }
         });
 
-        functions.subscribeToEvent(ManagerListenerEvents.newReelShare, {
+        functions.subscribeToEvent(ReelsManagerListenerEvents.newReelShare, {
             id: reelData.id,
             emit: ( newReelShareEvent : { reel: string }) => {
                 setReelData(
@@ -290,26 +300,40 @@ export const UserProfileReels: React.FC<Props> = ({ reel, functions, componentDa
                     })
                 )
             }
-        })
+        });
+
+        functions.subscribeToEvent(ReelsManagerListenerEvents.viewHistoryToken, {
+            id: reelData.id,
+            emit: ( viewHistoryTokenEvent: { reel: string, token: string }) => {
+                setViewHistoryToken( viewHistoryTokenEvent.token );
+            }
+        });
 
         functions.getReelsInformation(reelData.id, componentData.userId);
+        functions.createViewHistory(reelData.id, componentData.userId);
+
+        const interval = setInterval( () => setSecondsWatched( prev => prev + 1 ), 1000 );
 
         return () => {
-            functions.unSubscribeToEvent(ManagerListenerEvents.reelInformationResponse, reelData.id);
+            functions.unSubscribeToEvent(ReelsManagerListenerEvents.reelInformationResponse, reelData.id);
     
-            functions.unSubscribeToEvent(ManagerListenerEvents.newReelLike, reelData.id);
+            functions.unSubscribeToEvent(ReelsManagerListenerEvents.newReelLike, reelData.id);
     
-            functions.unSubscribeToEvent(ManagerListenerEvents.newReelSave, reelData.id);
+            functions.unSubscribeToEvent(ReelsManagerListenerEvents.newReelSave, reelData.id);
     
-            functions.unSubscribeToEvent(ManagerListenerEvents.reelCaptionUpdated, reelData.id);
+            functions.unSubscribeToEvent(ReelsManagerListenerEvents.reelCaptionUpdated, reelData.id);
     
-            functions.unSubscribeToEvent(ManagerListenerEvents.parentComments, reelData.id);
+            functions.unSubscribeToEvent(ReelsManagerListenerEvents.parentComments, reelData.id);
     
-            functions.unSubscribeToEvent(ManagerListenerEvents.childComments, reelData.id);
+            functions.unSubscribeToEvent(ReelsManagerListenerEvents.childComments, reelData.id);
     
-            functions.unSubscribeToEvent(ManagerListenerEvents.newComment, reelData.id);
+            functions.unSubscribeToEvent(ReelsManagerListenerEvents.newComment, reelData.id);
     
-            functions.unSubscribeToEvent(ManagerListenerEvents.newChildComment, reelData.id)
+            functions.unSubscribeToEvent(ReelsManagerListenerEvents.newChildComment, reelData.id);
+
+            functions.unSubscribeToEvent(ReelsManagerListenerEvents.viewHistoryToken, reelData.id);
+
+            clearInterval(interval);
         }
     }, []);
 

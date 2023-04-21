@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 
-import { fetchGraphQl, GetLoggedInUserHomePageDetails, GraphqlError, socket, WatchLifterProfileReelsComments, WatchLifterProfileReelsCommentsChildren } from "../utils";
+import { fetchGraphQl, ReelsManagerListenerEvents, ReelsMangerListener, GetLoggedInUserHomePageDetails, GraphqlError, socket, WatchLifterProfileReelsComments, WatchLifterProfileReelsCommentsChildren } from "../utils";
 
 import { getLoggedInUserHomePageDetails } from "../graphQlQuieries";
 
@@ -17,24 +17,9 @@ export type WatchLifterProfileReelsDetailsState = {
     getParentComments: (reel: string) => void;
     askForChildren: (reel: string, parentComment: string) => void;
     postComment: ( reel: string, userId: string, comment: string, parentId?: string ) => void;
+    createViewHistory: ( reel: string, userId: string ) => void;
+    updateViewHistory: ( reel: string, userId: string, time: number ) => void;
 }
-
-export type MangerListener = {
-    id: string;
-    emit: (args?: any) => void;
-}
-
-export enum ManagerListenerEvents {
-    newReelLike = "newReelLike",
-    newReelSave = "newReelSave",
-    reelCaptionUpdated = "reelCaptionUpdated",
-    reelInformationResponse = "reelInformationResponse",
-    parentComments = "parentComments",
-    childComments = "childComments",
-    newComment = "newComment",
-    newChildComment = "newChildComment",
-    newReelShare = "newReelShare"
-};
 
 export const useWatchLifterProfileReels = (token: string, refreshing: boolean ) => {
     const [state, setState] = useState<WatchLifterProfileReelsDetailsState>({
@@ -49,12 +34,14 @@ export const useWatchLifterProfileReels = (token: string, refreshing: boolean ) 
         downloadReel: (reel: string, userId: string) => { },
         getParentComments: (reel: string) => { },
         askForChildren: (reel: string, parentComment: string) => { },
-        postComment: ( reel: string, userId: string, comment: string, parentId?: string ) => { }
+        postComment: ( reel: string, userId: string, comment: string, parentId?: string ) => { },
+        createViewHistory: ( reel: string, userId: string ) => {},
+        updateViewHistory: ( reel: string, userId: string, time: number ) => {}
     });
 
     const [data, setData] = useState<GetLoggedInUserHomePageDetails | undefined>();
 
-    const socketManagerListener = useMemo<{ [ key in ManagerListenerEvents]: MangerListener[] }>(
+    const socketManagerListener = useMemo<{ [ key in ReelsManagerListenerEvents]: ReelsMangerListener[] }>(
         () => ({
             parentComments: [],
             reelInformationResponse: [],
@@ -64,7 +51,8 @@ export const useWatchLifterProfileReels = (token: string, refreshing: boolean ) 
             childComments: [],
             newComment: [],
             newChildComment: [],
-            newReelShare: []
+            newReelShare: [],
+            viewHistoryToken: []
         })    
     , []);
 
@@ -123,6 +111,14 @@ export const useWatchLifterProfileReels = (token: string, refreshing: boolean ) 
 
                         postComment: ( reel: string, userId: string, comment: string, parentId?: string ) => {
                             socket.reelsEmit("postComment", { reel, userId, comment, parentId });
+                        },
+
+                        createViewHistory: ( reel: string, userId: string ) => {
+                            socket.reelsEmit("createViewHistory", { reel, userId });
+                        },
+
+                        updateViewHistory: ( reel: string, userId: string, time: number ) => {
+                            socket.reelsEmit("updateViewTime", { reel, userId, time });
                         }
                     }));
 
@@ -172,6 +168,10 @@ export const useWatchLifterProfileReels = (token: string, refreshing: boolean ) 
             socketManagerListener.newReelShare.find( sub => sub.id === newReelShareEvent.reel )?.emit( newReelShareEvent );
         });
 
+        socket.onReels("viewHistoryToken", ( newViewHistoryTokenEvent : { token : string, reel: string }) => {
+            socketManagerListener.viewHistoryToken.find( sub => sub.id === newViewHistoryTokenEvent.reel )?.emit( newViewHistoryTokenEvent );
+        });
+
         socket.onReels("reelDeleted", (reelDeletedEvent: { reel: string }) => {
             setData(prev => ({
                 ...prev!,
@@ -195,12 +195,12 @@ export const useWatchLifterProfileReels = (token: string, refreshing: boolean ) 
 
         data,
 
-        subscribeToEvent: (event: ManagerListenerEvents, listener: MangerListener) => {
+        subscribeToEvent: (event: ReelsManagerListenerEvents, listener: ReelsMangerListener) => {
             socketManagerListener[event]?.push(listener);
         },
 
-        unSubscribeToEvent: (event: ManagerListenerEvents, id: string) => {
-            socketManagerListener[event] = ( socketManagerListener[event] as MangerListener[] ).filter( (sub) => sub.id !== id );
+        unSubscribeToEvent: (event: ReelsManagerListenerEvents, id: string) => {
+            socketManagerListener[event] = ( socketManagerListener[event] as ReelsMangerListener[] ).filter( (sub) => sub.id !== id );
         }
     };
 }
