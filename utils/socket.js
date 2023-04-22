@@ -1,11 +1,11 @@
 const { io } = require("socket.io-client");
 
 const getServerUrl = () => {
-    return process.env.NODE_ENV === "production" ? "https://server.lifters.app/" : "http://10.0.0.25:5000/";
+    return process.env.NODE_ENV === "production" ? "https://server.lifters.app/" : "http://192.168.1.74:5000/";
 }
 
 const getReelsServerUrl = () => {
-    return process.env.NODE_ENV === "production" ? "https://reels.lifters.app/" : "http://10.0.0.25:5050/";
+    return process.env.NODE_ENV === "production" ? "https://reels.lifters.app/" : "http://192.168.1.74:5050/";
 }
 
 const socketMessagesEvent = {

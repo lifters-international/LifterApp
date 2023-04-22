@@ -5,36 +5,40 @@ import { getSignedInUserQuery } from "../graphQlQuieries";
 
 export type ReelsDetailsState = {
     loading: boolean;
-    getReelsInformation: (reel: string) => void;
-    likeReel: (reel: string) => void;
-    saveReel: (reel: string) => void;
-    shareReel: (reel: string) => void;
-    updateCaption: (reel: string, caption: string) => void;
-    deleteReel: (reel: string) => void;
-    downloadReel: (reel: string) => void;
+    userId: string;
+    profilePicture: string;
+    getReelsInformation: (reel: string, userId: string) => void;
+    likeReel: (reel: string, userId: string) => void;
+    saveReel: (reel: string, userId: string) => void;
+    shareReel: (reel: string, userId: string) => void;
+    updateCaption: (reel: string, caption: string, userId: string) => void;
+    deleteReel: (reel: string, userId: string) => void;
+    downloadReel: (reel: string, userId: string) => void;
     getParentComments: (reel: string) => void;
     askForChildren: (reel: string, parentComment: string) => void;
-    postComment: (reel: string, comment: string, parentId?: string) => void;
+    postComment: ( reel: string, userId: string, comment: string, parentId?: string ) => void;
     createViewHistory: (reel: string) => void;
-    updateViewHistory: (reel: string, time: number) => void;
+    updateViewHistory: (reel: string, userId: string, time: number) => void;
     nextReel: (reelId?: string) => void;
 }
 
 export const useReels = (token: string, refreshing: boolean) => {
     const [state, setState] = useState<ReelsDetailsState>({
         loading: true,
-        getReelsInformation: (reel: string) => { },
-        likeReel: (reel: string) => { },
-        saveReel: (reel: string) => { },
-        shareReel: (reel: string) => { },
-        updateCaption: (reel: string, caption: string) => { },
-        deleteReel: (reel: string) => { },
-        downloadReel: (reel: string) => { },
+        userId: "",
+        profilePicture: "",
+        getReelsInformation: (reel: string, userId: string) => { },
+        likeReel: (reel: string, userId: string) => { },
+        saveReel: (reel: string, userId: string) => { },
+        shareReel: (reel: string, userId: string) => { },
+        updateCaption: (reel: string, caption: string, userId: string) => { },
+        deleteReel: (reel: string, userId: string) => { },
+        downloadReel: (reel: string, userId: string) => { },
         getParentComments: (reel: string) => { },
         askForChildren: (reel: string, parentComment: string) => { },
-        postComment: (reel: string, comment: string, parentId?: string) => { },
+        postComment: ( reel: string, userId: string, comment: string, parentId?: string ) => { },
         createViewHistory: (reel: string) => { },
-        updateViewHistory: (reel: string, time: number) => { },
+        updateViewHistory: (reel: string, userId: string, time: number) => { },
         nextReel: ( reelId?: string ) => { },
     });
 
@@ -62,38 +66,42 @@ export const useReels = (token: string, refreshing: boolean) => {
             const result = await fetchGraphQl(getSignedInUserQuery, { token });
             const data: { getUser: UserData } = result.data;
 
-            const userId = data.getUser.id;
+            const { id: userId, profilePicture } = data.getUser;
 
             // Start sending events
             setState(prev => ({
                 ...prev,
                 loading: false,
 
-                getReelsInformation: (reel: string) => {
+                userId,
+
+                profilePicture,
+
+                getReelsInformation: (reel: string, userId: string) => {
                     socket.reelsEmit("reelInformation", { reel, userId });
                 },
 
-                likeReel: (reel: string) => {
+                likeReel: (reel: string, userId: string) => {
                     socket.reelsEmit("likeReel", { reel, userId });
                 },
 
-                saveReel: (reel: string) => {
+                saveReel: (reel: string, userId: string) => {
                     socket.reelsEmit("saveReel", { reel, userId });
                 },
 
-                shareReel: (reel: string) => {
+                shareReel: (reel: string, userId: string) => {
                     socket.reelsEmit("shareReel", { reel, userId });
                 },
 
-                updateCaption: (reel: string, caption: string) => {
+                updateCaption: (reel: string, caption: string, userId: string) => {
                     socket.reelsEmit("updateCaption", { reel, caption, userId });
                 },
 
-                deleteReel: (reel: string) => {
+                deleteReel: (reel: string, userId: string) => {
                     socket.reelsEmit("deleteReel", { reel, userId });
                 },
 
-                downloadReel: (reel: string) => {
+                downloadReel: (reel: string, userId: string) => {
                     socket.reelsEmit("downloadReel", { reel, userId });
                 },
 
@@ -105,7 +113,7 @@ export const useReels = (token: string, refreshing: boolean) => {
                     socket.reelsEmit("getChildComments", { reel, parentComment });
                 },
 
-                postComment: (reel: string, comment: string, parentId?: string) => {
+                postComment: ( reel: string, userId: string, comment: string, parentId?: string ) => {
                     socket.reelsEmit("postComment", { reel, userId, comment, parentId });
                 },
 
@@ -113,12 +121,12 @@ export const useReels = (token: string, refreshing: boolean) => {
                     socket.reelsEmit("createViewHistory", { reel, userId });
                 },
 
-                updateViewHistory: (reel: string, time: number) => {
+                updateViewHistory: (reel: string, userId: string, time: number) => {
                     socket.reelsEmit("updateViewTime", { reel, userId, time });
                 },
 
                 nextReel: ( reelId?: string ) => {
-                    socket.reelsEmit("nextReel", { reelId: reelId || "", userId });
+                    socket.reelsEmit("nextReelReco", { reelId: reelId || "", userId });
                 },
             }));
 
@@ -134,13 +142,12 @@ export const useReels = (token: string, refreshing: boolean) => {
     useEffect(() => {
         // render gotten reels
         socket.onReels("initialRecommendedReels", ( reelsEvent : GetLoggedInUserHomePageDetailsReels[] ) => {
-            console.log(reelsEvent);
             setReels(reelsEvent);
         });
 
-        socket.onReels("reelRecommendation", ( newReelsEvent : GetLoggedInUserHomePageDetailsReels ) => {
+        socket.onReels("reelRecommendation", ( newReelsEvent : GetLoggedInUserHomePageDetailsReels[] ) => {
             setReels( prev => {
-                prev.push(newReelsEvent);
+                prev.push(...newReelsEvent);
                 return prev;
             })
         })

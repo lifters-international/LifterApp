@@ -11,7 +11,7 @@ export const getApiUrl = () => {
 }
 
 export const getWSApiUrl = () => {
-    return  `wss://${process.env.NODE_ENV === "production" ? "server.lifters.app" : "10.0.0.152:5000"}/graphql`;
+    return  `wss://${process.env.NODE_ENV === "production" ? "server.lifters.app" : "192.168.1.74:5000"}/graphql`;
 }
 
 export const getImageUploadApi = () => {
@@ -23,7 +23,7 @@ export const getReelsUploadApi = () => {
 }
 
 export const getServerUrl = () => {
-    return process.env.NODE_ENV === "production" ? "https://server.lifters.app/" : "http://10.0.0.152:5000/";
+    return process.env.NODE_ENV === "production" ? "https://server.lifters.app/" : "http://192.168.1.74:5000/";
 }
 
 export const fetchGraphQl = async (query: string, variables: any): Promise<GraphqlFetchResult> => {

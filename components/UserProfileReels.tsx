@@ -28,6 +28,7 @@ type Props = {
         usersProfilePicture: string;
         shouldPlay: boolean;
         isVideoMuted: boolean;
+        track: boolean;
         allowEdit?: boolean;
         allowDelete?: boolean;
     };

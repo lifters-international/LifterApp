@@ -1,39 +1,154 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, View, TextInput, Text, ScrollView, Alert } from "react-native";
-import { NavigationProp } from "@react-navigation/native";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { ScrollView, RefreshControl } from "react-native";
+import { NavigationProp, RouteProp } from "@react-navigation/native";
+
+import { Audio } from "expo-av";
 
 import { useSelector } from "react-redux";
 
-import { Ionicons, Zocial } from '@expo/vector-icons';
-
-import { Loading, AppLayout, VideoSummary } from "../components";
+import { Loading, AppLayout, UserProfileReels } from "../components";
 
 import { useReels } from "../hooks";
-import { scale, moderateScale, verticalScale } from "../utils";
+import { scale, verticalScale } from "../utils";
 
 import { useTabBarContext } from "../navigation/Tab";
 
 interface Props {
     navigation: NavigationProp<any>;
+    route: RouteProp<any>;
 }
 
-const Reels: React.FC<Props> = ({ navigation }) => {
+const Reels: React.FC<Props> = ({ navigation, route }) => {
     const { token } = useSelector(( state : any ) => state.Auth);
     const [refreshing, setRefreshing] = useState(false);
 
     const { 
         loading, reels, subscribeToEvent, unSubscribeToEvent, postComment, shareReel, getParentComments, 
         getReelsInformation, likeReel, saveReel, updateCaption, deleteReel, downloadReel, askForChildren, 
-        createViewHistory, updateViewHistory
+        createViewHistory, updateViewHistory, userId, profilePicture, nextReel
     } = useReels(token, refreshing);
 
-    console.log( reels );
+    const scrollViewRef = useRef<ScrollView>(null);
+
+    const [ scrollPos, setScrollPos ] = useState<{ x: number, y: number, animate: boolean }>({ x: 0, y: 0, animate: true });
+
+    const [ scrollEnabled, setScrollEnabled ] = useState(true);
+
+    const { setTabBarVisiblity } = useTabBarContext();
+
+    const [ isVideoMuted, setMuteVideo ] = useState(false);
+
+    const onRefresh = useCallback(() => {
+        setRefreshing( true );
+    }, []);
+
+    useEffect( () => {
+        setTabBarVisiblity(false);
+
+        return () => {
+            return setTabBarVisiblity(true);
+        }
+    }, []);
+
+    const moveToY = ( val : number, animate = true ) => {
+        let max = ( ( ( reels.length || 1 ) - 1 )  * verticalScale(660) );
+
+        setScrollPos( prev => ({
+            ...prev,
+            y: val <= max && val >= 0 ? val :
+                val > max ? max : 0,
+            animate
+        }));
+
+        if ( !animate ) {
+            setScrollPos( prev => ({ ...prev, animate: true }));
+        }
+    }
+
+    useEffect( () => {
+        const setUp = async () => {
+            await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
+
+            if ( route.params?.scrollToReel && scrollViewRef && loading === false ) {
+                let { scrollToReel } = route.params;
+
+                let yIndex = reels.findIndex( r => r.id === scrollToReel ) || 0;
+
+                if ( yIndex != 0 ) moveToY(yIndex * verticalScale(660), false );
+            }
+        }
+
+        setUp();
+
+    }, [ scrollViewRef, navigation, loading ]);
+
+    useEffect(() => {
+        setRefreshing(loading);
+    }, [ reels ]);
+
+    if (loading) return <AppLayout backgroundColor="black"><Loading /></AppLayout>;
 
     return (
         <AppLayout backgroundColor="black">
-            <View>
+            <ScrollView
+                ref={scrollViewRef}
+                scrollEnabled={scrollEnabled}
+                onScrollEndDrag={
+                    ( event ) => {
+                        if ( event.nativeEvent.velocity!.y < 0 ) {
+                            moveToY(scrollPos.y - verticalScale(660));
+                            setTabBarVisiblity(true)
+                        }else if ( event.nativeEvent.velocity!.y > 0 ) {
+                            setTabBarVisiblity(false)
+                            moveToY(scrollPos.y + verticalScale(660));
+                            nextReel( reels[ reels.length - 1 ]?.id );
+                        }
+                    }
+                }
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
+            >
+                {
+                    reels.map((reel, index) => (
+                        <UserProfileReels 
+                            key={`lifter-reels-${index}`}
 
-            </View>
+                            componentData={{
+                                userId,
+                                usersProfilePicture: profilePicture,
+                                shouldPlay: scrollPos.y / verticalScale(660) === index,
+                                isVideoMuted,
+                                allowEdit: true,
+                                allowDelete: true,
+                                track: true
+                            }}
+
+                            functions={{
+                                getReelsInformation,
+                                likeReel,
+                                saveReel,
+                                updateCaption,
+                                getParentComments,
+                                deleteReel,
+                                downloadReel,
+                                askForChildren,
+                                subscribeToEvent, 
+                                unSubscribeToEvent,
+                                enableScroll: () => setScrollEnabled(true),
+                                disableScroll: () => setScrollEnabled(false),
+                                toggleMuteVideo: ( mute?: boolean ) => setMuteVideo(mute || !isVideoMuted),
+                                postComment,
+                                shareReel,
+                                createViewHistory,
+                                updateViewHistory
+                            }}
+
+                            reel={reel}
+                        />
+                    ))
+                }
+            </ScrollView>
         </AppLayout>
     )
 }

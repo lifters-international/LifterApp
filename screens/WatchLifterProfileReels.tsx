@@ -140,7 +140,8 @@ const WatchLifterProfileReels: React.FC<Props> = ({ navigation, route }) => {
                                 shouldPlay: scrollPos.y / verticalScale(660) === index,
                                 isVideoMuted,
                                 allowEdit: true,
-                                allowDelete: true
+                                allowDelete: true,
+                                track: view == "saved"
                             }}
 
                             functions={{
