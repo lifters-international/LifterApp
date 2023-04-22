@@ -28,7 +28,7 @@ const Splash: React.FC<Props> = ({ navigation }) => {
 
                     <Text style={styles.logoText}>LIFTERS</Text>
 
-                    <Text style={styles.moto}>HOME FOR ALL THINGS GYM</Text>
+                    <Text style={styles.moto}>HOME FOR ALL GYM PEOPLE</Text>
 
                     <View>
                         <LinearGradient

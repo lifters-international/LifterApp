@@ -8,7 +8,7 @@ import { Ionicons, Zocial } from '@expo/vector-icons';
 
 import { Loading, AppLayout, VideoSummary } from "../components";
 
-import { useNotifications, useSearchVideo } from "../hooks";
+import { useReels } from "../hooks";
 import { scale, moderateScale, verticalScale } from "../utils";
 
 import { useTabBarContext } from "../navigation/Tab";
@@ -19,6 +19,15 @@ interface Props {
 
 const Reels: React.FC<Props> = ({ navigation }) => {
     const { token } = useSelector(( state : any ) => state.Auth);
+    const [refreshing, setRefreshing] = useState(false);
+
+    const { 
+        loading, reels, subscribeToEvent, unSubscribeToEvent, postComment, shareReel, getParentComments, 
+        getReelsInformation, likeReel, saveReel, updateCaption, deleteReel, downloadReel, askForChildren, 
+        createViewHistory, updateViewHistory
+    } = useReels(token, refreshing);
+
+    console.log( reels );
 
     return (
         <AppLayout backgroundColor="black">

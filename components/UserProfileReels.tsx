@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, Image, ScrollView, TextInput, TouchableOpacity, Alert, Platform, Linking, Share } from "react-native";
 
 import { ResizeMode, Video } from "expo-av";
-import { WatchLifterProfileReelsComments, GetLoggedInUserHomePageDetailsReels, WatchLifterProfileReelsCommentsChildren, moderateScale, returnImageSource, scale, shortenNumber, shortenText, verticalScale, ReelsManagerListenerEvents } from "../utils";
-
-import { MangerListener } from "../hooks";
+import { WatchLifterProfileReelsComments, ReelsMangerListener, GetLoggedInUserHomePageDetailsReels, WatchLifterProfileReelsCommentsChildren, moderateScale, returnImageSource, scale, shortenNumber, shortenText, verticalScale, ReelsManagerListenerEvents } from "../utils";
 
 import { AntDesign, FontAwesome, FontAwesome5, MaterialCommunityIcons, Ionicons, EvilIcons, Feather, Entypo } from '@expo/vector-icons';
 
@@ -48,7 +46,7 @@ type Props = {
         disableScroll?: () => void;
         enableScroll?: () => void;
         shareReel: (reel: string, userId: string) => void;
-        subscribeToEvent: (event: ReelsManagerListenerEvents, listener: MangerListener) => void;
+        subscribeToEvent: (event: ReelsManagerListenerEvents, listener: ReelsMangerListener) => void;
         unSubscribeToEvent: (event: ReelsManagerListenerEvents, id: string) => void;
         createViewHistory: ( reel: string, userId: string ) => void;
         updateViewHistory: ( reel: string, userId: string, time: number ) => void;
