@@ -45,7 +45,7 @@ export const fetchGraphQl = async (query: string, variables: any): Promise<Graph
 export declare type WatchLifterProfileReelsCommentsChildren = {
     id: string;
     comment: string;
-    liftersId: string;
+    userId: string;
     liftersName: string;
     liftersProfilePicture: string;
     updated_at: number;
@@ -82,6 +82,18 @@ export type GetLoggedInUserHomePageDetails = {
     reelsSaves: GetLoggedInUserHomePageDetailsReels[];
     followers: number;
     following: number;
+}
+
+export type GetProfiledUserProfileDetails = {
+    id: string;
+    username: string;
+    profilePicture: string;
+    bio: string;
+    reels: GetLoggedInUserHomePageDetailsReels[];
+    followers: number;
+    following: number;
+    isUserFollowing: boolean;
+    isUserMatched: boolean;
 }
 
 export type ReelsMangerListener = {

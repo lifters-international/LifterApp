@@ -2,40 +2,43 @@ import React, { useCallback, useEffect, useState } from "react";
 
 import { Text, View, Image, ScrollView, TouchableOpacity, RefreshControl } from 'react-native';
 
-import { Entypo, Feather, MaterialIcons, Ionicons } from '@expo/vector-icons';
+import { Entypo, Feather } from '@expo/vector-icons';
 
 import { AppLayout, Button, Loading } from "../components";
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, RouteProp } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 
 import { scale, verticalScale, moderateScale, returnImageSource, shortenText, shortenNumber, turnArrayIntoDimensionalArray } from "../utils";
-import { useLoggedInUserHomePage } from "../hooks";
+import { useProfiledUserProfile } from "../hooks";
 import { ResizeMode, Video } from "expo-av";
 
 interface Props {
     navigation: NavigationProp<any>;
+    route: RouteProp<any>;
 }
 
-const Profile: React.FC<Props> = ({ navigation }) => {
+const UserProfilePage: React.FC<Props> = ({ navigation, route }) => {
     const { token } = useSelector((state: any) => state.Auth);
 
     const [refreshing, setRefreshing] = useState(false);
 
-    const { loading, errors, data } = useLoggedInUserHomePage(token, refreshing);
+    const [profiledUserId, setProfiledUser] = useState("");
 
-    const [view, setView] = useState<"saved" | "reels">("reels");
+    const { loading, errors, data, matchUnmantch, followUnfollow } = useProfiledUserProfile(token, profiledUserId, refreshing);
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
     }, []);
 
     useEffect(() => {
-        setRefreshing(true);
-    }, [view]);
-
-    useEffect(() => {
         setRefreshing(loading);
     }, [data]);
+
+    useEffect(() => {
+        if (route.params?.userId) {
+            setProfiledUser(route.params.userId);
+        }
+    }, []);
 
     if (loading) return <AppLayout backgroundColor="black"><Loading /></AppLayout>;
 
@@ -57,10 +60,6 @@ const Profile: React.FC<Props> = ({ navigation }) => {
                 }
             >
                 <View style={{ marginTop: verticalScale(20) }}>
-                    <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                        <Feather name="plus-square" size={moderateScale(30)} color="#FF3636" style={{ marginLeft: moderateScale(20) }} onPress={() => navigation.navigate("CreateReels")} />
-                        <Entypo name="dots-three-vertical" size={moderateScale(30)} color="#FF3636" />
-                    </View>
 
                     <View style={{ display: "flex", flexDirection: "row", marginTop: moderateScale(15), padding: moderateScale(20) }}>
                         <Image source={returnImageSource(data?.profilePicture || "/defaultPicture.png")} style={{ width: scale(120), height: verticalScale(120), borderRadius: moderateScale(100) }} resizeMode="stretch" />
@@ -88,48 +87,33 @@ const Profile: React.FC<Props> = ({ navigation }) => {
                         </View>
                     </View>
 
-                    <Button
-                        title="Edit Profile"
-                        textStyle={{ color: "white", fontSize: moderateScale(25) }}
-                        style={{ alignItems: "center", backgroundColor: "red", width: scale(320), padding: 10, height: verticalScale(50), marginRight: 'auto', marginLeft: 'auto', marginTop: moderateScale(20), marginBottom: moderateScale(20), borderRadius: moderateScale(10) }}
-                        onPress={() => navigation.navigate("ProfileSettings")}
-                    />
-                </View>
+                    <View style={{ display: "flex", flexDirection: "row" }}>
+                        <Button
+                            title={ data!.isUserMatched ? "Friend" : "UnFriend" }
+                            textStyle={{ color: "white", fontSize: moderateScale(25) }}
+                            style={{ alignItems: "center", backgroundColor: "red", padding: 10, width: scale(160), height: verticalScale(60), marginRight: 'auto', marginLeft: 'auto', marginTop: moderateScale(20), marginBottom: moderateScale(20), borderRadius: moderateScale(10) }}
+                            onPress={() => matchUnmantch()}
+                        />
 
-                <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginTop: moderateScale(15), borderBottomWidth: moderateScale(1), borderBottomColor: "#FF3636" }}>
-                    <View
-                        style={{
-                            position: "relative",
-                            left: scale(60),
-                            marginBottom: moderateScale(10),
-                            ...(view === "reels" ? { borderBottomColor: "#FF3636", borderBottomWidth: moderateScale(1) } : {})
-                        }}
-                    >
-                        <MaterialIcons name="widgets" size={moderateScale(40)} color="#FF3636" style={view === "reels" ? { marginBottom: moderateScale(10) } : undefined} onPress={() => setView("reels")} />
-                    </View>
-
-                    <View
-                        style={{
-                            position: "relative",
-                            right: scale(50),
-                            marginBottom: moderateScale(10),
-                            ...(view === "saved" ? { borderBottomColor: "#FF3636", borderBottomWidth: moderateScale(1) } : {})
-                        }}
-                    >
-                        <Ionicons name="bookmark" size={moderateScale(40)} color="#FF3636" style={view === "saved" ? { marginBottom: moderateScale(10) } : undefined} onPress={() => setView("saved")} />
+                        <Button
+                            title={ data!.isUserFollowing ? "UnFollow" : "Follow" }
+                            textStyle={{ color: "white", fontSize: moderateScale(25) }}
+                            style={{ alignItems: "center", backgroundColor: "red", padding: 10, width: scale(160), height: verticalScale(60), marginRight: 'auto', marginLeft: 'auto', marginTop: moderateScale(20), marginBottom: moderateScale(20), borderRadius: moderateScale(10) }}
+                            onPress={() => followUnfollow()}
+                        />
                     </View>
                 </View>
 
                 <View style={{ marginBottom: moderateScale(100), marginTop: moderateScale(15) }}>
                     {
-                        (turnArrayIntoDimensionalArray(view == "reels" ? data!.reels : data!.reelsSaves) as { id: string, video_url: string }[][]).map((row, index) => (
+                        (turnArrayIntoDimensionalArray(data!.reels) as { id: string, video_url: string }[][]).map((row, index) => (
                             <View key={`profile-reel-row${index}`} style={{ display: "flex", flexDirection: "row" }}>
                                 {
                                     row.map((reel, index) => (
                                         <TouchableOpacity key={`profile-reel-row-reel-${index}`}
                                             onPress={
                                                 () => {
-                                                    navigation.navigate("WatchLifterProfileReels", { scrollToReel: reel.id, viewToShow: "reels" })
+                                                    navigation.navigate("WatchProfiledUserReels", { profiledUserId, scrollToReel: reel.id })
                                                 }
                                             }
                                         >
@@ -151,5 +135,4 @@ const Profile: React.FC<Props> = ({ navigation }) => {
     )
 }
 
-export default Profile;
-
+export default UserProfilePage;

@@ -45,3 +45,7 @@ export { default as ClientMessageBox } from "./ClientMessageBox";
 export { default as TrainersDetails } from "./TrainersDetails";
 
 export { default as Reels } from "./Reels";
+
+export { default as UserProfilePage } from "./UserProfilePage";
+
+export { default as WatchProfiledUserReels } from "./WatchProfiledUserReels";

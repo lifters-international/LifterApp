@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { ScrollView, RefreshControl } from "react-native";
+import { View, Text, ScrollView, RefreshControl } from "react-native";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
-
-import { Audio } from "expo-av";
 
 import { useSelector } from "react-redux";
 
-import { Loading, AppLayout, UserProfileReels } from "../components";
+import { Audio } from "expo-av";
 
-import { useReels } from "../hooks";
-import { verticalScale } from "../utils";
+import { useWatchProfiledUserReels } from "../hooks";
+import { AppLayout, Loading, UserProfileReels } from "../components";
+
+import { moderateScale, scale, verticalScale } from "../utils";
 
 import { useTabBarContext } from "../navigation/Tab";
 
@@ -18,15 +18,18 @@ interface Props {
     route: RouteProp<any>;
 }
 
-const Reels: React.FC<Props> = ({ navigation, route }) => {
-    const { token } = useSelector(( state : any ) => state.Auth);
+export const WatchProfiledUserReels: React.FC<Props> = ({ navigation, route }) => {
+    const { token } = useSelector((state: any) => state.Auth);
+
     const [refreshing, setRefreshing] = useState(false);
 
+    const [profiledUserId, setProfiledUser] = useState("");
+
     const { 
-        loading, reels, subscribeToEvent, unSubscribeToEvent, postComment, shareReel, getParentComments, 
+        loading, errors, data, subscribeToEvent, unSubscribeToEvent, postComment, shareReel, getParentComments, 
         getReelsInformation, likeReel, saveReel, updateCaption, deleteReel, downloadReel, askForChildren, 
-        createViewHistory, updateViewHistory, userId, profilePicture, nextReel
-    } = useReels(token, refreshing);
+        createViewHistory, updateViewHistory
+    } = useWatchProfiledUserReels(token, profiledUserId, refreshing);
 
     const scrollViewRef = useRef<ScrollView>(null);
 
@@ -51,7 +54,7 @@ const Reels: React.FC<Props> = ({ navigation, route }) => {
     }, []);
 
     const moveToY = ( val : number, animate = true ) => {
-        let max = ( ( ( reels.length || 1 ) - 1 )  * verticalScale(660) );
+        let max = ( ( ( data?.reels.length || 1 ) - 1 )  * verticalScale(660) );
 
         setScrollPos( prev => ({
             ...prev,
@@ -68,11 +71,14 @@ const Reels: React.FC<Props> = ({ navigation, route }) => {
     useEffect( () => {
         const setUp = async () => {
             await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
+            if (route.params?.profiledUserId) {
+                setProfiledUser(route.params.profiledUserId);
+            }
 
             if ( route.params?.scrollToReel && scrollViewRef && loading === false ) {
                 let { scrollToReel } = route.params;
 
-                let yIndex = reels.findIndex( r => r.id === scrollToReel ) || 0;
+                let yIndex = data ? data.reels.findIndex( r => r.id === scrollToReel ) : 0;
 
                 if ( yIndex != 0 ) moveToY(yIndex * verticalScale(660), false );
             }
@@ -80,13 +86,27 @@ const Reels: React.FC<Props> = ({ navigation, route }) => {
 
         setUp();
 
-    }, [ scrollViewRef, navigation, loading ]);
+    }, [ scrollViewRef, navigation, loading ])
+
+    useEffect(() => {
+        scrollViewRef.current?.scrollTo({ ...scrollPos });
+    }, [ scrollPos ]);
 
     useEffect(() => {
         setRefreshing(loading);
-    }, [ reels ]);
+    }, [ data ]);
 
     if (loading) return <AppLayout backgroundColor="black"><Loading /></AppLayout>;
+
+    if (errors.length > 0) {
+        return (
+            <AppLayout backgroundColor="black">
+                <View style={{ backgroundColor: "rgb(16, 16, 16)", width: scale(250), height: verticalScale(60), marginRight: "auto", marginLeft: "auto", borderRadius: moderateScale(10), position: "relative", top: verticalScale(250) }}>
+                    <Text style={{ color: "white", textAlign: "center", fontSize: moderateScale(20), marginTop: moderateScale(15) }}>{errors[0].message}</Text>
+                </View>
+            </AppLayout>
+        )
+    }
 
     return (
         <AppLayout backgroundColor="black">
@@ -97,11 +117,8 @@ const Reels: React.FC<Props> = ({ navigation, route }) => {
                     ( event ) => {
                         if ( event.nativeEvent.velocity!.y < 0 ) {
                             moveToY(scrollPos.y - verticalScale(660));
-                            setTabBarVisiblity(true)
                         }else if ( event.nativeEvent.velocity!.y > 0 ) {
-                            setTabBarVisiblity(false)
                             moveToY(scrollPos.y + verticalScale(660));
-                            nextReel( reels[ reels.length - 1 ]?.id );
                         }
                     }
                 }
@@ -110,13 +127,13 @@ const Reels: React.FC<Props> = ({ navigation, route }) => {
                 }
             >
                 {
-                    reels.map((reel, index) => (
+                    data?.reels.map((reel, index) => (
                         <UserProfileReels 
                             key={`lifter-reels-${index}`}
 
                             componentData={{
-                                userId,
-                                usersProfilePicture: profilePicture,
+                                userId: data!.id,
+                                usersProfilePicture: data?.profilePicture,
                                 shouldPlay: scrollPos.y / verticalScale(660) === index,
                                 isVideoMuted,
                                 allowEdit: true,
@@ -143,7 +160,7 @@ const Reels: React.FC<Props> = ({ navigation, route }) => {
                                 shareReel,
                                 createViewHistory,
                                 updateViewHistory,
-                                goToUserProfile: ( userIdParam: string ) => userId != userIdParam ? navigation.navigate("UserProfilePage", { userId: userIdParam }) : navigate("Profile", {})
+                                goToUserProfile: ( userIdParam: string ) => data!.id != userIdParam ? navigation.navigate("UserProfilePage", { userId: profiledUserId }) : navigate("Profile", {})
                             }}
 
                             reel={reel}
@@ -152,7 +169,7 @@ const Reels: React.FC<Props> = ({ navigation, route }) => {
                 }
             </ScrollView>
         </AppLayout>
-    )
+    );
 }
 
-export default Reels;
+export default WatchProfiledUserReels;

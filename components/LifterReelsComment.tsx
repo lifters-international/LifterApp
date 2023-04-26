@@ -8,9 +8,10 @@ type Props = {
     askForChildren?: ( originalAncestor: string ) => void; 
     removeChildren?: ( originalAncestor: string ) => void;
     postComment: ( text: string, parentId?: string ) => void;
+    onProfileClick?: ( () => void ) | undefined;
 } & WatchLifterProfileReelsComments;
 
-export const LifterReelsComment: React.FC<Props> = ({ id, comment, updated_at, profilePicture, removeChildren, askForChildren, children, childrenCount, liftersName, liftersProfilePicture, parentId, postComment }) => {
+export const LifterReelsComment: React.FC<Props> = ({ id, comment, updated_at, profilePicture, removeChildren, askForChildren, children, childrenCount, liftersName, liftersProfilePicture, parentId, postComment, onProfileClick }) => {
     let date = new Date(new Date(updated_at).toLocaleString());
 
     const [replying, setReplying] = useState(false);
@@ -42,10 +43,10 @@ export const LifterReelsComment: React.FC<Props> = ({ id, comment, updated_at, p
             <Image source={returnImageSource(liftersProfilePicture)} style={{ marginRight: moderateScale(4), borderRadius: moderateScale(50), width: scale(30), height: verticalScale(30) }} resizeMode="stretch" />
 
             <View>
-                <View style={{ display: "flex", flexDirection: "row" }}>
+                <TouchableOpacity style={{ display: "flex", flexDirection: "row" }} onPress={onProfileClick}>
                     <Text style={{ color: "rgb(95, 93, 93)" }}>{liftersName}</Text>
                     <Text style={{ color: "rgb(71, 71, 71)" }}>&nbsp; {getDiff(date, new Date(new Date().toLocaleString()))} ago </Text>
-                </View>
+                </TouchableOpacity>
 
                 <View>
                     <Text style={{ color: "rgb(71, 71, 71)" }}>{comment}</Text>
@@ -117,7 +118,7 @@ export const LifterReelsComment: React.FC<Props> = ({ id, comment, updated_at, p
 
                         <View>
                             {
-                                childOpen && children?.map( (child, index) => ( <LifterReelsComment {...child} profilePicture={profilePicture} childrenCount={0} children={[]} postComment={postComment} key={`com-child${index}`}/> ))
+                                childOpen && children?.map( (child, index) => ( <LifterReelsComment {...child} profilePicture={profilePicture} childrenCount={0} children={[]} postComment={postComment} key={`com-child${index}`} onProfileClick={onProfileClick}/> ))
                             }
                         </View>
 

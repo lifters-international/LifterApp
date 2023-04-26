@@ -7,7 +7,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { useSelector } from "react-redux";
 
-import { Home, Reels, ClientMessageBox, TrainersDetails, UserTrainers, WatchTrainerVideo, BecomeClient, Profile, ProfileSettings, CreateReels, WatchLifterProfileReels, PasswordChange, DeleteAccount, FoodScreen, FoodCreate, FoodAnalystics, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
+import { Home, Reels, ClientMessageBox, TrainersDetails, UserProfilePage, UserTrainers, WatchProfiledUserReels, WatchTrainerVideo, BecomeClient, Profile, ProfileSettings, CreateReels, WatchLifterProfileReels, PasswordChange, DeleteAccount, FoodScreen, FoodCreate, FoodAnalystics, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
 import { View, ImageBackground, ActivityIndicator } from "react-native";
 import { getFromStore, scale, verticalScale, moderateScale } from "../utils";
 import { useAppDispatch } from "../redux";
@@ -86,6 +86,8 @@ const ReelsScreen = () => {
     return (
         <ReelsStack.Navigator>
             <ReelsStack.Screen name="reels" component={Reels} options={{ headerShown: false }} />
+            <ReelsStack.Screen name="UserProfilePage" component={UserProfilePage} options={{ headerShown: false }} />
+            <ReelsStack.Screen name="WatchProfiledUserReels" component={WatchProfiledUserReels} options={{ headerShown: false }} />
         </ReelsStack.Navigator>
     )
 }

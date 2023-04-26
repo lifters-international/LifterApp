@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, ScrollView, TextInput, TouchableOpacity, Alert, Platform, Linking, Share } from "react-native";
-
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { ResizeMode, Video } from "expo-av";
 import { WatchLifterProfileReelsComments, ReelsMangerListener, GetLoggedInUserHomePageDetailsReels, WatchLifterProfileReelsCommentsChildren, moderateScale, returnImageSource, scale, shortenNumber, shortenText, verticalScale, ReelsManagerListenerEvents } from "../utils";
 
@@ -31,6 +31,7 @@ type Props = {
         track: boolean;
         allowEdit?: boolean;
         allowDelete?: boolean;
+        allowProfileView?: boolean;
     };
 
     functions: {
@@ -51,6 +52,7 @@ type Props = {
         unSubscribeToEvent: (event: ReelsManagerListenerEvents, id: string) => void;
         createViewHistory: ( reel: string, userId: string ) => void;
         updateViewHistory: ( reel: string, userId: string, time: number ) => void;
+        goToUserProfile?: ( userId: string ) => void;
     };
 
     reel: GetLoggedInUserHomePageDetailsReels;
@@ -85,6 +87,8 @@ export const UserProfileReels: React.FC<Props> = ({ reel, functions, componentDa
     const [ secondsWatched, setSecondsWatched ] = useState(0);
 
     const DOUBLE_PRESS_DELAY = 200;
+
+    const isFocused = useIsFocused();
 
     const notEditing = <Text style={{ color: "white", fontSize: moderateScale(20) }}>{reelData.caption}</Text>
 
@@ -241,7 +245,7 @@ export const UserProfileReels: React.FC<Props> = ({ reel, functions, componentDa
                     [newCommentEvent.id]: {
                         id: newCommentEvent.id,
                         comment: newCommentEvent.comment,
-                        liftersId: newCommentEvent.user,
+                        userId: newCommentEvent.user,
                         liftersName: newCommentEvent.liftersName,
                         liftersProfilePicture: newCommentEvent.liftersProfilePicture,
                         updated_at: newCommentEvent.updated_at,
@@ -269,7 +273,7 @@ export const UserProfileReels: React.FC<Props> = ({ reel, functions, componentDa
                             {
                                 id: newChildCommentEvent.id,
                                 comment: newChildCommentEvent.comment,
-                                liftersId: newChildCommentEvent.user,
+                                userId: newChildCommentEvent.user,
                                 liftersName: newChildCommentEvent.liftersName,
                                 liftersProfilePicture: newChildCommentEvent.liftersProfilePicture,
                                 updated_at: newChildCommentEvent.updated_at,
@@ -385,7 +389,7 @@ export const UserProfileReels: React.FC<Props> = ({ reel, functions, componentDa
                     resizeMode={ResizeMode.STRETCH}
                     useNativeControls={false}
                     isLooping
-                    shouldPlay={playVideo && componentData.shouldPlay}
+                    shouldPlay={playVideo && componentData.shouldPlay && isFocused}
                     isMuted={componentData.isVideoMuted}
                 />
             </TouchableOpacity>
@@ -552,6 +556,10 @@ export const UserProfileReels: React.FC<Props> = ({ reel, functions, componentDa
                                                                 postComment={( comment: string, parentId? : string) => {
                                                                     functions.postComment( reelData.id, componentData.userId, comment, parentId);
                                                                 }}
+
+                                                                onProfileClick={ componentData.allowProfileView ? (
+                                                                    () => functions.goToUserProfile && functions.goToUserProfile( comment.userId )
+                                                                ) : undefined }
                                                             />
                                                         ))
 
