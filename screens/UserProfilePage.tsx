@@ -26,6 +26,8 @@ const UserProfilePage: React.FC<Props> = ({ navigation, route }) => {
 
     const { loading, errors, data, matchUnmantch, followUnfollow } = useProfiledUserProfile(token, profiledUserId, refreshing);
 
+    const [ typeScreen, setTypeScreen ] = useState<"settings" | null>();
+
     const onRefresh = useCallback(() => {
         setRefreshing(true);
     }, []);
@@ -37,6 +39,10 @@ const UserProfilePage: React.FC<Props> = ({ navigation, route }) => {
     useEffect(() => {
         if (route.params?.userId) {
             setProfiledUser(route.params.userId);
+        }
+
+        if (route.params?.typeScreen) {
+            setTypeScreen("settings");
         }
     }, []);
 
@@ -113,7 +119,7 @@ const UserProfilePage: React.FC<Props> = ({ navigation, route }) => {
                                         <TouchableOpacity key={`profile-reel-row-reel-${index}`}
                                             onPress={
                                                 () => {
-                                                    navigation.navigate("WatchProfiledUserReels", { profiledUserId, scrollToReel: reel.id })
+                                                    navigation.navigate("WatchProfiledUserReels", { profiledUserId, scrollToReel: reel.id, typeScreen })
                                                 }
                                             }
                                         >

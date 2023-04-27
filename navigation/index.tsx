@@ -65,20 +65,12 @@ const ProfileStackScreen = () => {
             <ProfileStack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
             <ProfileStack.Screen name="ProfileSettings" component={ProfileSettings} options={{ headerShown: false }} />
             <ProfileStack.Screen name="WatchLifterProfileReels" component={WatchLifterProfileReels} options={{ headerShown: false }} />
+            <ProfileStack.Screen name="WatchProfiledUserReels" component={WatchProfiledUserReels} options={{ headerShown: false }} />
+            <ProfileStack.Screen name="UserProfilePage" component={UserProfilePage} options={{ headerShown: false }} />
             <ProfileStack.Screen name="CreateReels" component={CreateReels} options={{ headerShown: false }} />
             <ProfileStack.Screen name="Change Password" component={PasswordChange} options={{ headerShown: false }} />
             <ProfileStack.Screen name="Delete Account" component={DeleteAccount} options={{ headerShown: false }} />
         </ProfileStack.Navigator>
-    );
-}
-
-const FoodStackScreen = () => {
-    return (
-        <FoodStack.Navigator>
-            <FoodStack.Screen name="Food" component={FoodScreen} options={{ headerShown: false }} />
-            <FoodStack.Screen name="CreateFood" component={FoodCreate} options={{ headerShown: false }} />
-            <FoodStack.Screen name="FoodAnalystics" component={FoodAnalystics} options={{ headerShown: false }} />
-        </FoodStack.Navigator>
     );
 }
 
@@ -90,6 +82,16 @@ const ReelsScreen = () => {
             <ReelsStack.Screen name="WatchProfiledUserReels" component={WatchProfiledUserReels} options={{ headerShown: false }} />
         </ReelsStack.Navigator>
     )
+}
+
+const FoodStackScreen = () => {
+    return (
+        <FoodStack.Navigator>
+            <FoodStack.Screen name="Food" component={FoodScreen} options={{ headerShown: false }} />
+            <FoodStack.Screen name="CreateFood" component={FoodCreate} options={{ headerShown: false }} />
+            <FoodStack.Screen name="FoodAnalystics" component={FoodAnalystics} options={{ headerShown: false }} />
+        </FoodStack.Navigator>
+    );
 }
 
 function TabNavigator() {

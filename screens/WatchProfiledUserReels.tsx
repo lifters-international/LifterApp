@@ -39,6 +39,8 @@ export const WatchProfiledUserReels: React.FC<Props> = ({ navigation, route }) =
 
     const { setTabBarVisiblity, navigate } = useTabBarContext();
 
+    const [ typeScreen, setTypeScreen ] = useState<"settings" | null>();
+
     const [ isVideoMuted, setMuteVideo ] = useState(false);
 
     const onRefresh = useCallback(() => {
@@ -71,8 +73,13 @@ export const WatchProfiledUserReels: React.FC<Props> = ({ navigation, route }) =
     useEffect( () => {
         const setUp = async () => {
             await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
+
             if (route.params?.profiledUserId) {
                 setProfiledUser(route.params.profiledUserId);
+            }
+
+            if (route.params?.typeScreen) {
+                setTypeScreen("settings");
             }
 
             if ( route.params?.scrollToReel && scrollViewRef && loading === false ) {
@@ -160,7 +167,7 @@ export const WatchProfiledUserReels: React.FC<Props> = ({ navigation, route }) =
                                 shareReel,
                                 createViewHistory,
                                 updateViewHistory,
-                                goToUserProfile: ( userIdParam: string ) => data!.id != userIdParam ? navigation.navigate("UserProfilePage", { userId: profiledUserId }) : navigate("Profile", {})
+                                goToUserProfile: ( userIdParam: string ) => data!.id != userIdParam ? navigation.navigate("UserProfilePage", { userId: profiledUserId, typeScreen }) : typeScreen ? navigation.navigate("Profile") : navigate("Profile", {})
                             }}
 
                             reel={reel}

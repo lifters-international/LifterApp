@@ -141,7 +141,8 @@ const WatchLifterProfileReels: React.FC<Props> = ({ navigation, route }) => {
                                 isVideoMuted,
                                 allowEdit: true,
                                 allowDelete: true,
-                                track: view == "saved"
+                                track: view == "saved",
+                                allowProfileView: true
                             }}
 
                             functions={{
@@ -161,7 +162,8 @@ const WatchLifterProfileReels: React.FC<Props> = ({ navigation, route }) => {
                                 postComment,
                                 shareReel,
                                 createViewHistory,
-                                updateViewHistory
+                                updateViewHistory,
+                                goToUserProfile: ( userIdParam: string ) => data!.id != userIdParam ? navigation.navigate("UserProfilePage", { userId: userIdParam, typeScreen: "settings" }) : navigation.navigate("Profile")
                             }}
 
                             reel={reel}

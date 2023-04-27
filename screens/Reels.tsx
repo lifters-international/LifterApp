@@ -34,7 +34,9 @@ const Reels: React.FC<Props> = ({ navigation, route }) => {
 
     const [ scrollEnabled, setScrollEnabled ] = useState(true);
 
-    const { setTabBarVisiblity, navigate } = useTabBarContext();
+    const { setTabBarVisiblity, navigate, navProps, resetNavProps } = useTabBarContext();
+
+    const [ reset, setReset ] = useState(false);
 
     const [ isVideoMuted, setMuteVideo ] = useState(false);
 
@@ -49,6 +51,26 @@ const Reels: React.FC<Props> = ({ navigation, route }) => {
             return setTabBarVisiblity(true);
         }
     }, []);
+
+    useEffect(() => {
+        if ( reset ) {
+            resetNavProps();
+            setReset(false);
+        } else {
+            const unsubscribe = navigation.addListener('focus', () => {
+                if ( !reset ) {
+                    if (navProps.open === "LiftersPage" ) {
+                        setReset(true);
+                        setTabBarVisiblity(true);
+                        navProps.userId != navProps.userIdParam 
+                            ? navigation.navigate("UserProfilePage", { userId: navProps.userIdParam }) : navigate("Profile", {})
+                    }
+                }
+            });
+
+            return unsubscribe
+        }
+    }, [ reset, userId ]);
 
     const moveToY = ( val : number, animate = true ) => {
         let max = ( ( ( reels.length || 1 ) - 1 )  * verticalScale(660) );
