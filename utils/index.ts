@@ -1,7 +1,6 @@
 import * as SecureStore from 'expo-secure-store';
 import * as Device from 'expo-device';
 import { Dimensions } from 'react-native';
-export { default as socket } from "./socket";
 export * from "@lifters-international/lifters-utils";
 
 import { GraphqlFetchResult } from "@lifters-international/lifters-utils";
@@ -11,7 +10,7 @@ export const getApiUrl = () => {
 }
 
 export const getWSApiUrl = () => {
-    return  `wss://${process.env.NODE_ENV === "production" ? "server.lifters.app" : "192.168.1.74:5000"}/graphql`;
+    return  `wss://${process.env.NODE_ENV === "production" ? "server.lifters.app" : "172.20.10.6:5000"}/graphql`;
 }
 
 export const getImageUploadApi = () => {
@@ -23,7 +22,7 @@ export const getReelsUploadApi = () => {
 }
 
 export const getServerUrl = () => {
-    return process.env.NODE_ENV === "production" ? "https://server.lifters.app/" : "http://192.168.1.74:5000/";
+    return process.env.NODE_ENV === "production" ? "https://server.lifters.app/" : "http://172.20.10.6:5000/";
 }
 
 export const fetchGraphQl = async (query: string, variables: any): Promise<GraphqlFetchResult> => {
@@ -41,79 +40,6 @@ export const fetchGraphQl = async (query: string, variables: any): Promise<Graph
     const data = await response.json();
     return data;
 }
-
-export declare type WatchLifterProfileReelsCommentsChildren = {
-    id: string;
-    comment: string;
-    userId: string;
-    liftersName: string;
-    liftersProfilePicture: string;
-    updated_at: number;
-};
-export declare type WatchLifterProfileReelsComments = {
-    parentId?: string;
-    childrenCount: number;
-    children: WatchLifterProfileReelsCommentsChildren[];
-} & WatchLifterProfileReelsCommentsChildren;
-
-export type WatchLifterProfileReelsCommentsDict = { [ key: string ] : WatchLifterProfileReelsComments[] };
-
-export type GetLoggedInUserHomePageDetailsReels = { 
-    id: string; 
-    video_url: string;
-    caption: string;
-    likesCount?: number;
-    commentsCount?: number;
-    sharesCount?: number;
-    savesCount?: number;
-    downloadsCount?: number;
-    ownerProfilePicture?: string;
-    ownerName?: string;
-    userLiked?: boolean;
-    userSaved?: boolean;
-}
-
-export type GetLoggedInUserHomePageDetails = {
-    id: string;
-    username: string;
-    profilePicture: string;
-    bio: string;
-    reels: GetLoggedInUserHomePageDetailsReels[];
-    reelsSaves: GetLoggedInUserHomePageDetailsReels[];
-    followers: number;
-    following: number;
-}
-
-export type GetProfiledUserProfileDetails = {
-    id: string;
-    username: string;
-    profilePicture: string;
-    bio: string;
-    reels: GetLoggedInUserHomePageDetailsReels[];
-    followers: number;
-    following: number;
-    isUserFollowing: boolean;
-    isUserMatched: boolean;
-}
-
-export type ReelsMangerListener = {
-    id: string;
-    emit: (args?: any) => void;
-}
-
-
-export enum ReelsManagerListenerEvents {
-    newReelLike = "newReelLike",
-    newReelSave = "newReelSave",
-    reelCaptionUpdated = "reelCaptionUpdated",
-    reelInformationResponse = "reelInformationResponse",
-    parentComments = "parentComments",
-    childComments = "childComments",
-    newComment = "newComment",
-    newChildComment = "newChildComment",
-    newReelShare = "newReelShare",
-    viewHistoryToken = "viewHistoryToken"
-};
 
 export const saveToStore =  async (key: string, value: string) => {
     await SecureStore.setItemAsync(key, value);

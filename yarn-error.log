@@ -40,7 +40,7 @@ npm manifest:
       "@ant-design/icons-react-native": "^2.3.2",
       "@apollo/client": "^3.6.9",
       "@expo/webpack-config": "^0.17.0",
-      "@lifters-international/lifters-utils": "^2.2.0",
+      "@lifters-international/lifters-utils": "^3.0.0",
       "@react-navigation/bottom-tabs": "^6.3.3",
       "@react-navigation/material-bottom-tabs": "^6.2.3",
       "@react-navigation/native": "^6.0.12",
@@ -9265,11 +9265,6 @@ Lockfile:
     dependencies:
       css-select "^4.2.1"
       css-tree "^1.0.0-alpha.39"
-  
-  react-native-three-dots-loader@^1.0.1:
-    version "1.0.1"
-    resolved "https://registry.yarnpkg.com/react-native-three-dots-loader/-/react-native-three-dots-loader-1.0.1.tgz#31ec821865eea6615ce5a1c509d0a8ae78e374b6"
-    integrity sha512-5K/n89+UUm2QNeVum34pycelBhTsOTCtSk3e8Hn6BSXZWfhtJDma+RfdJYGw/uzO/YZH+mPteyS4lhMH/kbVyw==
   
   react-native-vector-icons@^9.2.0:
     version "9.2.0"
