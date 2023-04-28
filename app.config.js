@@ -20,7 +20,7 @@ export default {
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.lifters.international.lifters",
-      "buildNumber": "20.0.0"
+      "buildNumber": "21.0.0"
     },
     "android": {
       "adaptiveIcon": {
@@ -28,7 +28,7 @@ export default {
         "backgroundColor": "#000000"
       },
       "package": "com.lifters.international.lifter",
-      "versionCode": 20,
+      "versionCode": 21,
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ],
