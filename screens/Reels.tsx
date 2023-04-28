@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { ScrollView, RefreshControl } from "react-native";
+import { ScrollView, RefreshControl, View, Text } from "react-native";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 
 import { Audio } from "expo-av";
@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { Loading, AppLayout, UserProfileReels } from "../components";
 
 import { useReels } from "../hooks";
-import { verticalScale } from "../utils";
+import { moderateScale, verticalScale } from "../utils";
 
 import { useTabBarContext } from "../navigation/Tab";
 
@@ -45,7 +45,7 @@ const Reels: React.FC<Props> = ({ navigation, route }) => {
     }, []);
 
     useEffect( () => {
-        setTabBarVisiblity(false);
+        reels.length > 0 && setTabBarVisiblity(false);
 
         return () => {
             return setTabBarVisiblity(true);
@@ -171,6 +171,23 @@ const Reels: React.FC<Props> = ({ navigation, route }) => {
                             reel={reel}
                         />
                     ))
+                }
+
+                {
+                    reels.length == 0 && (
+                        <View style={{ 
+                            backgroundColor: "rgb(27, 27, 27)",
+                            borderRadius: 10,
+                            padding: 10,
+                            width: moderateScale(300),
+                            marginRight: "auto",
+                            marginLeft: "auto",
+                            position: "relative",
+                            top: verticalScale(200)
+                        }}>
+                            <Text style={{ color: "white", textAlign: "center", fontSize: moderateScale(20) }}>No Reels Found</Text>
+                        </View>
+                    )
                 }
             </ScrollView>
         </AppLayout>

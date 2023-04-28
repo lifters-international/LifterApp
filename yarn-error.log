@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\jnnaj\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js
+  C:\Program Files\nodejs\node.exe C:\Users\jnnaj\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add expo@^48.0.0
 
 PATH: 
   C:\Program Files\Microsoft\jdk-11.0.16.101-hotspot\bin;C:\Program Files\National Instruments\Shared\OpenVINO\;C:\Python311\Scripts\;C:\Python311\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Gradel\gradle-8.0.2\bin\gradel;C:\Program Files\Git\cmd;C:\Users\jnnaj\AppData\Local\Microsoft\WindowsApps;C:\Users\jnnaj\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\jnnaj\AppData\Local\GitHubDesktop\bin;C:\Users\jnnaj\AppData\Roaming\npm;C:\Gradel\gradle-8.0.2\bin\gradle;C:\Users\jnnaj\.dotnet\tools
@@ -27,7 +27,7 @@ Trace:
 npm manifest: 
   {
     "name": "lifterapp",
-    "version": "4.1.0",
+    "version": "5.0.0",
     "main": "node_modules/expo/AppEntry.js",
     "scripts": {
       "start": "expo start",
@@ -1712,10 +1712,10 @@ Lockfile:
       "@jridgewell/resolve-uri" "3.1.0"
       "@jridgewell/sourcemap-codec" "1.4.14"
   
-  "@lifters-international/lifters-utils@^2.2.0":
-    version "2.2.0"
-    resolved "https://npm.pkg.github.com/download/@lifters-international/lifters-utils/2.2.0/26f2ad85648c8da56e1b6e9e542a1095a11015df#26f2ad85648c8da56e1b6e9e542a1095a11015df"
-    integrity sha512-eaZN/M9vo7FjaYbrkzUhl7k4WwH+BtdsbiknP8ZWkEjArW9PrXzssa4NQ5kYshU+DbPPVzZFN309Q7OcywQjXw==
+  "@lifters-international/lifters-utils@^3.0.0":
+    version "3.0.0"
+    resolved "https://npm.pkg.github.com/download/@lifters-international/lifters-utils/3.0.0/a47a242917b2f7d62265e79078ba362188f38035#a47a242917b2f7d62265e79078ba362188f38035"
+    integrity sha512-Z5yw1K88RsHnIllthWl6HVIRldBKXzoFfBX5RdUqSbzT8lBXDBn9q8IGY5T3Gb4+PJGZP1LCzlaNEMnGo93cMA==
     dependencies:
       "@apollo/client" "^3.7.0"
       "@types/node" "^18.11.2"
