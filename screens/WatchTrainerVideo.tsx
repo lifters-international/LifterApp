@@ -2,15 +2,15 @@ import React, { useState, useEffect, useRef } from "react";
 
 import { View, Text, Image, TextInput, StyleSheet, Share, ScrollView, Alert, Platform, Linking } from "react-native";
 
-import { Video, AVPlaybackStatus, AVPlaybackStatusSuccess, ResizeMode } from 'expo-av';
+import { Video, AVPlaybackStatus, AVPlaybackStatusSuccess, ResizeMode, Audio } from 'expo-av';
 
 import { useSelector } from "react-redux";
 
-import { Loading, AppLayout, Button, VideoSummary } from "../components";
+import { Loading, AppLayout, Button, VideoSummary, WatchTrainerVideoComment } from "../components";
 
 import { useWatchTrainerVideo, useSignInUserData } from "../hooks";
 
-import { getDiff, shortenNumber, returnImageSource, scale, moderateScale, verticalScale } from "../utils";
+import { getDiff, shortenNumber, returnImageSource, scale, moderateScale, verticalScale, WatchTrainerVideoV401Comments } from "../utils";
 
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { NavigationProp, RouteProp } from "@react-navigation/native";
@@ -69,6 +69,14 @@ const WatchTrainerVideo: React.FC<Props> = ({ route, navigation }) => {
     const [ videoDownloading, setVideoDownloading ] = useState(false);
     const [ ImagePermissionStatus, requestImagePermission] = ImagePicker.useMediaLibraryPermissions();
 
+    useEffect( () => {
+        const setUp = async () => {
+            await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
+        }
+
+        setUp();
+    }, [ ] );
+
     useEffect(() => {
         if (videoStatus !== undefined) if ((videoStatus as AVPlaybackStatusSuccess).isPlaying) {
             watchVideo.updateTime((videoStatus as AVPlaybackStatusSuccess).positionMillis)
@@ -99,6 +107,7 @@ const WatchTrainerVideo: React.FC<Props> = ({ route, navigation }) => {
                     resizeMode={ResizeMode.CONTAIN}
                     useNativeControls
                     onPlaybackStatusUpdate={status => setVideoStatus(status)}
+                    isMuted={false}
                 />
 
                 <ScrollView>
@@ -111,7 +120,7 @@ const WatchTrainerVideo: React.FC<Props> = ({ route, navigation }) => {
 
                                 <View style={{ display: "flex", flexDirection: "row", marginBottom: verticalScale(20) }}>
 
-                                    <Image source={returnImageSource(watchVideo.videoData?.video.trainerProfile!)} style={{ borderRadius: moderateScale(50) }} resizeMode="stretch" />
+                                    <Image source={returnImageSource(watchVideo.videoData?.video.trainerProfile!)} style={{ marginRight: moderateScale(4), borderRadius: moderateScale(50), width: scale(30), height: verticalScale(30) }} resizeMode="stretch" />
 
                                     <View style={{ display: "flex", flexDirection: "column", marginLeft: moderateScale(5) }}>
 
@@ -186,7 +195,7 @@ const WatchTrainerVideo: React.FC<Props> = ({ route, navigation }) => {
                                         name="share"
                                         onPress={async () => {
                                             const result = await Share.share({
-                                                message: `Come check out this video by ${watchVideo.videoData?.video.trainerName} on LiftersHome... The #1 Home For All Things GYM!!!`,
+                                                message: `Come check out this video by ${watchVideo.videoData?.video.trainerName} on LiftersHome... The #1 Home For All GYM People!!!`,
                                                 url: `https://www.lifters.app/videos/${watchVideo.videoData?.video.id}`
                                             })
                                         }}
@@ -207,7 +216,6 @@ const WatchTrainerVideo: React.FC<Props> = ({ route, navigation }) => {
                                                                     {
                                                                         text: "Okay",
                                                                         onPress: () => {
-                                                                            console.log(Platform.OS)
                                                                             if ( Platform.OS == "ios" ) Linking.openURL("app-settings:");
                                                                             else if (Platform.OS == "android") IntentLauncher.startActivityAsync('android.settings.APPLICATION_DETAILS_SETTINGS', {
                                                                                 data: "package:"+Application.applicationId
@@ -234,13 +242,6 @@ const WatchTrainerVideo: React.FC<Props> = ({ route, navigation }) => {
                                                             return;
                                                         }
 
-                                                        /*
-                                                        const perm = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
-
-                                                        if ( perm.status != "granted" ) {
-                                                            return;
-                                                        }*/
-
                                                         try {
                                                             const asset = await MediaLibrary.createAssetAsync(downloadedFile.uri);
                                                             const album = await MediaLibrary.getAlbumAsync("LiftersHome");
@@ -254,7 +255,6 @@ const WatchTrainerVideo: React.FC<Props> = ({ route, navigation }) => {
                                                             Alert.alert("Video Downloaded")
 
                                                         } catch ( e ) {
-                                                            console.log( e );
                                                             Alert.alert("Problem downloading video")
                                                         }
 
@@ -290,7 +290,7 @@ const WatchTrainerVideo: React.FC<Props> = ({ route, navigation }) => {
                                 watchVideo.videoData?.allowComments && (
                                     <View style={{ marginTop: moderateScale(10) }}>
                                         <View style={{ display: "flex", flexDirection: "row" }}>
-                                            <Image source={returnImageSource(signedUser.data?.profilePicture!)} style={{ borderRadius: moderateScale(50) }} resizeMode="stretch" />
+                                            <Image source={returnImageSource(signedUser.data?.profilePicture!)} style={{ marginRight: moderateScale(4), borderRadius: moderateScale(50), width: scale(30), height: verticalScale(30) }} resizeMode="stretch" />
                                             <TextInput
                                                 placeholder="Add a comment"
                                                 style={{ color: "rgb(100, 99, 99)" }}
@@ -331,27 +331,12 @@ const WatchTrainerVideo: React.FC<Props> = ({ route, navigation }) => {
                                 {
                                     (
                                         showAllComment || watchVideo.videoData!.comments.length < 5 ?
-                                            watchVideo.videoData!.comments
+                                            watchVideo.videoData!.comments!
                                             :
-                                            watchVideo.videoData!.comments.slice(0, 5)
-                                    ).map((comment, index) => {
-                                        let date = new Date(new Date(comment.updatedAt!).toLocaleString());
-
-                                        return (
-                                            <View key={index} style={{ display: "flex", flexDirection: "row", marginBottom: moderateScale(10), marginTop: moderateScale(10) }}>
-                                                <Image source={returnImageSource(comment.whoCreatedProfilePicture)} style={{ borderRadius: moderateScale(50) }} resizeMode="stretch" />
-
-                                                <View>
-                                                    <View style={{ display: "flex", flexDirection: "row" }}>
-                                                        <Text style={{ color: "rgb(95, 93, 93)" }}>{comment.whoCreatedName}</Text>
-                                                        <Text style={{ color: "rgb(71, 71, 71)" }}>&nbsp; {getDiff(date, new Date(new Date().toLocaleString()))} ago </Text>
-                                                    </View>
-
-                                                    <Text style={{ color: "rgb(71, 71, 71)" }}>{comment.comment}</Text>
-                                                </View>
-                                            </View>
-                                        )
-                                    })
+                                            watchVideo.videoData!.comments!.slice(0, 5)
+                                    ).map((comment, index) => (
+                                        <WatchTrainerVideoComment {...( comment as WatchTrainerVideoV401Comments)} key={`com-${index}`} profilePicture={signedUser.data?.profilePicture!} allowComments={watchVideo.videoData?.allowComments || false} askForChildren={watchVideo.askForChildren} removeChildren={watchVideo.removeChildren} postComment={watchVideo.postComment} />
+                                    ))
                                 }
 
                                 {

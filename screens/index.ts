@@ -2,6 +2,12 @@ export { default as Heart } from "./Heart";
 
 export { default as Profile } from "./Profile";
 
+export { default as ProfileSettings } from "./ProfileSettings";
+
+export { default as WatchLifterProfileReels } from "./WatchLifterProfileReels";
+
+export { default as CreateReels } from "./CreateReels";
+
 export { default as PasswordChange } from "./PasswordChange";
 
 export { default as DeleteAccount } from "./DeleteAccount";
@@ -37,3 +43,9 @@ export { default as UserTrainers } from "./UserTrainers";
 export { default as ClientMessageBox } from "./ClientMessageBox";
 
 export { default as TrainersDetails } from "./TrainersDetails";
+
+export { default as Reels } from "./Reels";
+
+export { default as UserProfilePage } from "./UserProfilePage";
+
+export { default as WatchProfiledUserReels } from "./WatchProfiledUserReels";

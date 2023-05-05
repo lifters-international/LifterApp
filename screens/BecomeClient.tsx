@@ -38,12 +38,13 @@ const styles = StyleSheet.create({
         borderRadius: moderateScale(50),
         padding: moderateScale(10),
         position: "relative",
-        top: verticalScale(-52)
+        top: verticalScale(-35),
+        width: scale(30),
+        height: verticalScale(30)
     },
 
     NameCost: {
         position: "relative",
-        top: verticalScale(-35),
         left: scale(-14)
     },
 
@@ -56,8 +57,8 @@ const styles = StyleSheet.create({
     cost: {
         display: "flex",
         position: "relative",
-        top: verticalScale(-22),
-        left: scale(258)
+        top: verticalScale(-17.5),
+        left: scale(248)
     },
 
     price: {
@@ -71,10 +72,7 @@ const styles = StyleSheet.create({
         left: scale(27)
     },
 
-    benefitContainer: {
-        position: "relative",
-        top: verticalScale(-35)
-    },
+    benefitContainer: {},
 
     benefit: {
         borderWidth: moderateScale(1),
@@ -164,10 +162,10 @@ const BecomeClient: React.FC<Props> = ({ navigation, route }) => {
                             </View>
                         </View>
 
-                        <Text style={{ textAlign: "center", position: "relative", top: verticalScale(-25), fontStyle: "italic", color: "rgb(114, 114, 114)" }}>Contact {userIsClient.data?.name} at {userIsClient.data?.email} for any questions.</Text>
+                        <Text style={{ textAlign: "center", position: "relative", top: verticalScale(25), fontStyle: "italic", color: "rgb(114, 114, 114)" }}>Contact {userIsClient.data?.name} at {userIsClient.data?.email} for any questions.</Text>
 
                         <Button
-                            style={{ position: "relative", top: verticalScale(-10), marginRight: "auto", marginLeft: "auto", backgroundColor: "#FF3636", borderRadius: moderateScale(10), padding: moderateScale(10) }}
+                            style={{ position: "relative", top: verticalScale(35), marginRight: "auto", marginLeft: "auto", backgroundColor: "#FF3636", borderRadius: moderateScale(10), padding: moderateScale(10) }}
                             textStyle={{ color: "white" }}
                             title={loading ? 'Loading' : `Become ${userIsClient.data?.name}'s Client`}
                             onPress={

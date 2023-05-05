@@ -50,8 +50,7 @@ export type TabBarNonSharableState = {
 export type TabBarSharableState = {
     getTabBarVisiblity: () => boolean;
     setTabBarVisiblity: (value: boolean) => void;
-    getScreenNavProps: () => any;
-    useGetScreenNavProps: () => any;
+    navProps: { [key: string]: any };
     setScreenNavProps: (key: string, value: any) => void;
     navigate: ( to : string, props: { [ key: string ]: any } ) => void;
     resetNavProps: () => void;
@@ -59,9 +58,8 @@ export type TabBarSharableState = {
 
 export const TabBarContext = createContext<TabBarSharableState>({
     getTabBarVisiblity: () => true,
+    navProps: {},
     setTabBarVisiblity: () => { },
-    getScreenNavProps: () => { },
-    useGetScreenNavProps: () => { },
     setScreenNavProps: () => { },
     navigate: () => { },
     resetNavProps: () => { }
@@ -98,53 +96,47 @@ export const TabBar: React.FC<TabBarProps> = ({ tabs, initialTab, onChangeTab, b
     const [navProps, setNavProps] = useState<{ [key: string]: any }>({});
 
     const setNavProp = (key: string, value: any) => {
-        setNavProps({
-            ...navProps,
-            [key]: value
-        })
+        setNavProps(prev => (
+            {
+                ...prev,
+                [key]: value
+            }
+        ))
     }
 
-    const tabScreensState = {
-        getTabBarVisiblity: () => {
-            return tabScreensStates[currentScreen].tabVisible;
-        },
+    const getTabBarVisiblity = () => {
+        return tabScreensStates[currentScreen].tabVisible;
+    }
 
-        setTabBarVisiblity: (value: boolean) => {
-            setTabScreensStates(prev => {
-                return {
-                    ...prev,
-                    [currentScreen]: {
-                        ...prev[currentScreen],
-                        tabVisible: value
-                    }
+    const setTabBarVisiblity = (value: boolean) => {
+        setTabScreensStates(prev => {
+            return {
+                ...prev,
+                [currentScreen]: {
+                    ...prev[currentScreen],
+                    tabVisible: value
                 }
-            });
-        },
+            }
+        });
+    }
 
-        getScreenNavProps: () => {
-            return navProps;
-        },
+    const setScreenNavProps = (key: string, value: any) => {
+        setNavProp(key, value);
+    }
 
-        useGetScreenNavProps: () => {
-            return navProps
-        },
+    const resetNavProps = () => {
+        setNavProps( prev => ({}) );
+    }
 
-        setScreenNavProps: (key: string, value: any) => { 
-            setNavProp(key, value);
-        },
-
-        resetNavProps: () => {
-            setNavProps({});
-        },
-
-        navigate: (to: string, props?: { [key: string]: any }) => {
-            setCurrentScreen(to);
-            if (props) setNavProps(props);
-        }
-    };
+    const navigate = (to: string, props?: { [key: string]: any }) => {
+        setCurrentScreen(to);
+        if (props) setNavProps(props);
+    }
 
     return (
-        <TabBarContext.Provider value={tabScreensState}>
+        <TabBarContext.Provider value={{ 
+            getTabBarVisiblity, setTabBarVisiblity, navProps, setScreenNavProps, resetNavProps, navigate
+        }}>
             <TabScreen
                 name={currentScreen}
                 labeled={labeled}
@@ -156,7 +148,7 @@ export const TabBar: React.FC<TabBarProps> = ({ tabs, initialTab, onChangeTab, b
                                 <TouchableOpacity
                                     key={index}
                                     onPress={() => {
-                                        tabScreensState.navigate(tab.name);
+                                        navigate(tab.name);
                                     }}
                                     style={[styles.customTab, tabStyle]}
                                 >

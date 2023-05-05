@@ -1,25 +1,25 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
-import { Loading, AppLayout } from "../components";
-import { useSearchQuery, useAcceptDeclineMatch } from '../hooks';
-import { returnImageSource, SubscriptionType, scale, verticalScale, moderateScale } from "../utils";
+import { StyleSheet, View, TextInput, Text, ScrollView, Image } from 'react-native';
+import { Loading, AppLayout, TrainersSearchCard, Button } from "../components";
+import { useSearchQuery, useSignedInUserData } from '../hooks';
+import { returnImageSource, scale, verticalScale, moderateScale } from "../utils";
 import { useSelector } from "react-redux";
-import { IconFill } from "@ant-design/icons-react-native";
 import { Ionicons } from '@expo/vector-icons';
+import { useTabBarContext } from '../navigation/Tab';
 
 const Search: React.FC = () => {
     const { token } = useSelector((state: any) => state.Auth);
     const [search, setSearch] = useState('');
+    const { loading, data } = useSignedInUserData(token);
     const queryResult = useSearchQuery(search, token);
-    const acceptDeclineMatch = useAcceptDeclineMatch();
-
-    const acceptMatch = async (accept: boolean, id: string) => {
-        await acceptDeclineMatch.acceptDecline(token, id, accept);
-    }
 
     let showDiv = queryResult.result ? true : false;
 
     if (showDiv) showDiv = queryResult.result!.length > 0 ? true : false;
+
+    const { navigate } = useTabBarContext();
+
+    if ( loading ) return <AppLayout backgroundColor="black"><Loading /></AppLayout>;
 
     return (
         <AppLayout backgroundColor="black">
@@ -57,31 +57,49 @@ const Search: React.FC = () => {
                                     showsHorizontalScrollIndicator={false}
                                 >
                                     {
-                                        queryResult.result?.map((lifter, index) => (
+                                        queryResult.result?.map((result, index) => (
                                             (
-                                                <View key={`user-search-result-${index}`} style={styles.SearchResult}>
-                                                    <Image
-                                                        style={styles.SearchResultImage}
-                                                        source={returnImageSource(lifter.profilePicture)}
-                                                        resizeMode="contain"
-                                                    />
-                                                    <TouchableOpacity onPress={ () => alert(`Username: ${lifter.username}`) } >
-                                                        <Text style={styles.name}>{lifter.username.slice(0, 5) + ( lifter.username.length > 5 ? "..." : "" )}</Text>
-                                                    </TouchableOpacity>
-                                                    <View style={{ display: "flex", flexDirection: "row", alignSelf: "stretch", position: "relative", left: scale(120) }}>
-                                                        <TouchableOpacity style={styles.liftMatchX} onPress={() => acceptMatch(false, lifter.id)}>
-                                                            <Text style={{ color: "white", textAlign: "center", fontSize: moderateScale(25) }}>X</Text>
-                                                        </TouchableOpacity>
+                                                <View key={`user-search-result-${index}`}>
+                                                    {
+                                                        result.type === "lifters" ? (
+                                                            <View style={{ borderWidth: moderateScale(1), borderColor: "#1d1d1d", borderRadius: moderateScale(10), padding: moderateScale(10), marginTop: moderateScale(10), marginBottom: moderateScale(10), width: scale(340), marginRight: "auto", marginLeft: "auto" }}>
+                                                                <View style={{ display: "flex", flexDirection: "row", alignItems: "center", borderBottomWidth: moderateScale(1), borderColor: "#1d1d1d"}}>
+                                                                    <Image
+                                                                        style={{ width: scale(100), height: verticalScale(50), borderRadius: moderateScale(20), marginBottom: moderateScale(10) }}
+                                                                        source={returnImageSource(result.lifters!.profilePicture)}
+                                                                        resizeMode="contain"
+                                                                    />
 
-                                                        <TouchableOpacity style={styles.lifterMatchHeart} onPress={() => acceptMatch(true, lifter.id)}>
-                                                            <IconFill name="heart" style={{ color: "white", textAlign: "center", fontSize: moderateScale(25) }} />
-                                                        </TouchableOpacity>
-                                                    </View>
+                                                                    <View style={{ marginBottom: moderateScale(10) }}>
+                                                                        <Text style={{ color: "rgb(56, 56, 56)", fontSize: moderateScale(35) }}>{result.lifters!.username}</Text>
+                                                                    </View>
+                                                                </View>
+
+                                                                <View style={{ marginTop: moderateScale(10) }}>
+                                                                    <Text style={{ color: "white", fontSize: moderateScale(18), textAlign: "center" }}>{result.lifters!.bio || "Default Lifters Bio"}</Text>
+                                                                </View>
+
+                                                                <Button
+                                                                    title="VIEW LIFTER"
+                                                                    onPress={() => navigate("Reels", { open: "LiftersPage", userIdParam: result.lifters!.id, userId: data?.id })}
+                                                                    style={{
+                                                                        alignItems: "center",
+                                                                        backgroundColor: "#FF3636",
+                                                                        borderRadius: moderateScale(10),
+                                                                        padding: moderateScale(10),
+                                                                        marginTop: moderateScale(10)
+                                                                    }}
+                                                                    textStyle={{ color: "white", fontSize: moderateScale(15) }}
+                                                                />
+                                                            </View>
+                                                        ) : <TrainersSearchCard {...result.trianer!} />
+                                                    }
                                                 </View>
                                             )
-                                        )
-                                        )
+                                        ))
                                     }
+
+                                    <View style={{ height: verticalScale(455) }}></View>
                                 </ScrollView>
                             </View>
                         ) :

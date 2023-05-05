@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import { AppLayout, Loading, MessageContainer } from "../components";
 import { useSelector } from "react-redux";
@@ -76,7 +76,7 @@ const Messages: React.FC<Props> = ({ route, navigation }) => {
                     <Text style={{ color: "white", fontSize: moderateScale(20) }}>New Matches</Text>
                     <Text style={styles.circleText}>{userMatchesSubscription.data?.matches.length}</Text>
                 </View>
-                <View style={styles.UnMatchedContain}>
+                <ScrollView nestedScrollEnabled={true} horizontal={true} style={styles.UnMatchedContain}>
                     {
                         userMatchesSubscription.data?.matches.map((match, index) => {
                             return (
@@ -90,7 +90,7 @@ const Messages: React.FC<Props> = ({ route, navigation }) => {
                             )
                         })
                     }
-                </View>
+                </ScrollView>
             </View>
             <MessageContainer
                 matches={userAcceptedMatchesSubscription.data}

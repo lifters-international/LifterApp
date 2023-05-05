@@ -41,3 +41,56 @@ export const watchTrainerVideo = `
         }
     }
 `;
+
+export const watchTrainerVideoV401 = `
+    mutation WatchTrainerVideoV401( $token: String!, $videoId: String!) {
+        WatchTrainerVideoV401( token: $token, videoId: $videoId ) {
+            video {
+                id
+                title
+                description
+                clientCount
+                isClient
+                trainerId
+                trainerProfile
+                trainerName
+                url
+                likes
+                dislikes
+                views
+                date
+                thumbnail
+            }
+
+            comments {
+                id
+                comment
+                createdAt
+                updatedAt
+                whoCreatedType
+                whoCreatedId
+                parentId
+                childrenCount
+                whoCreatedProfilePicture
+                whoCreatedName
+            }
+
+            recommendedVideos {
+                id
+                title
+                duration
+                thumbnail
+                updatedAt
+                views
+            }
+
+            viewHistoryId
+
+            allowLikes
+
+            allowDislikes
+
+            allowComments
+        }
+    }
+`;

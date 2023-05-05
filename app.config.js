@@ -2,7 +2,7 @@ export default {
   "expo": {
     "name": "LiftersHome",
     "slug": "LiftersHome",
-    "version": "4.0.0",
+    "version": "5.0.1",
     "orientation": "portrait",
     "icon": "./assets/icons/Icons/lifters-icon-google-play.png",
     "userInterfaceStyle": "dark",
@@ -20,7 +20,7 @@ export default {
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.lifters.international.lifters",
-      "buildNumber": "11.0.0"
+      "buildNumber": "21.0.0"
     },
     "android": {
       "adaptiveIcon": {
@@ -28,7 +28,7 @@ export default {
         "backgroundColor": "#000000"
       },
       "package": "com.lifters.international.lifter",
-      "versionCode": 11,
+      "versionCode": 21,
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ],

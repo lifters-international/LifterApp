@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import { NavigationProp } from "@react-navigation/native"
+import { View, Alert, Text, TouchableOpacity, ScrollView } from "react-native";
 
 import { moderateScale, scale, TrainersGym, verticalScale } from "../utils";
 
@@ -9,12 +10,14 @@ import * as WebBrowser from 'expo-web-browser';
 import VideoSummary from "./VideoSummary";
 
 export type Props = {
+    navigation: NavigationProp<any>;
     gyms: TrainersGym[];
     trainerId: string;
     token: string;
+    name: string;
 }
 
-export const TrainerDetailsHome: React.FC<Props> = ({ gyms, trainerId, token }) => {
+export const TrainerDetailsHome: React.FC<Props> = ({ name, gyms, trainerId, token, navigation }) => {
     let trainersVidSummary = useUserGetAllTrainerVideo(token, trainerId);
 
     if (trainersVidSummary.loading) return <Loading />;
@@ -56,7 +59,24 @@ export const TrainerDetailsHome: React.FC<Props> = ({ gyms, trainerId, token }) 
             <View style={{ marginBottom: verticalScale(250) }}>
                 {
                     trainersVidSummary.data.map((vid, index) => (
-                        <VideoSummary {...vid} key={index} />
+                        <VideoSummary {...vid} key={index} 
+                            onClick={() => {
+                                if ( ( vid.clientOnly && vid.isClient ) || !vid.clientOnly ) navigation.navigate("WatchVideo", { videoId: vid.id });
+                                else {
+                                    Alert.alert(`Become ${name}'s Client`, "Can't Watch A Client Only Video", [
+                                        {
+                                            text: "Close",
+                                            style: "cancel"
+                                        },
+
+                                        {
+                                            text: "Become Client",
+                                            onPress: () => navigation.navigate("BecomeClient", { trainer: trainerId  })
+                                        }
+                                    ])
+                                }
+                            }}
+                        />
                     ))
                 }
             </View>

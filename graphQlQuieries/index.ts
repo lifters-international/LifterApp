@@ -71,3 +71,15 @@ export * from "./getTrainersDetailsById";
 export * from "./userGetAllTrainerVideo";
 
 export * from "./createTrainerRating";
+
+export * from "./searchUserAndTrainers";
+
+export * from "./getLoggedInUserHomePageDetails";
+
+export * from './createLifterReels';
+
+export * from "./getProfiledUserProfileDetails";
+
+export * from "./profiledUserMatchUnmatchUser";
+
+export * from "./userFollowerProfiledUser";

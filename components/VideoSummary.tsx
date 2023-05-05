@@ -5,7 +5,7 @@ import { Octicons } from '@expo/vector-icons';
 import { TrainerVideoSummary, getDiff, shortenText, shortenNumber, returnImageSource, moderateScale, scale, verticalScale } from "../utils";
 import { Image, Text, TouchableOpacity, View, StyleSheet } from "react-native";
 
-const VideoSummary: React.FC<{ profilePicture?: string, trainerName?: string, onClick?: () => void } & TrainerVideoSummary> = ({ thumbnail, trainerName, duration, clientOnly, isClient, title, views, updatedAt, profilePicture, onClick }) => {
+const VideoSummary: React.FC<{ profilePicture?: string, trainerName?: string, onProfileTouch?: () => void,  onClick?: () => void } & TrainerVideoSummary> = ({ thumbnail, trainerName, onProfileTouch, duration, clientOnly, isClient, title, views, updatedAt, profilePicture, onClick }) => {
     let durationSummary = new Date(duration * 1000).toISOString().substring(11, 19);
 
     durationSummary = durationSummary.substring(0, 3) === "00:" ? durationSummary.substring(3) : durationSummary;
@@ -24,7 +24,11 @@ const VideoSummary: React.FC<{ profilePicture?: string, trainerName?: string, on
 
                 <View style={profilePicture ? style.prof : undefined}>
                     {
-                        profilePicture && <Image source={returnImageSource(profilePicture as string)} style={style.profilePicture} resizeMode="stretch" />
+                        profilePicture && (
+                            <TouchableOpacity onPress={onProfileTouch}>
+                                <Image source={returnImageSource(profilePicture as string)} style={style.profilePicture} resizeMode="stretch" />
+                            </TouchableOpacity>
+                        )
                     }
 
                     <View>

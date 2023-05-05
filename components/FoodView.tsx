@@ -150,6 +150,7 @@ const styles = StyleSheet.create({
         width: '90%',
         height: verticalScale(500),
         borderWidth: moderateScale(1),
+        borderRadius: moderateScale(20),
         backgroundColor: '#222121',
         marginBottom: moderateScale(20),
     },

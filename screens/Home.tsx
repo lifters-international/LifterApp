@@ -21,27 +21,41 @@ const Home: React.FC<Props> = ({ navigation }) => {
     const { token } = useSelector((state: any) => state.Auth);
     useNotifications(token);
 
-    const { useGetScreenNavProps, resetNavProps } = useTabBarContext();
+    const { navProps, resetNavProps } = useTabBarContext();
+
+    const [ reset, setReset ] = useState(false);
 
     const [videoSearch, setVideoSearch] = useState("");
-
-    const navProps = useGetScreenNavProps();
 
     const searchVideos = useSearchVideo(token);
 
     useEffect(() => {
-        if (navProps.open === "Message") {
-            navigation.navigate("Message", {
-                screen: "Messages",
-                params: navProps
-            });
-            resetNavProps();
-        }
-    }, [navProps]);
-
-    useEffect(() => {
         searchVideos.setSearchTerm(videoSearch)
     }, [ videoSearch ])
+
+    useEffect(() => {
+        if ( reset ) {
+            resetNavProps();
+            setReset(false);
+        } else {
+            const unsubscribe = navigation.addListener('focus', () => {
+                if ( !reset ) {
+                    if (navProps.open === "Message") {
+                        navigation.navigate("Message", {
+                            screen: "Messages",
+                            params: navProps
+                        });
+                        setReset(true);
+                    } else if (navProps.open === "TrainerPage") {
+                        setReset(true);
+                        navigation.navigate({ name: "TrainerPage", params: { trainer: navProps.trainerId } });
+                    }
+                }
+            });
+
+            return unsubscribe
+        }
+    }, [ reset ]);
 
     if (searchVideos.loading) return <AppLayout backgroundColor="black"><Loading /></AppLayout>;
 
@@ -74,22 +88,27 @@ const Home: React.FC<Props> = ({ navigation }) => {
                     <ScrollView style={styles.scrollView}>
                         {
                             searchVideos.data.map( ( video, index ) => (
-                                <VideoSummary {...video} key={index} onClick={() => {
-                                    if ( ( video.clientOnly && video.isClient ) || !video.clientOnly ) navigation.navigate("WatchVideo", { videoId: video.id });
-                                    else {
-                                        Alert.alert(`Become ${video.trainerName}'s Client`, "Can't Watch A Client Only Video", [
-                                            {
-                                                text: "Close",
-                                                style: "cancel"
-                                            },
+                                <VideoSummary {...video} key={index} 
+                                    onClick={() => {
+                                        if ( ( video.clientOnly && video.isClient ) || !video.clientOnly ) navigation.navigate("WatchVideo", { videoId: video.id });
+                                        else {
+                                            Alert.alert(`Become ${video.trainerName}'s Client`, "Can't Watch A Client Only Video", [
+                                                {
+                                                    text: "Close",
+                                                    style: "cancel"
+                                                },
 
-                                            {
-                                                text: "Become Client",
-                                                onPress: () => navigation.navigate("BecomeClient", { trainer: video.trainerId  })
-                                            }
-                                        ])
+                                                {
+                                                    text: "Become Client",
+                                                    onPress: () => navigation.navigate("BecomeClient", { trainer: video.trainerId  })
+                                                }
+                                            ])
+                                        }
+                                    }}
+                                    onProfileTouch={
+                                        () => navigation.navigate("TrainerPage", { trainer: video.trainerId })
                                     }
-                                }}/>
+                                />
                             ))
                         }
                     </ScrollView>

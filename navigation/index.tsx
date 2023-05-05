@@ -7,12 +7,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { useSelector } from "react-redux";
 
-import { Home, Heart, ClientMessageBox, TrainersDetails, UserTrainers, WatchTrainerVideo, BecomeClient, Profile, PasswordChange, DeleteAccount, FoodScreen, FoodCreate, FoodAnalystics, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
+import { Home, Reels, ClientMessageBox, TrainersDetails, UserProfilePage, UserTrainers, WatchProfiledUserReels, WatchTrainerVideo, BecomeClient, Profile, ProfileSettings, CreateReels, WatchLifterProfileReels, PasswordChange, DeleteAccount, FoodScreen, FoodCreate, FoodAnalystics, Messages, MessageBox, Splash, Search, Login, SignUp, MessagesMatches } from "../screens";
 import { View, ImageBackground, ActivityIndicator } from "react-native";
 import { getFromStore, scale, verticalScale, moderateScale } from "../utils";
 import { useAppDispatch } from "../redux";
 import { VerifyToken, setToken, logIn, LoginAsyncThunkResult, setAppReady, setAuthState } from "../redux/features/auth";
-import { Ionicons, FontAwesome5, FontAwesome, AntDesign } from '@expo/vector-icons';
+import { Ionicons, FontAwesome5, FontAwesome, Octicons } from '@expo/vector-icons';
 import { TabBar } from './Tab';
 
 import { StripeProvider } from '@stripe/stripe-react-native';
@@ -24,6 +24,8 @@ const HomeStack = createNativeStackNavigator();
 
 const MessagesStack = createNativeStackNavigator();
 const TrainersStack = createNativeStackNavigator();
+
+const ReelsStack = createNativeStackNavigator();
 
 const TrainersStackScreen = () => {
     return (
@@ -60,11 +62,26 @@ const HomeStackScreen = () => {
 const ProfileStackScreen = () => {
     return (
         <ProfileStack.Navigator>
-            <ProfileStack.Screen name="Profiles" component={Profile} options={{ headerShown: false }} />
+            <ProfileStack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
+            <ProfileStack.Screen name="ProfileSettings" component={ProfileSettings} options={{ headerShown: false }} />
+            <ProfileStack.Screen name="WatchLifterProfileReels" component={WatchLifterProfileReels} options={{ headerShown: false }} />
+            <ProfileStack.Screen name="WatchProfiledUserReels" component={WatchProfiledUserReels} options={{ headerShown: false }} />
+            <ProfileStack.Screen name="UserProfilePage" component={UserProfilePage} options={{ headerShown: false }} />
+            <ProfileStack.Screen name="CreateReels" component={CreateReels} options={{ headerShown: false }} />
             <ProfileStack.Screen name="Change Password" component={PasswordChange} options={{ headerShown: false }} />
             <ProfileStack.Screen name="Delete Account" component={DeleteAccount} options={{ headerShown: false }} />
         </ProfileStack.Navigator>
     );
+}
+
+const ReelsScreen = () => {
+    return (
+        <ReelsStack.Navigator>
+            <ReelsStack.Screen name="reels" component={Reels} options={{ headerShown: false }} />
+            <ReelsStack.Screen name="UserProfilePage" component={UserProfilePage} options={{ headerShown: false }} />
+            <ReelsStack.Screen name="WatchProfiledUserReels" component={WatchProfiledUserReels} options={{ headerShown: false }} />
+        </ReelsStack.Navigator>
+    )
 }
 
 const FoodStackScreen = () => {
@@ -136,15 +153,15 @@ function TabNavigator() {
                     },
 
                     {
-                        name: "Heart",
-                        component: <Heart />,
+                        name: "Reels",
+                        component: <ReelsScreen />,
                         options: {
                             label: "Home",
                             icon: ({ focus }) => {
                                 return (
                                     <View>
-                                        <AntDesign
-                                            name="heart"
+                                        <Octicons
+                                            name="video"
                                             size={moderateScale(30)}
                                             color={focus ? "#FF3636" : "#5e5c5c"}
                                             style={{
